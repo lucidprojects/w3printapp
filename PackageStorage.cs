@@ -31,7 +31,7 @@ namespace PrintInvoice
         // public methods
 
         // get typed field value by value and col
-        public object getTypedFieldValue(string aValue, int aCol)
+        public object GetTypedFieldValue(string aValue, int aCol)
         {
             if (aValue.Length == 0)
                 return null;
@@ -59,19 +59,19 @@ namespace PrintInvoice
         }
 
         // get typed field value by row and col
-        public object getTypedFieldValue(int aRow, int aCol)
+        public object GetTypedFieldValue(int aRow, int aCol)
         {
-            return getTypedFieldValue(_packageList[aRow].FieldValueList[aCol], aCol);
+            return GetTypedFieldValue(_packageList[aRow].FieldValueList[aCol], aCol);
         }
 
         // get package
-        public T getPackageByPackageId(int aPackageId)
+        public T GetPackageByPackageId(int aPackageId)
         {
             return _packageIdIndex[aPackageId];
         }
 
         // add package to list
-        public void add(T aPackage)
+        public void Add(T aPackage)
         {
             if ((aPackage.PackageId != PackageWrapper.NullPackageId && !_packageIdIndex.ContainsKey(aPackage.PackageId)) ||
                 (aPackage.TrackingNumber != null && !_trackingNumberIndex.ContainsKey(aPackage.TrackingNumber)) ||
@@ -88,7 +88,7 @@ namespace PrintInvoice
         }
 
         // remove packages from storage
-        public void remove(List<T> aPackageList)
+        public void Remove(List<T> aPackageList)
         {
             foreach (var package in aPackageList)
             {
@@ -100,7 +100,7 @@ namespace PrintInvoice
         }
 
         // clear storage
-        public void clear()
+        public void Clear()
         {
             _packageIdIndex.Clear();
             _trackingNumberIndex.Clear();
@@ -112,7 +112,7 @@ namespace PrintInvoice
 
 
         // events callers
-        protected void onUpdateList(EventArgs e)
+        protected void OnUpdateList(EventArgs e)
         {
             UpdateList?.Invoke(this, e);
         }

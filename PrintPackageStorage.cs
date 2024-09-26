@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security;
 using PrintInvoice.Properties;
 
@@ -18,7 +19,7 @@ namespace PrintInvoice
         public int _elementBatch;
         public int _elementBatchCount;
 
-        // Master Pisk List
+        // Master Pick List
         public bool _isFirstBatchPackage;
 
         // Pack Jacket
@@ -56,15 +57,20 @@ namespace PrintInvoice
         }
 
         public bool IsUnprinted => (_state & Unprinted) != 0;
+        
         public bool IsLoaded => (_state & Loaded) != 0;
+        
         public bool IsPrinted => (_state & Printed) != 0;
+        
         public bool IsStatusSaved => (_state & StatusSaved) != 0;
+        
         public bool IsError => (_state & Error) != 0;
+
         public bool IsLocked => (_state & Locked) != 0; // locked by another process
 
         public byte[] Pdf { get; set; }
 
-        public string getOrderedElemens()
+        public string GetOrderedElements()
         {
             return FieldValueList[Settings.Default.ElementsOrderedFieldIndex];
         }
@@ -88,23 +94,18 @@ namespace PrintInvoice
     }
 
     // UpdateInvoiceState event delegate
-    public delegate void PrintPackageStorageUpdatePackageStateEventHandler(object sender,
-        PrintPackageStorageUpdatePackageStateEventArgs e);
+    public delegate void PrintPackageStorageUpdatePackageStateEventHandler(object sender, PrintPackageStorageUpdatePackageStateEventArgs e);
 
 
     internal class PrintPackageStorage : PackageStorage<PrintPackageWrapper>
     {
-        // consts
         public const int PackageIdColumnIndex = 0;
         public const int InvoiceNumberColumnIndex = 1;
         public const int TrackingNumberColumnIndex = 2;
         private readonly Config _config;
         private readonly PackageList _customPackageList = new PackageList();
-
         private readonly LabelService _labelService;
-
         private readonly PackageList _subsetPackageList = new PackageList();
-        private List<string> _fieldNames = new List<string>();
 
         private int _queryIndex;
 
@@ -120,140 +121,147 @@ namespace PrintInvoice
         public event InvoiceStorageUpdateSubsetEventHandler UpdateSubset;
         public event PrintPackageStorageUpdatePackageStateEventHandler UpdatePackageState;
 
-        public void setQuery(int aQueryIndex)
+        public void SetQuery(int aQueryIndex)
         {
-            clear();
+            Clear();
             _customPackageList.Clear();
             _subsetPackageList.Clear();
 
             var request = new RunSqlQueryRequestType
             {
                 query = SecurityElement.Escape(_config.QueryList[aQueryIndex].Text),
-                clientVersion = Routines.getVersion()
+                clientVersion = Routines.GetVersion()
             };
+            
             var response = _labelService.runSqlQuery(request);
+            
             if (response.status != 0)
-                throw new Exception(
-                    $"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
 
             if (response.rows != null)
+            {
                 foreach (var row in response.rows)
                 {
                     var packageId = int.Parse(row.columns[PackageIdColumnIndex]);
+            
                     var package = new PrintPackageWrapper(packageId)
                     {
                         // TODO: set tracking number column index in settings
                         TrackingNumber = row.columns[TrackingNumberColumnIndex],
                         FieldValueList = row.columns
                     };
-                    add(package);
+                    
+                    Add(package);
                 }
+            }
 
             _fieldMetadata = response.meta;
 
-            onUpdate(EventArgs.Empty);
+            OnUpdate(EventArgs.Empty);
 
             _queryIndex = aQueryIndex;
         }
 
-        public void setSubsetAll()
+        public void SetSubsetAll()
         {
             SubsetPackageList = _packageList;
-            onUpdateSubset(EventArgs.Empty);
+            OnUpdateSubset(EventArgs.Empty);
         }
 
-        public void setSubsetCustom()
+        public void SetSubsetCustom()
         {
             SubsetPackageList = _customPackageList;
-            onUpdateSubset(EventArgs.Empty);
+            OnUpdateSubset(EventArgs.Empty);
         }
 
-        public void setSubset(int aSubqueryIndex)
+        public void SetSubset(int aSubqueryIndex)
         {
             _subsetPackageList.Clear();
+
             var request = new RunSqlQueryRequestType
             {
                 query = SecurityElement.Escape(_config.QueryList[_queryIndex].SubqueryList[aSubqueryIndex].Text),
-                clientVersion = Routines.getVersion()
+                clientVersion = Routines.GetVersion()
             };
+            
             var response = _labelService.runSqlQuery(request);
+            
             if (response.status != 0)
-                throw new Exception(
-                    $"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
 
             if (response.rows != null)
+            {
                 foreach (var responseRow in response.rows)
                 {
                     var invoiceId = responseRow.columns[0];
-                    foreach (var invoiceWrapper in _packageList)
-                        if (invoiceWrapper.FieldValueList[0] == invoiceId)
-                        {
-                            _subsetPackageList.Add(invoiceWrapper);
-                            break;
-                        }
+
+                    foreach (var invoiceWrapper in _packageList.Where(invoiceWrapper => invoiceWrapper.FieldValueList[0] == invoiceId))
+                    {
+                        _subsetPackageList.Add(invoiceWrapper);
+                        break;
+                    }
                 }
-
-            SubsetPackageList = _subsetPackageList;
-            onUpdateSubset(EventArgs.Empty);
-        }
-
-        public void addToCustomSubset(List<int> aIdList)
-        {
-            foreach (var id in aIdList)
-            {
-                var invoice = _packageIdIndex[id];
-                if (!_customPackageList.Contains(invoice)) _customPackageList.Add(invoice);
             }
 
-            onUpdateSubset(EventArgs.Empty);
+            SubsetPackageList = _subsetPackageList;
+            OnUpdateSubset(EventArgs.Empty);
         }
 
-        public void removeFromCustomSubset(List<int> aIdList)
+        public void AddToCustomSubset(List<int> aIdList)
         {
-            foreach (var id in aIdList)
+            foreach (var invoice in aIdList.Select(id => _packageIdIndex[id]).Where(invoice => !_customPackageList.Contains(invoice)))
             {
-                var invoice = _packageIdIndex[id];
+                _customPackageList.Add(invoice);
+            }
+
+            OnUpdateSubset(EventArgs.Empty);
+        }
+
+        public void RemoveFromCustomSubset(List<int> aIdList)
+        {
+            foreach (var invoice in aIdList.Select(id => _packageIdIndex[id]))
+            {
                 _customPackageList.Remove(invoice);
             }
 
-            onUpdateSubset(EventArgs.Empty);
+            OnUpdateSubset(EventArgs.Empty);
         }
 
-        public void setPackageState(int aPackageId, int aState, string aErrorText)
+        public void SetPackageState(int aPackageId, int aState, string aErrorText)
         {
-            var package = getPackageByPackageId(aPackageId);
+            var package = GetPackageByPackageId(aPackageId);
             package.State = aState;
             if (aState == PrintPackageWrapper.Error) package.ErrorText = aErrorText;
-            onUpdatePackageState(new PrintPackageStorageUpdatePackageStateEventArgs(aPackageId));
+            OnUpdatePackageState(new PrintPackageStorageUpdatePackageStateEventArgs(aPackageId));
         }
 
 
-        private void onUpdate(EventArgs e)
+        private void OnUpdate(EventArgs e)
         {
             Update?.Invoke(this, e);
         }
 
-        private void onUpdateSubset(EventArgs e)
+        private void OnUpdateSubset(EventArgs e)
         {
             UpdateSubset?.Invoke(this, e);
         }
 
-        private void onUpdatePackageState(PrintPackageStorageUpdatePackageStateEventArgs e)
+        private void OnUpdatePackageState(PrintPackageStorageUpdatePackageStateEventArgs e)
         {
             UpdatePackageState?.Invoke(this, e);
         }
 
-        public void unlock(List<int> aIdList)
+        public void Unlock(List<int> aIdList)
         {
             var response = _labelService.unlock(aIdList.ToArray());
 
             if (response.status != 0)
-                throw new Exception(
-                    $"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+            
             foreach (var packageId in aIdList)
             {
                 _packageIdIndex[packageId].State = PrintPackageWrapper.Unprinted;
-                onUpdatePackageState(new PrintPackageStorageUpdatePackageStateEventArgs(packageId));
+                OnUpdatePackageState(new PrintPackageStorageUpdatePackageStateEventArgs(packageId));
             }
         }
     }

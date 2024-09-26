@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security;
-using PrintInvoice.Properties;
 
 namespace PrintInvoice
 {
@@ -34,7 +33,7 @@ namespace PrintInvoice
 
         public string OriginalStatus { set; get; }
 
-        public void resetStatus()
+        public void ResetStatus()
         {
             Status = OriginalStatus;
             State = StateType.ORIGINAL;
@@ -56,9 +55,6 @@ namespace PrintInvoice
     }
 
 
-    // Update event delegate
-    public delegate void UnshippedListUpdateEventHandler(object sender, EventArgs e);
-
     // UpdateMaxDailyPackages event delegate
     public delegate void UnshippedUpdateMaxDailyPackagesEventHandler(object sender, EventArgs e);
 
@@ -67,7 +63,6 @@ namespace PrintInvoice
         public const int PackageIdColumnIndex = 0;
         public const int StatusColumnIndex = 1;
 
-        // private datafields
         private readonly LabelService _client;
         private readonly Config _config;
 
@@ -76,8 +71,6 @@ namespace PrintInvoice
             _client = aClient;
             _config = aConfig;
         }
-
-        // public properties
 
         public bool IsLoaded { get; private set; }
 
@@ -92,17 +85,17 @@ namespace PrintInvoice
 
         // private methods
 
-        private void onUpdateMaxDailyPackages(EventArgs e)
+        private void OnUpdateMaxDailyPackages(EventArgs e)
         {
             UpdateMaxDailyPackages?.Invoke(this, e);
         }
 
-        public void load()
+        public void Load()
         {
             var request = new RunSqlQueryRequestType
             {
                 query = SecurityElement.Escape(_config.UnshippedQuery),
-                clientVersion = Routines.getVersion()
+                clientVersion = Routines.GetVersion()
             };
             
             var response = _client.runSqlQuery(request);
@@ -110,12 +103,14 @@ namespace PrintInvoice
             if (response.status != 0)
                 throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
 
-            clear();
+            Clear();
 
             if (response.rows != null)
+            {
                 foreach (var row in response.rows)
                 {
                     var packageId = int.Parse(row.columns[PackageIdColumnIndex]);
+            
                     var package = new UnshippedPackageWrapper(packageId)
                     {
                         State = UnshippedPackageWrapper.StateType.ORIGINAL,
@@ -124,20 +119,22 @@ namespace PrintInvoice
                         FieldValueList = row.columns
                     };
 
-                    add(package);
+                    Add(package);
                 }
+            }
 
             if (_fieldMetadata == null) _fieldMetadata = response.meta;
 
             IsLoaded = true;
 
-            onUpdateList(EventArgs.Empty);
+            OnUpdateList(EventArgs.Empty);
 
             // load max daily packages
             var maxDailyPackagesRequest = new GetMaxDailyPackagesRequestType
             {
                 groupId = "PKG_MAX_DAILY_PACKAGES"
             };
+
             var maxDailyPackagesResponse = _client.getMaxDailyPackages(maxDailyPackagesRequest);
             
             if (maxDailyPackagesResponse.status != 0)
@@ -154,10 +151,10 @@ namespace PrintInvoice
             
             PmodMaxDailyPackages = maxDailyPackagesResponse.maxDailyPackages;
 
-            onUpdateMaxDailyPackages(EventArgs.Empty);
+            OnUpdateMaxDailyPackages(EventArgs.Empty);
         }
 
-        public void setPickable(List<PackageStatus> aPackageList, out int aFailed)
+        public void SetPickable(List<PackageStatus> aPackageList, out int aFailed)
         {
             var request = new SetPackageStatusRequestType
             {
@@ -182,6 +179,7 @@ namespace PrintInvoice
             aFailed = 0;
 
             foreach (var responseItem in response.resultList)
+            {
                 if (responseItem.isSuccess)
                 {
                     _packageIdIndex[responseItem.packageId].State = UnshippedPackageWrapper.StateType.UPDATED_PICKABLE;
@@ -192,11 +190,12 @@ namespace PrintInvoice
                     _packageIdIndex[responseItem.packageId].ErrorText = responseItem.errorMessage;
                     aFailed++;
                 }
+            }
 
-            onUpdateList(EventArgs.Empty);
+            OnUpdateList(EventArgs.Empty);
         }
 
-        public void resetStatus(List<UnshippedPackageWrapper> aPackageList)
+        public void ResetStatus(List<UnshippedPackageWrapper> aPackageList)
         {
             var request = new SetPackageStatusRequestType
             {
@@ -217,30 +216,12 @@ namespace PrintInvoice
             if (response.status != 0)
                 throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
 
-            foreach (var package in aPackageList) _packageIdIndex[package.PackageId].resetStatus();
+            foreach (var package in aPackageList) _packageIdIndex[package.PackageId].ResetStatus();
 
-            onUpdateList(EventArgs.Empty);
+            OnUpdateList(EventArgs.Empty);
         }
 
-        public void setMaxDailyPackages(int aValue)
-        {
-            var request = new SetMaxDailyPackagesRequestType
-            {
-                value = aValue,
-                groupId = "PKG_MAX_DAILY_PACKAGES"
-            };
-
-            var response = _client.setMaxDailyPackages(request);
-
-            if (response.status != 0)
-                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
-
-            MaxDailyPackages = aValue;
-            onUpdateMaxDailyPackages(EventArgs.Empty);
-        }
-
-
-        public void setPmodMaxDailyPackages(int aValue)
+        public void SetPmodMaxDailyPackages(int aValue)
         {
             var request = new SetMaxDailyPackagesRequestType
             {
@@ -254,26 +235,7 @@ namespace PrintInvoice
                 throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
 
             PmodMaxDailyPackages = aValue;
-            onUpdateMaxDailyPackages(EventArgs.Empty);
-        }
-
-        public void onHold(List<int> aPackageIdList)
-        {
-            var request = new OnHoldRequestType
-            {
-                packageId = aPackageIdList.ToArray(),
-                printStationId = Settings.Default.PrintStationId
-            };
-
-            var response = _client.onHold(request);
-
-            if (response.status != 0)
-                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
-
-            foreach (var packageId in aPackageIdList)
-                _packageIdIndex[packageId].State = UnshippedPackageWrapper.StateType.UPDATED_ONHOLD;
-
-            onUpdateList(EventArgs.Empty);
+            OnUpdateMaxDailyPackages(EventArgs.Empty);
         }
     }
 }

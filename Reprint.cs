@@ -18,7 +18,7 @@ namespace PrintInvoice
 
         public event PrintPackageStorageUpdatePackageStateEventHandler UpdatePackageState;
 
-        public void addSingle(string[] aTrackingNumberList)
+        public void AddSingle(string[] aTrackingNumberList)
         {
             // get package data from service
             var request = new GetPackageDataRequestType
@@ -30,8 +30,7 @@ namespace PrintInvoice
             var response = _client.getPackageData(request);
             
             if (response.status != 0)
-                throw new Exception(
-                    $"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
 
             if (_fieldMetadata == null) _fieldMetadata = response.meta;
 
@@ -44,6 +43,7 @@ namespace PrintInvoice
                         TrackingNumber = item.trackingNumber,
                         FieldValueList = item.fieldValueList
                     };
+
                     switch (item.status)
                     {
                         case 0:
@@ -56,14 +56,14 @@ namespace PrintInvoice
                             break;
                     }
 
-                    add(package);
+                    Add(package);
                 }
 
-                onUpdateList(EventArgs.Empty);
+                OnUpdateList(EventArgs.Empty);
             }
         }
 
-        public void addBatch(string[] aTrackingNumberList)
+        public void AddBatch(string[] aTrackingNumberList)
         {
             // get package data from service
             var request = new GetPackageDataRequestType
@@ -76,8 +76,7 @@ namespace PrintInvoice
             var response = _client.getPackageData(request);
             
             if (response.status != 0)
-                throw new Exception(
-                    $"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
 
             if (_fieldMetadata == null) _fieldMetadata = response.meta;
 
@@ -90,6 +89,7 @@ namespace PrintInvoice
                         TrackingNumber = item.trackingNumber,
                         FieldValueList = item.fieldValueList
                     };
+
                     switch (item.status)
                     {
                         case 0:
@@ -102,19 +102,19 @@ namespace PrintInvoice
                             break;
                     }
 
-                    add(package);
+                    Add(package);
                 }
 
-                onUpdateList(EventArgs.Empty);
+                OnUpdateList(EventArgs.Empty);
             }
         }
 
-        public int addBatchById(int aBatchId)
+        public int AddBatchById(int aBatchId)
         {
             var request = new RunSqlQueryRequestType
             {
                 query = _config.ReprintBatchPackageDataQuery,
-                clientVersion = Routines.getVersion(),
+                clientVersion = Routines.GetVersion(),
                 parameters = new string[1]
             };
 
@@ -141,41 +141,41 @@ namespace PrintInvoice
                         FieldValueList = new string[item.columns.Length - 1]
                     };
                     Array.Copy(item.columns, 1, package.FieldValueList, 0, package.FieldValueList.Length);
-                    add(package);
+                    Add(package);
                 }
 
-                onUpdateList(EventArgs.Empty);
+                OnUpdateList(EventArgs.Empty);
             }
 
             return response.rows != null && response.rows.Length > 0 ? response.rows.Length : 0;
         }
 
-        public void setPackageState(int aPackageId, int aState, string aErrorText)
+        public void SetPackageState(int aPackageId, int aState, string aErrorText)
         {
-            var package = getPackageByPackageId(aPackageId);
+            var package = GetPackageByPackageId(aPackageId);
             package.State = aState;
             if (aState == PrintPackageWrapper.Error) package.ErrorText = aErrorText;
-            onUpdatePackageState(new PrintPackageStorageUpdatePackageStateEventArgs(aPackageId));
+            OnUpdatePackageState(new PrintPackageStorageUpdatePackageStateEventArgs(aPackageId));
         }
 
-        private void onUpdatePackageState(PrintPackageStorageUpdatePackageStateEventArgs e)
+        private void OnUpdatePackageState(PrintPackageStorageUpdatePackageStateEventArgs e)
         {
             UpdatePackageState?.Invoke(this, e);
         }
 
-        public new void remove(List<PrintPackageWrapper> aList)
+        public void remove(List<PrintPackageWrapper> aList)
         {
-            base.remove(aList);
-            onUpdateList(EventArgs.Empty);
+            Remove(aList);
+            OnUpdateList(EventArgs.Empty);
         }
 
-        public new void clear()
+        public void clear()
         {
-            base.clear();
-            onUpdateList(EventArgs.Empty);
+            Clear();
+            OnUpdateList(EventArgs.Empty);
         }
 
-        public void unlock(List<int> aIdList)
+        public void Unlock(List<int> aIdList)
         {
             var response = _client.unlock(aIdList.ToArray());
 
@@ -185,7 +185,7 @@ namespace PrintInvoice
             foreach (var packageId in aIdList)
             {
                 _packageIdIndex[packageId].State = PrintPackageWrapper.Unprinted;
-                onUpdatePackageState(new PrintPackageStorageUpdatePackageStateEventArgs(packageId));
+                OnUpdatePackageState(new PrintPackageStorageUpdatePackageStateEventArgs(packageId));
             }
         }
     }

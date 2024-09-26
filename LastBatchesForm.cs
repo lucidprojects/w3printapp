@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Security;
 using System.Windows.Forms;
 
@@ -14,6 +15,7 @@ namespace PrintInvoice
         public LastBatchesForm(LabelService aClient, Config aConfig)
         {
             InitializeComponent();
+            Icon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly()?.Location ?? "");
 
             _client = aClient;
             _config = aConfig;
@@ -39,12 +41,12 @@ namespace PrintInvoice
             if (lbBatches.SelectedIndex >= 0) btSelect_Click(btSelect, EventArgs.Empty);
         }
 
-        public int load()
+        public int OnLoad()
         {
             var request = new RunSqlQueryRequestType
             {
                 query = SecurityElement.Escape(_config.LastBatchesQuery),
-                clientVersion = Routines.getVersion()
+                clientVersion = Routines.GetVersion()
             };
 
             var response = _client.runSqlQuery(request);

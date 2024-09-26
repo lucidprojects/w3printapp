@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PrintInvoice
@@ -10,14 +11,16 @@ namespace PrintInvoice
         {
             if (!_repairFieldNamesIsSet)
             {
-                dgvRepair.ColumnCount = _repair.FieldNames == null ? 0 : _repair.FieldNames.Length;
+                dgvRepair.ColumnCount = _repair.FieldNames?.Length ?? 0;
 
                 if (_repair.FieldNames != null)
+                {
                     for (var i = 0; i < _repair.FieldNames.Length; i++)
                     {
                         dgvRepair.Columns[i].HeaderText = _repair.FieldNames[i];
                         dgvRepair.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
                     }
+                }
 
                 // copy to clipboard context menu values
                 FillCopyToClipboardMenuItem(miRepairCopyToClipboard, dgvRepair);
@@ -26,21 +29,25 @@ namespace PrintInvoice
             }
 
             dgvRepair.RowCount = _repair.PackageList.Count;
+            
             for (var i = 0; i < _repair.PackageList.Count; i++)
             {
                 dgvRepair.Rows[i].Tag = _repair.PackageList[i];
+                
                 if (_repair.PackageList[i].FieldValueList != null)
+                {
                     for (var j = 0; j < _repair.PackageList[i].FieldValueList.Length; j++)
-                        dgvRepair.Rows[i].Cells[j].Value = _repair.getTypedFieldValue(i, j);
+                        dgvRepair.Rows[i].Cells[j].Value = _repair.GetTypedFieldValue(i, j);
+                }
 
                 // set cells styles
                 foreach (DataGridViewCell cell in dgvRepair.Rows[i].Cells)
                 {
                     var package = _repair.PackageList[i];
-                    if (package.State == RepairPackageWrapper.StateType.REPAIRED)
-                        cell.Style = cell.ColumnIndex == 0 ? _repairRepairedFirstCellStyle : _repairRepairedCellStyle;
-                    else
-                        cell.Style = cell.ColumnIndex == 0 ? _repairOriginalFirstCellStyle : _repairOriginalCellStyle;
+
+                    cell.Style = package.State == RepairPackageWrapper.StateType.REPAIRED 
+                        ? cell.ColumnIndex == 0 ? _repairRepairedFirstCellStyle : _repairRepairedCellStyle 
+                        : cell.ColumnIndex == 0 ? _repairOriginalFirstCellStyle : _repairOriginalCellStyle;
                 }
 
                 /*if (unship.PackageList[i].State == UnshipPackageWrapper.PackageStateType.ERROR)
@@ -59,39 +66,24 @@ namespace PrintInvoice
 
         private void btRepairReload_Click(object sender, EventArgs e)
         {
-            _repair.load();
+            _repair.Load();
         }
 
         private void btRepair_Click(object sender, EventArgs e)
         {
-            var packageIdList = new List<int>();
-            foreach (DataGridViewRow row in dgvRepair.SelectedRows)
-                if (row.Visible && (row.Tag as RepairPackageWrapper).State != RepairPackageWrapper.StateType.REPAIRED)
-                    packageIdList.Add((row.Tag as RepairPackageWrapper).PackageId);
+            var packageIdList = dgvRepair.SelectedRows.Cast<DataGridViewRow>()
+                .Where(row => row.Visible && ((RepairPackageWrapper)row.Tag).State != RepairPackageWrapper.StateType.REPAIRED)
+                .Select(row => ((RepairPackageWrapper)row.Tag).PackageId).ToList();
 
             if (packageIdList.Count == 0)
             {
-                MessageBox.Show(
-                    this,
-                    "Nothing to repair. Please select rows to repair.",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show(this, @"Nothing to repair. Please select rows to repair.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
                 _repair.repair(packageIdList);
-
                 UpdateRepairStat();
-
-                MessageBox.Show(
-                    this,
-                    "Packages records successfully repaired.",
-                    "Message",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                MessageBox.Show(this, @"Packages records successfully repaired.", @"Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -101,26 +93,25 @@ namespace PrintInvoice
             var response = _labelService.getErrors(request);
 
             if (response.status != 0)
-                throw new Exception(
-                    $"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
 
             var errorList = new List<string>();
+            
             if (response.itemList != null)
-                foreach (var item in response.itemList)
-                    errorList.Add($"Package: {item.packageId}. Error: {item.errorMessage}");
+            {
+                errorList.AddRange(response.itemList.Select(item => $"Package: {item.packageId}. Error: {item.errorMessage}"));
+            }
+
             SaveErrors(errorList);
         }
 
 
         private void btRepairExportErrors_Click(object sender, EventArgs e)
         {
-            var errorList = new List<string>();
-            foreach (DataGridViewRow row in dgvRepair.Rows)
-            {
-                var package = row.Tag as RepairPackageWrapper;
-                if (package.State == RepairPackageWrapper.StateType.ERROR)
-                    errorList.Add($"Package: {package.PackageId}. Error: {package.ErrorText}");
-            }
+            var errorList = dgvRepair.Rows.Cast<DataGridViewRow>()
+                .Select(row => (RepairPackageWrapper)row.Tag)
+                .Where(package => package.State == RepairPackageWrapper.StateType.ERROR)
+                .Select(package => $"Package: {package.PackageId}. Error: {package.ErrorText}").ToList();
 
             SaveErrors(errorList);
         }

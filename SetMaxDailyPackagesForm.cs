@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace PrintInvoice
@@ -8,6 +9,7 @@ namespace PrintInvoice
         public SetMaxDailyPackagesForm()
         {
             InitializeComponent();
+            Icon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly()?.Location ?? "");
         }
 
         public int Value

@@ -83,7 +83,7 @@ namespace PrintInvoice
                         package._isFirstBatchPackage = true; // master picklist
                         try
                         {
-                            currentOrderedElements = package.getOrderedElemens();
+                            currentOrderedElements = package.GetOrderedElements();
                         }
                         catch
                         {
@@ -95,7 +95,7 @@ namespace PrintInvoice
                     string packageOrderedElements;
                     try
                     {
-                        packageOrderedElements = package.getOrderedElemens();
+                        packageOrderedElements = package.GetOrderedElements();
                     }
                     catch
                     {

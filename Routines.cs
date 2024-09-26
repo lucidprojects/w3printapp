@@ -10,35 +10,20 @@ namespace PrintInvoice
 {
     internal class Routines
     {
-        public static bool checkLabelserviceRequestStatus(IWin32Window aOwner, ResponseBaseType aResponse)
-        {
-            if (aResponse.status == 0) return true;
-
-            MessageBox.Show(
-                aOwner,
-                $"Label service returns error status\nStatus: {aResponse.status}\nMessage: {aResponse.message}\nSubstatus: {aResponse.substatus}\nSubmessage: {aResponse.submessage}",
-                "Error",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error
-            );
-
-            return false;
-        }
-
-        public static string getVersion()
+        public static string GetVersion()
         {
             var v = new Version(Application.ProductVersion);
             return v.ToString(2);
         }
 
-        public static string generateSequenceNumber(int aPrintBatchId, int aPrintBatchCount, int aElementBatch,
+        public static string GenerateSequenceNumber(int aPrintBatchId, int aPrintBatchCount, int aElementBatch,
             int aElementBatchCount)
         {
             return
                 $"{aPrintBatchId:00000000}-{aPrintBatchCount:000000}-{aElementBatch:000000}-{aElementBatchCount:000000}";
         }
 
-        public static void addSequenceNumberToPdf(string aSequenceNumber, ref byte[] aPdf, bool aIsPackJacket)
+        public static void AddSequenceNumberToPdf(string aSequenceNumber, ref byte[] aPdf, bool aIsPackJacket)
         {
             Stream inputPdfStream = new MemoryStream(aPdf);
             var pdfReader = new PdfReader(inputPdfStream);
@@ -51,17 +36,9 @@ namespace PrintInvoice
             var baseFont = BaseFont.CreateFont(BaseFont.HELVETICA, Encoding.ASCII.EncodingName, false);
             pdfPageContents.SetFontAndSize(baseFont, Settings.Default.InvoiceSequenceNumberFontSize);
             pdfPageContents.SetRGBColorFill(0, 0, 0);
-            
-            pdfPageContents.ShowTextAligned(
-                PdfContentByte.ALIGN_LEFT,
-                aSequenceNumber,
-                aIsPackJacket
-                    ? Settings.Default.InvoiceSequenceNumberXPackJacket
-                    : Settings.Default.InvoiceSequenceNumberX,
-                aIsPackJacket
-                    ? Settings.Default.InvoiceSequenceNumberYPackJacket
-                    : Settings.Default.InvoiceSequenceNumberY,
-                0);
+
+            pdfPageContents.ShowTextAligned(PdfContentByte.ALIGN_LEFT, aSequenceNumber, aIsPackJacket ? Settings.Default.InvoiceSequenceNumberXPackJacket : Settings.Default.InvoiceSequenceNumberX,
+                aIsPackJacket ? Settings.Default.InvoiceSequenceNumberYPackJacket : Settings.Default.InvoiceSequenceNumberY, 0);
             
             pdfPageContents.EndText(); // Done working with text
             pdfStamper.FormFlattening = true; // enable this if you want the PDF flattened. 
@@ -70,11 +47,10 @@ namespace PrintInvoice
             aPdf = outputPdfStream.ToArray();
         }
 
-        public static byte[] getMasterPickListPdf(PrintPackageWrapper aPackage, LabelService aLabelService)
+        public static byte[] GetMasterPickListPdf(PrintPackageWrapper aPackage, LabelService aLabelService)
         {
             var doc = new Document(aPackage._isPackJacket ? PageSize.LEGAL : PageSize.LETTER);
             var outputPdfStream = new MemoryStream();
-            var pdfWriter = PdfWriter.GetInstance(doc, outputPdfStream);
 
             doc.Open();
 

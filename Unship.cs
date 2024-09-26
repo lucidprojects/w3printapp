@@ -12,13 +12,10 @@ namespace PrintInvoice
             ERROR
         }
 
-        // private datafields
-
         public UnshipPackageWrapper(int aPackageId) : base(aPackageId)
         {
         }
 
-        // public properties
         public PackageStateType State { get; set; }
     }
 
@@ -26,7 +23,6 @@ namespace PrintInvoice
     {
         public const int PackageIdColumnIndex = 0;
 
-        // private datafields
         private readonly LabelService _client;
         private readonly Config _config;
 
@@ -36,7 +32,7 @@ namespace PrintInvoice
             _config = aConfig;
         }
 
-        public void addSingle(string[] aTrackingNumberList)
+        public void AddSingle(string[] aTrackingNumberList)
         {
             // get package data from service
             var request = new GetPackageDataRequestType
@@ -44,10 +40,11 @@ namespace PrintInvoice
                 singleDataQuery = _config.UnshipSinglePackageDataQuery,
                 singleTrackingNumberList = aTrackingNumberList
             };
+
             var response = _client.getPackageData(request);
+            
             if (response.status != 0)
-                throw new Exception(
-                    $"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
 
             if (_fieldMetadata == null) _fieldMetadata = response.meta;
 
@@ -75,14 +72,14 @@ namespace PrintInvoice
                             break;
                     }
 
-                    add(package);
+                    Add(package);
                 }
 
-                onUpdateList(EventArgs.Empty);
+                OnUpdateList(EventArgs.Empty);
             }
         }
 
-        public void addBatch(string[] aTrackingNumberList)
+        public void AddBatch(string[] aTrackingNumberList)
         {
             // get package data from service
             var request = new GetPackageDataRequestType
@@ -91,10 +88,11 @@ namespace PrintInvoice
                 batchDataQuery = _config.UnshipBatchPackageDataQuery,
                 batchTrackingNumberList = aTrackingNumberList
             };
+
             var response = _client.getPackageData(request);
+            
             if (response.status != 0)
-                throw new Exception(
-                    $"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
 
             if (_fieldMetadata == null) _fieldMetadata = response.meta;
 
@@ -122,10 +120,10 @@ namespace PrintInvoice
                             break;
                     }
 
-                    add(package);
+                    Add(package);
                 }
 
-                onUpdateList(EventArgs.Empty);
+                OnUpdateList(EventArgs.Empty);
             }
         }
 
@@ -154,7 +152,7 @@ namespace PrintInvoice
 
                 if (list.Count == 100)
                 {
-                    unshipRange(list, out success, out fail);
+                    UnshipRange(list, out success, out fail);
                     aSuccess += success;
                     aFail += fail;
                     list.Clear();
@@ -163,15 +161,15 @@ namespace PrintInvoice
 
             if (list.Count > 0)
             {
-                unshipRange(list, out success, out fail);
+                UnshipRange(list, out success, out fail);
                 aSuccess += success;
                 aFail += fail;
             }
 
-            onUpdateList(EventArgs.Empty);
+            OnUpdateList(EventArgs.Empty);
         }
 
-        private void unshipRange(List<UnshipRequestItemType> aList, out int aSuccess, out int aFail)
+        private void UnshipRange(List<UnshipRequestItemType> aList, out int aSuccess, out int aFail)
         {
             aSuccess = 0;
             aFail = 0;
@@ -187,6 +185,7 @@ namespace PrintInvoice
                 throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
             
             foreach (var resultItem in response.resultList)
+            {
                 if (resultItem.isApproved)
                 {
                     _packageIdIndex[resultItem.packageId].State = UnshipPackageWrapper.PackageStateType.UNSHIPPED;
@@ -198,26 +197,27 @@ namespace PrintInvoice
                     _packageIdIndex[resultItem.packageId].ErrorText = resultItem.errorMessage;
                     aFail++;
                 }
+            }
         }
 
         public new void remove(List<UnshipPackageWrapper> aList)
         {
-            base.remove(aList);
-            onUpdateList(EventArgs.Empty);
+            base.Remove(aList);
+            OnUpdateList(EventArgs.Empty);
         }
 
         public new void clear()
         {
-            base.clear();
-            onUpdateList(EventArgs.Empty);
+            base.Clear();
+            OnUpdateList(EventArgs.Empty);
         }
 
-        public int addBatchById(int aBatchId)
+        public int AddBatchById(int aBatchId)
         {
             var request = new RunSqlQueryRequestType
             {
                 query = _config.UnshipBatchPackageDataQuery,
-                clientVersion = Routines.getVersion(),
+                clientVersion = Routines.GetVersion(),
                 parameters = new string[1]
             };
             
@@ -245,10 +245,10 @@ namespace PrintInvoice
                     };
 
                     Array.Copy(item.columns, 1, package.FieldValueList, 0, package.FieldValueList.Length);
-                    add(package);
+                    Add(package);
                 }
 
-                onUpdateList(EventArgs.Empty);
+                OnUpdateList(EventArgs.Empty);
             }
 
             return response.rows != null && response.rows.Length > 0 ? response.rows.Length : 0;

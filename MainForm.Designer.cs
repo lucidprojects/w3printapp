@@ -29,24 +29,6 @@ namespace PrintInvoice
     private void InitializeComponent()
     {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -378,36 +360,12 @@ namespace PrintInvoice
             this.dgvSubset.AllowUserToAddRows = false;
             this.dgvSubset.AllowUserToDeleteRows = false;
             this.dgvSubset.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSubset.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvSubset.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSubset.ContextMenuStrip = this.cmsSubset;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSubset.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvSubset.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSubset.Location = new System.Drawing.Point(0, 49);
             this.dgvSubset.Name = "dgvSubset";
             this.dgvSubset.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSubset.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvSubset.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSubset.Size = new System.Drawing.Size(632, 122);
             this.dgvSubset.TabIndex = 3;
@@ -500,10 +458,11 @@ namespace PrintInvoice
             // cbSubset
             // 
             this.cbSubset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSubset.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSubset.FormattingEnabled = true;
             this.cbSubset.Location = new System.Drawing.Point(7, 21);
             this.cbSubset.Name = "cbSubset";
-            this.cbSubset.Size = new System.Drawing.Size(220, 21);
+            this.cbSubset.Size = new System.Drawing.Size(220, 23);
             this.cbSubset.TabIndex = 0;
             this.cbSubset.SelectedIndexChanged += new System.EventHandler(this.cbSubqueries_SelectedIndexChanged);
             // 
@@ -598,9 +557,10 @@ namespace PrintInvoice
             // 
             // btExportErrors
             // 
-            this.btExportErrors.Location = new System.Drawing.Point(11, 160);
+            this.btExportErrors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btExportErrors.Location = new System.Drawing.Point(11, 147);
             this.btExportErrors.Name = "btExportErrors";
-            this.btExportErrors.Size = new System.Drawing.Size(180, 23);
+            this.btExportErrors.Size = new System.Drawing.Size(180, 35);
             this.btExportErrors.TabIndex = 7;
             this.btExportErrors.Text = "Export errors";
             this.btExportErrors.UseVisualStyleBackColor = true;
@@ -609,6 +569,7 @@ namespace PrintInvoice
             // cbPrinter
             // 
             this.cbPrinter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPrinter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbPrinter.FormattingEnabled = true;
             this.cbPrinter.Location = new System.Drawing.Point(11, 21);
             this.cbPrinter.Name = "cbPrinter";
@@ -617,9 +578,10 @@ namespace PrintInvoice
             // 
             // btPrint
             // 
-            this.btPrint.Location = new System.Drawing.Point(11, 131);
+            this.btPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPrint.Location = new System.Drawing.Point(11, 106);
             this.btPrint.Name = "btPrint";
-            this.btPrint.Size = new System.Drawing.Size(180, 23);
+            this.btPrint.Size = new System.Drawing.Size(180, 35);
             this.btPrint.TabIndex = 6;
             this.btPrint.Text = "Print";
             this.btPrint.UseVisualStyleBackColor = true;
@@ -641,36 +603,12 @@ namespace PrintInvoice
             this.dgvQuery.AllowUserToAddRows = false;
             this.dgvQuery.AllowUserToDeleteRows = false;
             this.dgvQuery.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvQuery.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvQuery.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvQuery.ContextMenuStrip = this.cmsSet;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvQuery.DefaultCellStyle = dataGridViewCellStyle5;
             this.dgvQuery.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvQuery.Location = new System.Drawing.Point(0, 42);
             this.dgvQuery.Name = "dgvQuery";
             this.dgvQuery.ReadOnly = true;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvQuery.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvQuery.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvQuery.Size = new System.Drawing.Size(632, 90);
             this.dgvQuery.TabIndex = 2;
@@ -850,9 +788,10 @@ namespace PrintInvoice
             // 
             // btReload
             // 
+            this.btReload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btReload.Location = new System.Drawing.Point(11, 42);
             this.btReload.Name = "btReload";
-            this.btReload.Size = new System.Drawing.Size(180, 23);
+            this.btReload.Size = new System.Drawing.Size(180, 35);
             this.btReload.TabIndex = 7;
             this.btReload.Text = "Reload";
             this.btReload.UseVisualStyleBackColor = true;
@@ -945,36 +884,12 @@ namespace PrintInvoice
             this.dgvUnship.AllowUserToAddRows = false;
             this.dgvUnship.AllowUserToDeleteRows = false;
             this.dgvUnship.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvUnship.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvUnship.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUnship.ContextMenuStrip = this.cmsUnship;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvUnship.DefaultCellStyle = dataGridViewCellStyle8;
             this.dgvUnship.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvUnship.Location = new System.Drawing.Point(0, 28);
             this.dgvUnship.Name = "dgvUnship";
             this.dgvUnship.ReadOnly = true;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvUnship.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.dgvUnship.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUnship.Size = new System.Drawing.Size(634, 308);
             this.dgvUnship.TabIndex = 4;
@@ -1116,9 +1031,10 @@ namespace PrintInvoice
             // 
             // btUnshipLastBatches
             // 
-            this.btUnshipLastBatches.Location = new System.Drawing.Point(10, 57);
+            this.btUnshipLastBatches.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btUnshipLastBatches.Location = new System.Drawing.Point(10, 69);
             this.btUnshipLastBatches.Name = "btUnshipLastBatches";
-            this.btUnshipLastBatches.Size = new System.Drawing.Size(180, 23);
+            this.btUnshipLastBatches.Size = new System.Drawing.Size(180, 35);
             this.btUnshipLastBatches.TabIndex = 9;
             this.btUnshipLastBatches.Text = "Last Batches";
             this.btUnshipLastBatches.UseVisualStyleBackColor = true;
@@ -1126,9 +1042,10 @@ namespace PrintInvoice
             // 
             // btUnshipClear
             // 
-            this.btUnshipClear.Location = new System.Drawing.Point(10, 120);
+            this.btUnshipClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btUnshipClear.Location = new System.Drawing.Point(10, 125);
             this.btUnshipClear.Name = "btUnshipClear";
-            this.btUnshipClear.Size = new System.Drawing.Size(180, 23);
+            this.btUnshipClear.Size = new System.Drawing.Size(180, 35);
             this.btUnshipClear.TabIndex = 3;
             this.btUnshipClear.Text = "Clear List";
             this.btUnshipClear.UseVisualStyleBackColor = true;
@@ -1136,9 +1053,10 @@ namespace PrintInvoice
             // 
             // btExportUnshipErrors
             // 
-            this.btExportUnshipErrors.Location = new System.Drawing.Point(10, 210);
+            this.btExportUnshipErrors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btExportUnshipErrors.Location = new System.Drawing.Point(10, 222);
             this.btExportUnshipErrors.Name = "btExportUnshipErrors";
-            this.btExportUnshipErrors.Size = new System.Drawing.Size(180, 23);
+            this.btExportUnshipErrors.Size = new System.Drawing.Size(180, 35);
             this.btExportUnshipErrors.TabIndex = 2;
             this.btExportUnshipErrors.Text = "Export errors";
             this.btExportUnshipErrors.UseVisualStyleBackColor = true;
@@ -1146,9 +1064,10 @@ namespace PrintInvoice
             // 
             // btUnship
             // 
+            this.btUnship.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btUnship.Location = new System.Drawing.Point(10, 181);
             this.btUnship.Name = "btUnship";
-            this.btUnship.Size = new System.Drawing.Size(180, 23);
+            this.btUnship.Size = new System.Drawing.Size(180, 35);
             this.btUnship.TabIndex = 1;
             this.btUnship.Text = "Unship";
             this.btUnship.UseVisualStyleBackColor = true;
@@ -1156,9 +1075,10 @@ namespace PrintInvoice
             // 
             // btAddUnshipInvoice
             // 
+            this.btAddUnshipInvoice.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btAddUnshipInvoice.Location = new System.Drawing.Point(10, 28);
             this.btAddUnshipInvoice.Name = "btAddUnshipInvoice";
-            this.btAddUnshipInvoice.Size = new System.Drawing.Size(180, 23);
+            this.btAddUnshipInvoice.Size = new System.Drawing.Size(180, 35);
             this.btAddUnshipInvoice.TabIndex = 0;
             this.btAddUnshipInvoice.Text = "Add Invoices";
             this.btAddUnshipInvoice.UseVisualStyleBackColor = true;
@@ -1215,36 +1135,12 @@ namespace PrintInvoice
             this.dgvUnshipped.AllowUserToAddRows = false;
             this.dgvUnshipped.AllowUserToDeleteRows = false;
             this.dgvUnshipped.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvUnshipped.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.dgvUnshipped.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUnshipped.ContextMenuStrip = this.cmsUnshipped;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvUnshipped.DefaultCellStyle = dataGridViewCellStyle11;
             this.dgvUnshipped.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvUnshipped.Location = new System.Drawing.Point(0, 28);
             this.dgvUnshipped.Name = "dgvUnshipped";
             this.dgvUnshipped.ReadOnly = true;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvUnshipped.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.dgvUnshipped.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUnshipped.Size = new System.Drawing.Size(634, 308);
             this.dgvUnshipped.TabIndex = 4;
@@ -1281,7 +1177,7 @@ namespace PrintInvoice
             this.chkUnshippedShowNonupdated.AutoSize = true;
             this.chkUnshippedShowNonupdated.Checked = true;
             this.chkUnshippedShowNonupdated.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUnshippedShowNonupdated.Location = new System.Drawing.Point(5, 3);
+            this.chkUnshippedShowNonupdated.Location = new System.Drawing.Point(5, 6);
             this.chkUnshippedShowNonupdated.Name = "chkUnshippedShowNonupdated";
             this.chkUnshippedShowNonupdated.Size = new System.Drawing.Size(115, 17);
             this.chkUnshippedShowNonupdated.TabIndex = 4;
@@ -1294,7 +1190,7 @@ namespace PrintInvoice
             this.chkUnshippedShowFailed.AutoSize = true;
             this.chkUnshippedShowFailed.Checked = true;
             this.chkUnshippedShowFailed.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUnshippedShowFailed.Location = new System.Drawing.Point(229, 3);
+            this.chkUnshippedShowFailed.Location = new System.Drawing.Point(229, 6);
             this.chkUnshippedShowFailed.Name = "chkUnshippedShowFailed";
             this.chkUnshippedShowFailed.Size = new System.Drawing.Size(84, 17);
             this.chkUnshippedShowFailed.TabIndex = 3;
@@ -1307,7 +1203,7 @@ namespace PrintInvoice
             this.chkUnshippedShowUpdated.AutoSize = true;
             this.chkUnshippedShowUpdated.Checked = true;
             this.chkUnshippedShowUpdated.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUnshippedShowUpdated.Location = new System.Drawing.Point(126, 3);
+            this.chkUnshippedShowUpdated.Location = new System.Drawing.Point(126, 6);
             this.chkUnshippedShowUpdated.Name = "chkUnshippedShowUpdated";
             this.chkUnshippedShowUpdated.Size = new System.Drawing.Size(97, 17);
             this.chkUnshippedShowUpdated.TabIndex = 2;
@@ -1410,9 +1306,10 @@ namespace PrintInvoice
             // 
             // btOnHold
             // 
-            this.btOnHold.Location = new System.Drawing.Point(9, 166);
+            this.btOnHold.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btOnHold.Location = new System.Drawing.Point(10, 178);
             this.btOnHold.Name = "btOnHold";
-            this.btOnHold.Size = new System.Drawing.Size(180, 23);
+            this.btOnHold.Size = new System.Drawing.Size(180, 35);
             this.btOnHold.TabIndex = 11;
             this.btOnHold.Text = "Set On-Hold";
             this.btOnHold.UseVisualStyleBackColor = true;
@@ -1438,9 +1335,10 @@ namespace PrintInvoice
             // 
             // btUnshippedResetStatus
             // 
-            this.btUnshippedResetStatus.Location = new System.Drawing.Point(10, 219);
+            this.btUnshippedResetStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btUnshippedResetStatus.Location = new System.Drawing.Point(10, 238);
             this.btUnshippedResetStatus.Name = "btUnshippedResetStatus";
-            this.btUnshippedResetStatus.Size = new System.Drawing.Size(180, 23);
+            this.btUnshippedResetStatus.Size = new System.Drawing.Size(180, 35);
             this.btUnshippedResetStatus.TabIndex = 4;
             this.btUnshippedResetStatus.Text = "Reset Status";
             this.btUnshippedResetStatus.UseVisualStyleBackColor = true;
@@ -1448,9 +1346,10 @@ namespace PrintInvoice
             // 
             // btUnshippedClearSelection
             // 
-            this.btUnshippedClearSelection.Location = new System.Drawing.Point(9, 74);
+            this.btUnshippedClearSelection.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btUnshippedClearSelection.Location = new System.Drawing.Point(6, 86);
             this.btUnshippedClearSelection.Name = "btUnshippedClearSelection";
-            this.btUnshippedClearSelection.Size = new System.Drawing.Size(180, 23);
+            this.btUnshippedClearSelection.Size = new System.Drawing.Size(180, 35);
             this.btUnshippedClearSelection.TabIndex = 3;
             this.btUnshippedClearSelection.Text = "Clear Selection";
             this.btUnshippedClearSelection.UseVisualStyleBackColor = true;
@@ -1458,9 +1357,10 @@ namespace PrintInvoice
             // 
             // btUnshippedSelectAll
             // 
+            this.btUnshippedSelectAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btUnshippedSelectAll.Location = new System.Drawing.Point(10, 45);
             this.btUnshippedSelectAll.Name = "btUnshippedSelectAll";
-            this.btUnshippedSelectAll.Size = new System.Drawing.Size(180, 23);
+            this.btUnshippedSelectAll.Size = new System.Drawing.Size(180, 35);
             this.btUnshippedSelectAll.TabIndex = 2;
             this.btUnshippedSelectAll.Text = "Select All";
             this.btUnshippedSelectAll.UseVisualStyleBackColor = true;
@@ -1468,9 +1368,10 @@ namespace PrintInvoice
             // 
             // btUnshippedSetPickable
             // 
+            this.btUnshippedSetPickable.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btUnshippedSetPickable.Location = new System.Drawing.Point(9, 137);
             this.btUnshippedSetPickable.Name = "btUnshippedSetPickable";
-            this.btUnshippedSetPickable.Size = new System.Drawing.Size(179, 23);
+            this.btUnshippedSetPickable.Size = new System.Drawing.Size(180, 35);
             this.btUnshippedSetPickable.TabIndex = 1;
             this.btUnshippedSetPickable.Text = "Set PICKABLE";
             this.btUnshippedSetPickable.UseVisualStyleBackColor = true;
@@ -1478,13 +1379,14 @@ namespace PrintInvoice
             // 
             // btReloarUnshipped
             // 
-            this.btReloarUnshipped.Location = new System.Drawing.Point(9, 279);
+            this.btReloarUnshipped.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btReloarUnshipped.Location = new System.Drawing.Point(10, 291);
             this.btReloarUnshipped.Name = "btReloarUnshipped";
-            this.btReloarUnshipped.Size = new System.Drawing.Size(180, 23);
+            this.btReloarUnshipped.Size = new System.Drawing.Size(180, 35);
             this.btReloarUnshipped.TabIndex = 0;
             this.btReloarUnshipped.Text = "Reload List";
             this.btReloarUnshipped.UseVisualStyleBackColor = true;
-            this.btReloarUnshipped.Click += new System.EventHandler(this.btReloarUnshipped_Click);
+            this.btReloarUnshipped.Click += new System.EventHandler(this.btReloadUnshipped_Click);
             // 
             // panel22
             // 
@@ -1537,36 +1439,12 @@ namespace PrintInvoice
             this.dgvReprint.AllowUserToAddRows = false;
             this.dgvReprint.AllowUserToDeleteRows = false;
             this.dgvReprint.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvReprint.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
             this.dgvReprint.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvReprint.ContextMenuStrip = this.cmsReprint;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvReprint.DefaultCellStyle = dataGridViewCellStyle14;
             this.dgvReprint.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvReprint.Location = new System.Drawing.Point(0, 28);
             this.dgvReprint.Name = "dgvReprint";
             this.dgvReprint.ReadOnly = true;
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvReprint.RowHeadersDefaultCellStyle = dataGridViewCellStyle15;
             this.dgvReprint.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvReprint.Size = new System.Drawing.Size(634, 308);
             this.dgvReprint.TabIndex = 4;
@@ -1741,7 +1619,7 @@ namespace PrintInvoice
             // chkReprintSequenceNumber
             // 
             this.chkReprintSequenceNumber.AutoSize = true;
-            this.chkReprintSequenceNumber.Location = new System.Drawing.Point(10, 189);
+            this.chkReprintSequenceNumber.Location = new System.Drawing.Point(10, 209);
             this.chkReprintSequenceNumber.Name = "chkReprintSequenceNumber";
             this.chkReprintSequenceNumber.Size = new System.Drawing.Size(177, 17);
             this.chkReprintSequenceNumber.TabIndex = 9;
@@ -1751,9 +1629,10 @@ namespace PrintInvoice
             // 
             // btReprintLastBatches
             // 
-            this.btReprintLastBatches.Location = new System.Drawing.Point(10, 98);
+            this.btReprintLastBatches.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btReprintLastBatches.Location = new System.Drawing.Point(10, 110);
             this.btReprintLastBatches.Name = "btReprintLastBatches";
-            this.btReprintLastBatches.Size = new System.Drawing.Size(180, 23);
+            this.btReprintLastBatches.Size = new System.Drawing.Size(180, 35);
             this.btReprintLastBatches.TabIndex = 8;
             this.btReprintLastBatches.Text = "Last Batches";
             this.btReprintLastBatches.UseVisualStyleBackColor = true;
@@ -1771,17 +1650,19 @@ namespace PrintInvoice
             // cbReprintPrinter
             // 
             this.cbReprintPrinter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbReprintPrinter.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbReprintPrinter.FormattingEnabled = true;
             this.cbReprintPrinter.Location = new System.Drawing.Point(10, 28);
             this.cbReprintPrinter.Name = "cbReprintPrinter";
-            this.cbReprintPrinter.Size = new System.Drawing.Size(180, 21);
+            this.cbReprintPrinter.Size = new System.Drawing.Size(180, 23);
             this.cbReprintPrinter.TabIndex = 6;
             // 
             // btReprintExportErrors
             // 
+            this.btReprintExportErrors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btReprintExportErrors.Location = new System.Drawing.Point(10, 313);
             this.btReprintExportErrors.Name = "btReprintExportErrors";
-            this.btReprintExportErrors.Size = new System.Drawing.Size(180, 23);
+            this.btReprintExportErrors.Size = new System.Drawing.Size(180, 35);
             this.btReprintExportErrors.TabIndex = 4;
             this.btReprintExportErrors.Text = "Export Errors";
             this.btReprintExportErrors.UseVisualStyleBackColor = true;
@@ -1789,9 +1670,10 @@ namespace PrintInvoice
             // 
             // btReprintPrint
             // 
+            this.btReprintPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btReprintPrint.Location = new System.Drawing.Point(10, 258);
             this.btReprintPrint.Name = "btReprintPrint";
-            this.btReprintPrint.Size = new System.Drawing.Size(180, 23);
+            this.btReprintPrint.Size = new System.Drawing.Size(180, 35);
             this.btReprintPrint.TabIndex = 3;
             this.btReprintPrint.Text = "Print";
             this.btReprintPrint.UseVisualStyleBackColor = true;
@@ -1799,9 +1681,10 @@ namespace PrintInvoice
             // 
             // btReprintClear
             // 
-            this.btReprintClear.Location = new System.Drawing.Point(10, 146);
+            this.btReprintClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btReprintClear.Location = new System.Drawing.Point(10, 166);
             this.btReprintClear.Name = "btReprintClear";
-            this.btReprintClear.Size = new System.Drawing.Size(180, 23);
+            this.btReprintClear.Size = new System.Drawing.Size(180, 35);
             this.btReprintClear.TabIndex = 2;
             this.btReprintClear.Text = "Clear List";
             this.btReprintClear.UseVisualStyleBackColor = true;
@@ -1809,9 +1692,10 @@ namespace PrintInvoice
             // 
             // btAddReprintPackage
             // 
+            this.btAddReprintPackage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btAddReprintPackage.Location = new System.Drawing.Point(10, 69);
             this.btAddReprintPackage.Name = "btAddReprintPackage";
-            this.btAddReprintPackage.Size = new System.Drawing.Size(180, 23);
+            this.btAddReprintPackage.Size = new System.Drawing.Size(180, 35);
             this.btAddReprintPackage.TabIndex = 1;
             this.btAddReprintPackage.Text = "Add Invoices";
             this.btAddReprintPackage.UseVisualStyleBackColor = true;
@@ -1868,35 +1752,11 @@ namespace PrintInvoice
             this.dgvRepair.AllowUserToAddRows = false;
             this.dgvRepair.AllowUserToDeleteRows = false;
             this.dgvRepair.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvRepair.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
             this.dgvRepair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvRepair.DefaultCellStyle = dataGridViewCellStyle17;
             this.dgvRepair.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvRepair.Location = new System.Drawing.Point(0, 28);
             this.dgvRepair.Name = "dgvRepair";
             this.dgvRepair.ReadOnly = true;
-            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvRepair.RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.dgvRepair.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvRepair.Size = new System.Drawing.Size(634, 308);
             this.dgvRepair.TabIndex = 4;
@@ -1995,9 +1855,10 @@ namespace PrintInvoice
             // 
             // btRepairExportPackagesErrors
             // 
-            this.btRepairExportPackagesErrors.Location = new System.Drawing.Point(10, 170);
+            this.btRepairExportPackagesErrors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btRepairExportPackagesErrors.Location = new System.Drawing.Point(10, 218);
             this.btRepairExportPackagesErrors.Name = "btRepairExportPackagesErrors";
-            this.btRepairExportPackagesErrors.Size = new System.Drawing.Size(180, 23);
+            this.btRepairExportPackagesErrors.Size = new System.Drawing.Size(180, 35);
             this.btRepairExportPackagesErrors.TabIndex = 6;
             this.btRepairExportPackagesErrors.Text = "Export Packages Errors";
             this.btRepairExportPackagesErrors.UseVisualStyleBackColor = true;
@@ -2005,9 +1866,10 @@ namespace PrintInvoice
             // 
             // btRepairExportErrors
             // 
-            this.btRepairExportErrors.Location = new System.Drawing.Point(10, 217);
+            this.btRepairExportErrors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btRepairExportErrors.Location = new System.Drawing.Point(10, 272);
             this.btRepairExportErrors.Name = "btRepairExportErrors";
-            this.btRepairExportErrors.Size = new System.Drawing.Size(180, 23);
+            this.btRepairExportErrors.Size = new System.Drawing.Size(180, 35);
             this.btRepairExportErrors.TabIndex = 5;
             this.btRepairExportErrors.Text = "Export Errors";
             this.btRepairExportErrors.UseVisualStyleBackColor = true;
@@ -2015,9 +1877,10 @@ namespace PrintInvoice
             // 
             // btRepair
             // 
-            this.btRepair.Location = new System.Drawing.Point(10, 141);
+            this.btRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btRepair.Location = new System.Drawing.Point(10, 177);
             this.btRepair.Name = "btRepair";
-            this.btRepair.Size = new System.Drawing.Size(180, 23);
+            this.btRepair.Size = new System.Drawing.Size(180, 35);
             this.btRepair.TabIndex = 4;
             this.btRepair.Text = "Repair";
             this.btRepair.UseVisualStyleBackColor = true;
@@ -2025,9 +1888,10 @@ namespace PrintInvoice
             // 
             // btRepairClearSelection
             // 
-            this.btRepairClearSelection.Location = new System.Drawing.Point(10, 98);
+            this.btRepairClearSelection.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btRepairClearSelection.Location = new System.Drawing.Point(10, 121);
             this.btRepairClearSelection.Name = "btRepairClearSelection";
-            this.btRepairClearSelection.Size = new System.Drawing.Size(180, 23);
+            this.btRepairClearSelection.Size = new System.Drawing.Size(180, 35);
             this.btRepairClearSelection.TabIndex = 3;
             this.btRepairClearSelection.Text = "Clear Selection";
             this.btRepairClearSelection.UseVisualStyleBackColor = true;
@@ -2035,9 +1899,10 @@ namespace PrintInvoice
             // 
             // btRepairSelectAll
             // 
-            this.btRepairSelectAll.Location = new System.Drawing.Point(10, 69);
+            this.btRepairSelectAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btRepairSelectAll.Location = new System.Drawing.Point(10, 80);
             this.btRepairSelectAll.Name = "btRepairSelectAll";
-            this.btRepairSelectAll.Size = new System.Drawing.Size(180, 23);
+            this.btRepairSelectAll.Size = new System.Drawing.Size(180, 35);
             this.btRepairSelectAll.TabIndex = 2;
             this.btRepairSelectAll.Text = "Select All";
             this.btRepairSelectAll.UseVisualStyleBackColor = true;
@@ -2045,9 +1910,10 @@ namespace PrintInvoice
             // 
             // btRepairReload
             // 
+            this.btRepairReload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btRepairReload.Location = new System.Drawing.Point(10, 28);
             this.btRepairReload.Name = "btRepairReload";
-            this.btRepairReload.Size = new System.Drawing.Size(180, 23);
+            this.btRepairReload.Size = new System.Drawing.Size(180, 35);
             this.btRepairReload.TabIndex = 0;
             this.btRepairReload.Text = "Reload List";
             this.btRepairReload.UseVisualStyleBackColor = true;

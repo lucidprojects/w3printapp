@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace PrintInvoice
@@ -17,6 +18,7 @@ namespace PrintInvoice
         public AddBatchQuestionForm()
         {
             InitializeComponent();
+            Icon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly()?.Location ?? "");
         }
 
         private void btSingle_Click(object sender, EventArgs e)
