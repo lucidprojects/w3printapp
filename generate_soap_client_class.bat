@@ -1,0 +1,1 @@
+wsdl http://devsvn.mnmglobal.com/scripts/label_service/web/LabelService.php?wsdl /namespace:PrintInvoice

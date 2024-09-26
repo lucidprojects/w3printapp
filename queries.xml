@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<queries dir="queries">
+  <query title="Regular" file="regular.sql">
+    <subqueries dir="regular">
+      <subquery title="FIRST" file="first.sql"></subquery>
+      <subquery title="PRIORITY" file="priority.sql"></subquery>
+      <subquery title="EXPRESS" file="express.sql"></subquery>
+      <subquery title="INTPARCEL" file="intparcel.sql"></subquery>
+    </subqueries>
+  </query>
+  <!--query title="PMOD" file="pmod.sql"></query-->
+  <query title="Non-USPS" file="nonusps.sql"></query>
+</queries>  

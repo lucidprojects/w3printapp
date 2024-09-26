@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PrintInvoice.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="UnshipSinglePackageDataQuery" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">unship_single_package_data.sql</Value>
+    </Setting>
+    <Setting Name="UnshipBatchPackageDataQuery" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">unship_batch_package_data.sql</Value>
+    </Setting>
+    <Setting Name="UnshippedQuery" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">unshipped.sql</Value>
+    </Setting>
+    <Setting Name="ReprintQuery" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">reprint.sql</Value>
+    </Setting>
+    <Setting Name="ReprintSinglePackageDataQuery" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">reprint_single_package_data.sql</Value>
+    </Setting>
+    <Setting Name="ReprintBatchPackageDataQuery" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">reprint_batch_package_data.sql</Value>
+    </Setting>
+    <Setting Name="RepairQuery" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">repair.sql</Value>
+    </Setting>
+    <Setting Name="LastBatchesQuery" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">last_batches.sql</Value>
+    </Setting>
+    <Setting Name="InvoiceLoaderCacheSize" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="PrintJobQueueMaxSize" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="SaveStatusQueueMaxSize" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="HelpText" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">This is a TEST installation of the LabelService Printer. If you are seeing this message, then you are missing a configuration file. Contact webmaster@mnmglobal.com for this file.</Value>
+    </Setting>
+    <Setting Name="ElementsOrderedFieldIndex" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">9</Value>
+    </Setting>
+    <Setting Name="InvoiceSequenceNumberFontSize" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="InvoiceSequenceNumberX" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">375</Value>
+    </Setting>
+    <Setting Name="InvoiceSequenceNumberY" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="MasterPickListFontSize" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="InvoiceSequenceNumberXPackJacket" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="InvoiceSequenceNumberYPackJacket" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="LabelServiceUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://devsvn.mnmglobal.com/scripts/label_service/web/NeedConfig.php?wsdl</Value>
+    </Setting>
+    <Setting Name="PrintStationId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">_DEFAULT-ID_</Value>
+    </Setting>
+    <Setting Name="UnshipHelpText" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">PrintApp for LabelService _DEFAULT_. Unship operation: refund postage, set package status to LABELABLE , set orders status to last status before LABELED.          ***Use the "Add Invoices" and "Last Batches" buttons to load packages to "unship".         NOTE: Packages will start labeling and be printable within 5 minutes.</Value>
+    </Setting>
+    <Setting Name="UnshippedHelpText" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">PrintApp for LabelService _DEFAULT_. List below represents packages remaining to be picked. (Only a certain number of packages are auto-picked for labeling each morning.) Usually you would pick the EXPRESS packages first, or specific orders that need to be shipped right away.</Value>
+    </Setting>
+    <Setting Name="RepairHelpText" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">PrintApp for LabelService _DEFAULT_. Repair Errors (BETA). Use this to repair packages with statuses of ERROR, (or various LOCKED and older than 10 minutes).</Value>
+    </Setting>
+    <Setting Name="ReprintHelpText" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">PrintApp for LabelService _DEFAULT_. Reprint previous batches or orders. This is useful if you printed to the wrong printer, printer crashed, printer-out-of-ink, etc. 
+                
+                ***BE CAREFUL NOT TO PRINT/PACK DUPLICATE ORDERS***</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
