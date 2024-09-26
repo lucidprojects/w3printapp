@@ -24,7 +24,7 @@ namespace PrintInvoice
             }
             else
             {
-                if (_fmMain.setCurrentSubsetInvoice(edFindValue.Text, PrintPackageStorage.TrackingNumberColumnIndex,
+                if (_fmMain.SetCurrentSubsetInvoice(edFindValue.Text, PrintPackageStorage.TrackingNumberColumnIndex,
                         true))
                     Close();
                 else

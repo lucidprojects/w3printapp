@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Threading;
 using PrintInvoice.Properties;
 
@@ -38,15 +39,10 @@ namespace PrintInvoice
         private readonly BackgroundWorker _bwLoad;
         private readonly LabelService _client;
         private readonly List<PrintPackageWrapper> _list = new List<PrintPackageWrapper>();
-
-        private readonly Queue<PrintPackageWrapper> _loadCache =
-            new Queue<PrintPackageWrapper>(Settings.Default.InvoiceLoaderCacheSize);
-
+        private readonly Queue<PrintPackageWrapper> _loadCache = new Queue<PrintPackageWrapper>(Settings.Default.InvoiceLoaderCacheSize);
         private readonly AutoResetEvent _resetEvent = new AutoResetEvent(false);
         private bool _completed;
-
         private bool _isReprint;
-
         private bool _lockPackages;
 
         public InvoiceProvider(LabelService aClient)
@@ -72,7 +68,7 @@ namespace PrintInvoice
 
         private void bwLoad_DoWork(object sender, DoWorkEventArgs e)
         {
-            Log.getLogger().Info("InvoiceProvider thread started");
+            Log.GetLogger().Info("InvoiceProvider thread started");
 
             var bw = sender as BackgroundWorker;
 
@@ -81,6 +77,7 @@ namespace PrintInvoice
                 if (_loadCache.Count < Settings.Default.InvoiceLoaderCacheSize)
                 {
                     var package = _list[0];
+                    
                     var request = new GetLabelRequestType
                     {
                         packageId = package.PackageId,
@@ -94,31 +91,27 @@ namespace PrintInvoice
 
                     try
                     {
+#if DEBUG
+                        package.State = PrintPackageWrapper.Loaded;
+                        package.Pdf = File.ReadAllBytes("test.pdf");
+
+#else
                         var response = _client.getLabel(request);
 
                         if (response.status != 0) throw new Exception(response.message);
 
-                        if (!_lockPackages)
-                        {
-                            package.State = PrintPackageWrapper.Loaded;
-                        }
-                        else
-                        {
-                            if (response.locked)
-                                package.State = PrintPackageWrapper.Loaded;
-                            else
-                                package.State = PrintPackageWrapper.Locked; // locked by another process
-                        }
+                        package.State = !_lockPackages ? PrintPackageWrapper.Loaded : response.locked ? PrintPackageWrapper.Loaded : PrintPackageWrapper.Locked; // locked by another process
 
                         if (response.base64data != null) package.Pdf = Convert.FromBase64String(response.base64data);
 
+#endif
                         // Load event
                         onLoad(new InvoiceProviderLoadEventArgs(package));
 
                         // enqueue to cache
                         if (package.IsLoaded) _loadCache.Enqueue(package);
 
-                        Log.getLogger().Debug($"InvoiceProvider: {package.PackageId.ToString()} enqueued to cache");
+                        Log.GetLogger().Debug($"InvoiceProvider: {package.PackageId.ToString()} enqueued to cache");
                     }
                     catch (Exception ex)
                     {
@@ -142,7 +135,7 @@ namespace PrintInvoice
 
             _resetEvent.Set();
 
-            Log.getLogger().Info("InvoiceProvider thread stopped");
+            Log.GetLogger().Info("InvoiceProvider thread stopped");
         }
 
         public void run()
@@ -187,7 +180,7 @@ namespace PrintInvoice
                 if (_loadCache.Count > 0)
                 {
                     var package = _loadCache.Dequeue();
-                    Log.getLogger().Debug($"InvoiceProvider.getInvoice(): {package.PackageId.ToString()} returned");
+                    Log.GetLogger().Debug($"InvoiceProvider.getInvoice(): {package.PackageId.ToString()} returned");
                     return package;
                 }
 

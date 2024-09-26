@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace PrintInvoice
 {
-    public partial class MainForm : Form
+    public partial class MainForm 
     {
         private SetMaxDailyPackagesForm _fmSetMaxDailyPackages;
 
@@ -12,7 +12,7 @@ namespace PrintInvoice
         {
             if (!_unshippedFieldNamesIsSet)
             {
-                dgvUnshipped.ColumnCount = _unshipped.FieldNames == null ? 0 : _unshipped.FieldNames.Length;
+                dgvUnshipped.ColumnCount = _unshipped.FieldNames?.Length ?? 0;
 
                 if (_unshipped.FieldNames != null)
                     for (var i = 0; i < _unshipped.FieldNames.Length; i++)
@@ -21,7 +21,7 @@ namespace PrintInvoice
                         dgvUnshipped.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
                     }
 
-                fillCopyToClipboardMenuItem(miUnshippedCopyToClipboard, dgvUnshipped);
+                FillCopyToClipboardMenuItem(miUnshippedCopyToClipboard, dgvUnshipped);
 
                 _unshippedFieldNamesIsSet = true;
             }
@@ -103,7 +103,7 @@ namespace PrintInvoice
                 ) == DialogResult.Yes)
             {
                 _unshipped.load();
-                updateUnshippedStat();
+                UpdateUnshippedStat();
             }
         }
 
@@ -147,7 +147,7 @@ namespace PrintInvoice
                 //list.Reverse(); // selected list in reverse order
                 int failed;
                 _unshipped.setPickable(list, out failed);
-                updateUnshippedStat();
+                UpdateUnshippedStat();
 
                 MessageBox.Show(
                     this,
@@ -188,7 +188,7 @@ namespace PrintInvoice
             {
                 //list.Reverse(); // selected list in reverse order
                 _unshipped.resetStatus(list);
-                updateUnshippedStat();
+                UpdateUnshippedStat();
 
                 MessageBox.Show(
                     this,
@@ -295,7 +295,7 @@ namespace PrintInvoice
             else
             {
                 _unshipped.onHold(packageIdList);
-                updateUnshippedStat();
+                UpdateUnshippedStat();
 
                 MessageBox.Show(
                     this,

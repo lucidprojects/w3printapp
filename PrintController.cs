@@ -50,7 +50,7 @@ namespace PrintInvoice
             // log
             var l = new List<string>();
             foreach (var package in aInvoiceList) l.Add(package.PackageId.ToString());
-            Log.getLogger().Debug($"PrintController.setJob([{string.Join(",", l.ToArray())}], {newBatch})");
+            Log.GetLogger().Debug($"PrintController.setJob([{string.Join(",", l.ToArray())}], {newBatch})");
 
             if (newBatch)
             {
@@ -60,7 +60,7 @@ namespace PrintInvoice
 
                 _invoiceStatusSaver.BatchId = response.batchId;
 
-                Log.getLogger().Debug($"New print batch created: {_invoiceStatusSaver.BatchId}");
+                Log.GetLogger().Debug($"New print batch created: {_invoiceStatusSaver.BatchId}");
             }
 
             // sequence number
@@ -120,7 +120,7 @@ namespace PrintInvoice
                     package._elementBatchCount = elementBatchCount++;
 
                     // log
-                    Log.getLogger()
+                    Log.GetLogger()
                         .Debug(
                             $"Invoice sequence number: {package._printBatchId:00000000}-{package._printBatchCount:000000}-{package._elementBatch:000000}-{package._elementBatchCount:000000}");
                 }
@@ -134,25 +134,25 @@ namespace PrintInvoice
 
         public void run()
         {
-            Log.getLogger().Info("PrintController.run()");
+            Log.GetLogger().Info("PrintController.run()");
 
             _invoiceProvider.cleanUp();
-            _printer.cleanUp();
-            _invoiceStatusSaver.cleanUp();
+            _printer.CleanUp();
+            _invoiceStatusSaver.CleanUp();
 
             _invoiceProvider.run();
-            _printer.run();
-            _invoiceStatusSaver.run();
+            _printer.Run();
+            _invoiceStatusSaver.Run();
             State = PrintControllerState.RUNNING;
         }
 
         public void stop()
         {
-            Log.getLogger().Info("PrintController.stop()");
+            Log.GetLogger().Info("PrintController.stop()");
 
             _invoiceProvider.stop();
-            _printer.stop();
-            _invoiceStatusSaver.stop();
+            _printer.Stop();
+            _invoiceStatusSaver.Stop();
             State = PrintControllerState.IDLE;
         }
     }

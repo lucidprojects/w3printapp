@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace PrintInvoice
 {
-    public partial class MainForm : Form
+    public partial class MainForm
     {
         private void reprint_UpdateList(object sender, EventArgs e)
         {
@@ -27,7 +27,7 @@ namespace PrintInvoice
                     }
 
                 // copy to clipboard context menu values
-                fillCopyToClipboardMenuItem(miReprintCopyToClipboard, dgvReprint);
+                FillCopyToClipboardMenuItem(miReprintCopyToClipboard, dgvReprint);
 
                 _reprintFieldNamesIsSet = true;
             }
@@ -44,7 +44,7 @@ namespace PrintInvoice
                 _reprintRowIndex[_reprint.PackageList[i].PackageId] = dgvReprint.Rows[i];
 
                 // set cells styles
-                setRowStyle(dgvReprint.Rows[i], _reprint.PackageList[i]);
+                SetRowStyle(dgvReprint.Rows[i], _reprint.PackageList[i]);
 
                 if (_reprint.PackageList[i].IsError)
                     dgvReprint.Rows[i].ErrorText = _reprint.PackageList[i].ErrorText;
@@ -52,8 +52,8 @@ namespace PrintInvoice
                     dgvReprint.Rows[i].ErrorText = "";
             }
 
-            updateReprintFilter();
-            updateReprintStat();
+            UpdateReprintFilter();
+            UpdateReprintStat();
         }
 
         private void btAddReprintPackage_Click(object sender, EventArgs e)
@@ -75,8 +75,8 @@ namespace PrintInvoice
                     break;
             }
 
-            updateReprintFilter();
-            updateReprintStat();
+            UpdateReprintFilter();
+            UpdateReprintStat();
         }
 
         private void cmsReprint_Opening(object sender, CancelEventArgs e)
@@ -95,7 +95,7 @@ namespace PrintInvoice
             _reprint.remove(packageList);
             dgvReprint.ClearSelection();
 
-            updateReprintStat();
+            UpdateReprintStat();
         }
 
         private void btReprintClear_Click(object sender, EventArgs e)
@@ -109,7 +109,7 @@ namespace PrintInvoice
                 ) == DialogResult.Yes)
                 _reprint.clear();
 
-            updateReprintStat();
+            UpdateReprintStat();
         }
 
         private void invoiceProvider_LoadReprint(object sender, InvoiceProviderLoadEventArgs e)
@@ -146,8 +146,8 @@ namespace PrintInvoice
         private void reprint_UpdatePackageState(object sender, PrintPackageStorageUpdatePackageStateEventArgs e)
         {
             var package = _reprint.getPackageByPackageId(e.PackageId);
-            setRowStyle(_reprintRowIndex[e.PackageId], package);
-            updateReprintStat();
+            SetRowStyle(_reprintRowIndex[e.PackageId], package);
+            UpdateReprintStat();
         }
 
         private void btReprintPrint_Click(object sender, EventArgs e)
@@ -224,7 +224,7 @@ namespace PrintInvoice
                             }
                         }
 
-                    startPrintJob(packageList, cbReprintPrinter.SelectedItem.ToString(), true,
+                    StartPrintJob(packageList, cbReprintPrinter.SelectedItem.ToString(), true,
                         chkReprintSequenceNumber.Checked, false, false);
 
                     setReprintControlsEnabled(false);
@@ -239,9 +239,9 @@ namespace PrintInvoice
         {
             _bwPrinterErrorMonitor.CancelAsync();
             _printerErrorMonitorResetEvent.WaitOne();
-            setControlText(btReprintPrint, "Print");
+            SetControlText(btReprintPrint, "Print");
             setReprintControlsEnabled(true);
-            showMessageBox(
+            ShowMessageBox(
                 this,
                 "Print job complete.",
                 "Message",
@@ -260,13 +260,13 @@ namespace PrintInvoice
                     errorList.Add($"Package: {package.PackageId}. Error: {package.ErrorText}");
             }
 
-            saveErrors(errorList);
+            SaveErrors(errorList);
         }
 
         private void miPreviewReprintInvoice_Click(object sender, EventArgs e)
         {
             var package = dgvReprint.CurrentRow.Tag as PrintPackageWrapper;
-            if (package.PackageId != PackageWrapper.NullPackageId) previewInvoice(package.PackageId, null, false);
+            if (package.PackageId != PackageWrapper.NullPackageId) PreviewInvoice(package.PackageId, null, false);
         }
 
         private void btReprintLastBatches_Click(object sender, EventArgs e)
@@ -308,11 +308,11 @@ namespace PrintInvoice
 
         private void setReprintControlsEnabled(bool aEnabled)
         {
-            setControlEnabled(cbReprintPrinter, aEnabled);
-            setControlEnabled(btAddReprintPackage, aEnabled);
-            setControlEnabled(btReprintLastBatches, aEnabled);
-            setControlEnabled(btReprintClear, aEnabled);
-            setControlEnabled(btReprintExportErrors, aEnabled);
+            SetControlEnabled(cbReprintPrinter, aEnabled);
+            SetControlEnabled(btAddReprintPackage, aEnabled);
+            SetControlEnabled(btReprintLastBatches, aEnabled);
+            SetControlEnabled(btReprintClear, aEnabled);
+            SetControlEnabled(btReprintExportErrors, aEnabled);
         }
     }
 }

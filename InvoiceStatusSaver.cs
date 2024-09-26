@@ -86,13 +86,13 @@ namespace PrintInvoice
             }
         }
 
-        public void run()
+        public void Run()
         {
             _resetEvent.Reset();
             _bwSave.RunWorkerAsync();
         }
 
-        public void stop()
+        public void Stop()
         {
             _bwSave.CancelAsync();
             _resetEvent.WaitOne();
@@ -100,7 +100,7 @@ namespace PrintInvoice
 
         private void bwSave_DoWork(object sender, DoWorkEventArgs e)
         {
-            Log.getLogger().Info("StatusSaver thread started");
+            Log.GetLogger().Info("StatusSaver thread started");
 
             var bw = sender as BackgroundWorker;
 
@@ -127,15 +127,15 @@ namespace PrintInvoice
 
                             // Save
                             var eventArgs = new InvoiceStatusSaverSaveEventArgs(invoiceId);
-                            onSave(eventArgs);
-                            Log.getLogger().Debug($"StatusSaver: {invoiceId.ToString()} status saved");
+                            OnSave(eventArgs);
+                            Log.GetLogger().Debug($"StatusSaver: {invoiceId.ToString()} status saved");
                         }
                         catch (Exception ex)
                         {
                             // Error
                             _queue.Enqueue(invoiceId);
                             var eventArgs = new InvoiceStatusSaverErrorEventArgs(invoiceId, ex.Message);
-                            onError(eventArgs);
+                            OnError(eventArgs);
                         }
                     }
                 }
@@ -155,7 +155,7 @@ namespace PrintInvoice
                 {
                     if (_queue.Count == 0 && _printer.IsCompleted)
                     {
-                        onComplete(new InvoiceStatusSaverCompleteEventArgs());
+                        OnComplete(new InvoiceStatusSaverCompleteEventArgs());
                         break;
                     }
                 }
@@ -165,7 +165,7 @@ namespace PrintInvoice
 
             _resetEvent.Set();
 
-            Log.getLogger().Info("StatusSaver thread stopped");
+            Log.GetLogger().Info("StatusSaver thread stopped");
         }
 
         private void printer_Print(object sender, PrinterPrintEventArgs e)
@@ -178,26 +178,26 @@ namespace PrintInvoice
 
         public event InvoiceStatusSaverSaveEventHandler Save;
 
-        private void onSave(InvoiceStatusSaverSaveEventArgs e)
+        private void OnSave(InvoiceStatusSaverSaveEventArgs e)
         {
             Save?.Invoke(this, e);
         }
 
         public event InvoiceStatusSaverErrorEventHandler Error;
 
-        private void onError(InvoiceStatusSaverErrorEventArgs e)
+        private void OnError(InvoiceStatusSaverErrorEventArgs e)
         {
             Error?.Invoke(this, e);
         }
 
         public event InvoiceStatusSaverCompleteEventHandler Complete;
 
-        private void onComplete(InvoiceStatusSaverCompleteEventArgs e)
+        private void OnComplete(InvoiceStatusSaverCompleteEventArgs e)
         {
             Complete?.Invoke(this, e);
         }
 
-        public void cleanUp()
+        public void CleanUp()
         {
             lock (_queue)
             {

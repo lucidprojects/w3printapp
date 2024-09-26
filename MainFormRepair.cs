@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace PrintInvoice
 {
-    public partial class MainForm : Form
+    public partial class MainForm
     {
         private void repair_UpdateList(object sender, EventArgs e)
         {
@@ -20,7 +20,7 @@ namespace PrintInvoice
                     }
 
                 // copy to clipboard context menu values
-                fillCopyToClipboardMenuItem(miRepairCopyToClipboard, dgvRepair);
+                FillCopyToClipboardMenuItem(miRepairCopyToClipboard, dgvRepair);
 
                 _repairFieldNamesIsSet = true;
             }
@@ -53,8 +53,8 @@ namespace PrintInvoice
                 }*/
             }
 
-            updateRepairFilter();
-            updateRepairStat();
+            UpdateRepairFilter();
+            UpdateRepairStat();
         }
 
         private void btRepairReload_Click(object sender, EventArgs e)
@@ -83,7 +83,7 @@ namespace PrintInvoice
             {
                 _repair.repair(packageIdList);
 
-                updateRepairStat();
+                UpdateRepairStat();
 
                 MessageBox.Show(
                     this,
@@ -108,7 +108,7 @@ namespace PrintInvoice
             if (response.itemList != null)
                 foreach (var item in response.itemList)
                     errorList.Add($"Package: {item.packageId}. Error: {item.errorMessage}");
-            saveErrors(errorList);
+            SaveErrors(errorList);
         }
 
 
@@ -122,7 +122,7 @@ namespace PrintInvoice
                     errorList.Add($"Package: {package.PackageId}. Error: {package.ErrorText}");
             }
 
-            saveErrors(errorList);
+            SaveErrors(errorList);
         }
 
         private void btRepairSelectAll_Click(object sender, EventArgs e)

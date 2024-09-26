@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace PrintInvoice
 {
-    public partial class MainForm : Form
+    public partial class MainForm
     {
         private void unship_UpdateList(object sender, EventArgs e)
         {
@@ -25,7 +25,7 @@ namespace PrintInvoice
                     }
 
                     // copy to clipboard context menu values
-                    fillCopyToClipboardMenuItem(miUnshipCopyToClipboard, dgvUnship);
+                    FillCopyToClipboardMenuItem(miUnshipCopyToClipboard, dgvUnship);
                 }
 
                 _unshipFieldNamesIsSet = true;
@@ -176,7 +176,7 @@ namespace PrintInvoice
                     errorList.Add($"Package ID: {package.TrackingNumber}. Error: {package.ErrorText}");
             }
 
-            saveErrors(errorList);
+            SaveErrors(errorList);
         }
 
         private void btUnship_Click(object sender, EventArgs e)

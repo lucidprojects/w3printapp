@@ -1,13 +1,4 @@
-﻿/**
-* Code snippets from:
-* http://support.microsoft.com/default.aspx/kb/322091
-* http://social.msdn.microsoft.com/forums/en-US/winforms/thread/776e44c2-4ade-4a2e-b347-66e9b06a706e/
-*
-* Other links:
- * http://support.microsoft.com/kb/160129/EN-US/
-*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -48,7 +39,7 @@ namespace PrintInvoice
         public const int JobStatusDeleting = 0x00000004;
         public const int JobStatusError = 0x00000002;
         public const int JobStatusOffline = 0x00000020;
-        public const int JobStatusPaperout = 0x00000040;
+        public const int JobStatusPaperOut = 0x00000040;
         public const int JobStatusPaused = 0x00000001;
         public const int JobStatusPrinted = 0x00000080;
         public const int JobStatusPrinting = 0x00000010;
@@ -56,94 +47,65 @@ namespace PrintInvoice
         public const int JobStatusSpooling = 0x00000008;
         public const int JobStatusUserIntervention = 0x00000400;
 
-        [DllImport("winspool.Drv", EntryPoint = "OpenPrinterA", SetLastError = true, CharSet = CharSet.Ansi,
-            ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool OpenPrinter([MarshalAs(UnmanagedType.LPStr)] string szPrinter, out IntPtr hPrinter,
-            IntPtr pd);
+        [DllImport("winspool.drv", EntryPoint = "OpenPrinterA", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
+        public static extern bool OpenPrinter([MarshalAs(UnmanagedType.LPStr)] string szPrinter, out IntPtr hPrinter, IntPtr pd);
 
-        [DllImport("winspool.Drv", EntryPoint = "ClosePrinter", SetLastError = true, ExactSpelling = true,
+        [DllImport("winspool.drv", EntryPoint = "ClosePrinter", SetLastError = true, ExactSpelling = true,
             CallingConvention = CallingConvention.StdCall)]
         public static extern bool ClosePrinter(IntPtr hPrinter);
 
-        [DllImport("winspool.Drv", EntryPoint = "StartDocPrinterA", SetLastError = true, CharSet = CharSet.Ansi,
-            ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-        public static extern uint StartDocPrinter(IntPtr hPrinter, int level,
-            [In] [MarshalAs(UnmanagedType.LPStruct)]
-            Docinfoa di);
+        [DllImport("winspool.drv", EntryPoint = "StartDocPrinterA", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
+        public static extern uint StartDocPrinter(IntPtr hPrinter, int level, [In] [MarshalAs(UnmanagedType.LPStruct)] DocInfoA di);
 
-        [DllImport("winspool.Drv", EntryPoint = "EndDocPrinter", SetLastError = true, ExactSpelling = true,
-            CallingConvention = CallingConvention.StdCall)]
+        [DllImport("winspool.drv", EntryPoint = "EndDocPrinter", SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
         public static extern bool EndDocPrinter(IntPtr hPrinter);
 
-        [DllImport("winspool.Drv", EntryPoint = "StartPagePrinter", SetLastError = true, ExactSpelling = true,
-            CallingConvention = CallingConvention.StdCall)]
+        [DllImport("winspool.drv", EntryPoint = "StartPagePrinter", SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
         public static extern bool StartPagePrinter(IntPtr hPrinter);
 
-        [DllImport("winspool.Drv", EntryPoint = "EndPagePrinter", SetLastError = true, ExactSpelling = true,
-            CallingConvention = CallingConvention.StdCall)]
+        [DllImport("winspool.drv", EntryPoint = "EndPagePrinter", SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
         public static extern bool EndPagePrinter(IntPtr hPrinter);
 
-        [DllImport("winspool.Drv", EntryPoint = "WritePrinter", SetLastError = true, ExactSpelling = true,
-            CallingConvention = CallingConvention.StdCall)]
+        [DllImport("winspool.drv", EntryPoint = "WritePrinter", SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
         public static extern bool WritePrinter(IntPtr hPrinter, IntPtr pBytes, int dwCount, out int dwWritten);
 
-        [DllImport("winspool.Drv", EntryPoint = "GetPrinterA", SetLastError = true, CharSet = CharSet.Ansi,
-            ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool GetPrinter(IntPtr hPrinter, uint dwLevel, IntPtr pPrinter, uint dwBuf,
-            ref uint dwNeeded);
+        [DllImport("winspool.drv", EntryPoint = "GetPrinterA", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
+        public static extern bool GetPrinter(IntPtr hPrinter, uint dwLevel, IntPtr pPrinter, uint dwBuf, ref uint dwNeeded);
 
-        [DllImport("Winspool.drv", SetLastError = true, EntryPoint = "EnumJobsA", CharSet = CharSet.Ansi,
-            ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool EnumJobs(IntPtr hPrinter, uint firstJob, uint noJobs, uint level, IntPtr pJob,
-            uint cbBuf, out uint pcbNeeded, out uint pcReturned);
-
-        [DllImport("Winspool.drv", SetLastError = true, EntryPoint = "GetJobA", CharSet = CharSet.Ansi,
-            ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool GetJob(IntPtr hPrinter, uint jobId, uint level, IntPtr pJob, uint cbBuf,
-            out uint pcbNeeded);
+        [DllImport("Winspool.drv", SetLastError = true, EntryPoint = "EnumJobsA", CharSet = CharSet.Ansi, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
+        public static extern bool EnumJobs(IntPtr hPrinter, uint firstJob, uint noJobs, uint level, IntPtr pJob, uint cbBuf, out uint pcbNeeded, out uint pcReturned);
 
         // open()
-        public static IntPtr open(string aPrinterName)
+        public static IntPtr Open(string aPrinterName)
         {
-            IntPtr h;
-            if (!OpenPrinter(aPrinterName, out h, IntPtr.Zero))
-            {
-                var e = new Win32Exception();
-            }
-
-            return h;
+            return !OpenPrinter(aPrinterName, out var h, IntPtr.Zero) ? throw new Win32Exception() : h;
         }
 
         // startDoc()
-        public static uint startDoc(IntPtr aPrinterHandle, Docinfoa aDocInfo)
+        public static uint StartDoc(IntPtr aPrinterHandle, DocInfoA aDocInfo)
         {
             var jobId = StartDocPrinter(aPrinterHandle, 1, aDocInfo);
-            if (jobId == 0)
-                throw new Win32Exception();
-
-            return jobId;
+            return jobId == 0 ? throw new Win32Exception() : jobId;
         }
 
-        // startPage()
-        public static void startPage(IntPtr aPrinterHandle)
+        public static void StartPage(IntPtr aPrinterHandle)
         {
             if (!StartPagePrinter(aPrinterHandle))
                 throw new Win32Exception();
         }
 
-        public static void write(IntPtr aPrinterHandle, byte[] data)
+        public static void Write(IntPtr aPrinterHandle, byte[] data)
         {
-            var unmanagedBytes = new IntPtr(0);
             var length = data.Length;
 
             // Allocate some unmanaged memory for those bytes.
-            unmanagedBytes = Marshal.AllocCoTaskMem(length);
+            var unmanagedBytes = Marshal.AllocCoTaskMem(length);
+
             // Copy the managed byte array into the unmanaged array.
             Marshal.Copy(data, 0, unmanagedBytes, length);
 
             // Send the unmanaged bytes to the printer.
-            int written;
-            var success = WritePrinter(aPrinterHandle, unmanagedBytes, length, out written);
+            var success = WritePrinter(aPrinterHandle, unmanagedBytes, length, out _);
 
             // Free the unmanaged memory that you allocated earlier.
             Marshal.FreeCoTaskMem(unmanagedBytes);
@@ -152,78 +114,67 @@ namespace PrintInvoice
                 throw new Win32Exception();
         }
 
-        /*private void write(string s)
-        {
-          System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
-          write(encoding.GetBytes(s));
-        }*/
-
-        // endPage()
-        public static void endPage(IntPtr aPrinterHandle)
+        public static void EndPage(IntPtr aPrinterHandle)
         {
             if (!EndPagePrinter(aPrinterHandle))
                 throw new Win32Exception();
         }
 
         // endDoc()
-        public static void endDoc(IntPtr aPrinterHandle)
+        public static void EndDoc(IntPtr aPrinterHandle)
         {
             if (!EndDocPrinter(aPrinterHandle))
                 throw new Win32Exception();
         }
 
         // close()
-        public static void close(IntPtr aPrinterHandle)
+        public static void Close(IntPtr aPrinterHandle)
         {
             if (!ClosePrinter(aPrinterHandle))
                 throw new Win32Exception();
         }
 
         // getPrinterInfo2
-        public static Info2 getPrinterInfo2(IntPtr aPrinterHandle)
+        public static Info2 GetPrinterInfo2(IntPtr aPrinterHandle)
         {
             // code snippet from http://www.pinvoke.net/default.aspx/winspool/GetPrinter.html
             uint cbNeeded = 0;
             var info2 = new Info2();
-
             var bRet = GetPrinter(aPrinterHandle, 2, IntPtr.Zero, 0, ref cbNeeded);
+
             if (cbNeeded > 0)
             {
                 var pAddr = Marshal.AllocHGlobal((int)cbNeeded);
                 bRet = GetPrinter(aPrinterHandle, 2, pAddr, cbNeeded, ref cbNeeded);
+                
                 if (bRet) info2 = (Info2)Marshal.PtrToStructure(pAddr, typeof(Info2));
+            
                 // Now use the info from Info2 structure etc
                 Marshal.FreeHGlobal(pAddr);
             }
 
-            if (!bRet)
-                throw new Win32Exception();
-
-            return info2;
+            return !bRet ? throw new Win32Exception() : info2;
         }
 
-        public static List<JobInfo1> enumJobs(IntPtr aPrinterHandle)
+        public static List<JobInfo1> EnumJobs(IntPtr aPrinterHandle)
         {
-            var printerInfo2 = getPrinterInfo2(aPrinterHandle);
-            uint needed;
-            uint returned;
-
+            var printerInfo2 = GetPrinterInfo2(aPrinterHandle);
             var jobInfoList = new List<JobInfo1>();
+            var bRet = EnumJobs(aPrinterHandle, 0, printerInfo2.cJobs, 1, IntPtr.Zero, 0, out var needed, out var returned);
 
-            var bRet = EnumJobs(aPrinterHandle, 0, printerInfo2.cJobs, 1, IntPtr.Zero, 0, out needed, out returned);
             if (needed > 0)
             {
                 var buf = Marshal.AllocHGlobal((int)needed);
                 bRet = EnumJobs(aPrinterHandle, 0, printerInfo2.cJobs, 1, buf, needed, out needed, out returned);
 
                 if (bRet)
+                {
                     for (var i = 0; i < returned; i++)
                     {
-                        var jobInfo = new JobInfo1();
-                        jobInfo = (JobInfo1)Marshal.PtrToStructure(
-                            new IntPtr(buf.ToInt32() + Marshal.SizeOf(typeof(JobInfo1)) * i), typeof(JobInfo1));
+                        var jobInfo = (JobInfo1)Marshal.PtrToStructure( IntPtr.Add(buf, Marshal.SizeOf(typeof(JobInfo1)) * i), typeof(JobInfo1));
                         jobInfoList.Add(jobInfo);
                     }
+                }
 
                 Marshal.FreeHGlobal(buf);
             }
@@ -231,28 +182,7 @@ namespace PrintInvoice
             return jobInfoList;
         }
 
-        private JobInfo1 getJobInfo(IntPtr aPrinterHandle, uint jobId)
-        {
-            uint needed;
-
-            var bRet = GetJob(aPrinterHandle, jobId, 1, IntPtr.Zero, 0, out needed);
-            if (needed > 0)
-            {
-                var buf = Marshal.AllocHGlobal((int)needed);
-                bRet = GetJob(aPrinterHandle, jobId, 1, buf, needed, out needed);
-
-                var jobInfo = new JobInfo1();
-                if (bRet)
-                    jobInfo = (JobInfo1)Marshal.PtrToStructure(new IntPtr(buf.ToInt32()), typeof(JobInfo1));
-                Marshal.FreeHGlobal(buf);
-                if (bRet)
-                    return jobInfo;
-            }
-
-            throw new Win32Exception();
-        }
-
-        public static string getJobStatusString(JobInfo1 jobInfo1)
+        public static string GetJobStatusString(JobInfo1 jobInfo1)
         {
             var l = new List<string>();
 
@@ -279,7 +209,7 @@ namespace PrintInvoice
             if ((status & JobStatusOffline) > 0)
                 l.Add("Printer is offline");
 
-            if ((status & JobStatusPaperout) > 0)
+            if ((status & JobStatusPaperOut) > 0)
                 l.Add("Printer is out of paper");
 
             if ((status & JobStatusPaused) > 0)
@@ -287,9 +217,6 @@ namespace PrintInvoice
 
             if ((status & JobStatusPrinted) > 0)
                 l.Add("Job has printed");
-
-            //if ((status & JOB_STATUS_PRINTING) > 0)
-            //  l.Add("Job is printing");
 
             if ((status & JobStatusRestart) > 0)
                 l.Add("Job has been restarted");
@@ -303,7 +230,7 @@ namespace PrintInvoice
             return string.Join(" | ", l.ToArray());
         }
 
-        public static string getPrinterStatusString(Info2 info2)
+        public static string GetPrinterStatusString(Info2 info2)
         {
             var l = new List<string>();
 
@@ -387,9 +314,8 @@ namespace PrintInvoice
             return string.Join(" | ", l.ToArray());
         }
 
-        // Structure and API declarions
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-        public class Docinfoa
+        public class DocInfoA
         {
             [MarshalAs(UnmanagedType.LPStr)] public string pDocName;
             [MarshalAs(UnmanagedType.LPStr)] public string pOutputFile;
@@ -423,7 +349,7 @@ namespace PrintInvoice
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct Systemtime
+        public struct SystemTime
         {
             [MarshalAs(UnmanagedType.U2)] public short Year;
             [MarshalAs(UnmanagedType.U2)] public short Month;
@@ -434,7 +360,7 @@ namespace PrintInvoice
             [MarshalAs(UnmanagedType.U2)] public short Second;
             [MarshalAs(UnmanagedType.U2)] public short Milliseconds;
 
-            public Systemtime(DateTime dt)
+            public SystemTime(DateTime dt)
             {
                 dt = dt.ToUniversalTime(); // SetSystemTime expects the SYSTEMTIME in UTC
                 Year = (short)dt.Year;
@@ -462,7 +388,7 @@ namespace PrintInvoice
             public uint Position;
             public uint TotalPages;
             public uint PagesPrinted;
-            public Systemtime Submitted;
+            public SystemTime Submitted;
         }
     }
 }

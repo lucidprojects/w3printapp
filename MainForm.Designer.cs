@@ -1287,7 +1287,7 @@ namespace PrintInvoice
             this.chkUnshippedShowNonupdated.TabIndex = 4;
             this.chkUnshippedShowNonupdated.Text = "Show Nonupdated";
             this.chkUnshippedShowNonupdated.UseVisualStyleBackColor = true;
-            this.chkUnshippedShowNonupdated.CheckedChanged += new System.EventHandler(this.onUnshippedFilterClick);
+            this.chkUnshippedShowNonupdated.CheckedChanged += new System.EventHandler(this.OnUnshippedFilterClick);
             // 
             // chkUnshippedShowFailed
             // 
@@ -1300,7 +1300,7 @@ namespace PrintInvoice
             this.chkUnshippedShowFailed.TabIndex = 3;
             this.chkUnshippedShowFailed.Text = "Show Failed";
             this.chkUnshippedShowFailed.UseVisualStyleBackColor = true;
-            this.chkUnshippedShowFailed.CheckedChanged += new System.EventHandler(this.onUnshippedFilterClick);
+            this.chkUnshippedShowFailed.CheckedChanged += new System.EventHandler(this.OnUnshippedFilterClick);
             // 
             // chkUnshippedShowUpdated
             // 
@@ -1313,7 +1313,7 @@ namespace PrintInvoice
             this.chkUnshippedShowUpdated.TabIndex = 2;
             this.chkUnshippedShowUpdated.Text = "Show Updated";
             this.chkUnshippedShowUpdated.UseVisualStyleBackColor = true;
-            this.chkUnshippedShowUpdated.CheckedChanged += new System.EventHandler(this.onUnshippedFilterClick);
+            this.chkUnshippedShowUpdated.CheckedChanged += new System.EventHandler(this.OnUnshippedFilterClick);
             // 
             // chkUnshippedShowUnshipped
             // 
@@ -1327,7 +1327,7 @@ namespace PrintInvoice
             this.chkUnshippedShowUnshipped.Text = "Show Unshipped";
             this.chkUnshippedShowUnshipped.UseVisualStyleBackColor = true;
             this.chkUnshippedShowUnshipped.Visible = false;
-            this.chkUnshippedShowUnshipped.CheckedChanged += new System.EventHandler(this.onUnshippedFilterClick);
+            this.chkUnshippedShowUnshipped.CheckedChanged += new System.EventHandler(this.OnUnshippedFilterClick);
             // 
             // chkUnshippedShowNew
             // 
@@ -1341,7 +1341,7 @@ namespace PrintInvoice
             this.chkUnshippedShowNew.Text = "Show New";
             this.chkUnshippedShowNew.UseVisualStyleBackColor = true;
             this.chkUnshippedShowNew.Visible = false;
-            this.chkUnshippedShowNew.CheckedChanged += new System.EventHandler(this.onUnshippedFilterClick);
+            this.chkUnshippedShowNew.CheckedChanged += new System.EventHandler(this.OnUnshippedFilterClick);
             // 
             // panel14
             // 
@@ -1680,7 +1680,7 @@ namespace PrintInvoice
             this.chkReprintShowLocked.TabIndex = 7;
             this.chkReprintShowLocked.Text = "Show Locked";
             this.chkReprintShowLocked.UseVisualStyleBackColor = true;
-            this.chkReprintShowLocked.CheckedChanged += new System.EventHandler(this.onReprintFilterClick);
+            this.chkReprintShowLocked.CheckedChanged += new System.EventHandler(this.OnReprintFilterClick);
             // 
             // chkReprintShowFailed
             // 
@@ -1693,7 +1693,7 @@ namespace PrintInvoice
             this.chkReprintShowFailed.TabIndex = 6;
             this.chkReprintShowFailed.Text = "Show Failed";
             this.chkReprintShowFailed.UseVisualStyleBackColor = true;
-            this.chkReprintShowFailed.CheckedChanged += new System.EventHandler(this.onReprintFilterClick);
+            this.chkReprintShowFailed.CheckedChanged += new System.EventHandler(this.OnReprintFilterClick);
             // 
             // chkReprintShowPrinted
             // 
@@ -1706,7 +1706,7 @@ namespace PrintInvoice
             this.chkReprintShowPrinted.TabIndex = 5;
             this.chkReprintShowPrinted.Text = "Show Printed";
             this.chkReprintShowPrinted.UseVisualStyleBackColor = true;
-            this.chkReprintShowPrinted.CheckedChanged += new System.EventHandler(this.onReprintFilterClick);
+            this.chkReprintShowPrinted.CheckedChanged += new System.EventHandler(this.OnReprintFilterClick);
             // 
             // chkReprintShowUnprinted
             // 
@@ -1719,7 +1719,7 @@ namespace PrintInvoice
             this.chkReprintShowUnprinted.TabIndex = 4;
             this.chkReprintShowUnprinted.Text = "Show Unprinted";
             this.chkReprintShowUnprinted.UseVisualStyleBackColor = true;
-            this.chkReprintShowUnprinted.CheckedChanged += new System.EventHandler(this.onReprintFilterClick);
+            this.chkReprintShowUnprinted.CheckedChanged += new System.EventHandler(this.OnReprintFilterClick);
             // 
             // panel20
             // 
@@ -1976,7 +1976,7 @@ namespace PrintInvoice
             this.chkRepairShowNonrepaired.TabIndex = 6;
             this.chkRepairShowNonrepaired.Text = "Show Nonrepaired";
             this.chkRepairShowNonrepaired.UseVisualStyleBackColor = true;
-            this.chkRepairShowNonrepaired.CheckedChanged += new System.EventHandler(this.onRepairFilterClick);
+            this.chkRepairShowNonrepaired.CheckedChanged += new System.EventHandler(this.OnRepairFilterClick);
             // 
             // panel28
             // 
@@ -2088,6 +2088,7 @@ namespace PrintInvoice
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "W3 PACK";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);

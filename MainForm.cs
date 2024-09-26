@@ -5,13 +5,14 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using PrintInvoice.Properties;
 
 namespace PrintInvoice
 {
-    public partial class MainForm : Form
+    public partial class MainForm: Form
     {
         private readonly BackgroundWorker _bwPrinterErrorMonitor;
 
@@ -102,10 +103,21 @@ namespace PrintInvoice
         private bool _reprintFieldNamesIsSet;
         private bool _unshipFieldNamesIsSet;
         private bool _unshippedFieldNamesIsSet;
+        
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                var handleParam = base.CreateParams;
+                handleParam.ExStyle |= 0x02000000;   // WS_EX_COMPOSITED       
+                return handleParam;
+            }
+        }
 
         public MainForm()
         {
             InitializeComponent();
+            Icon = Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly()?.Location ?? "");
 
             _config = new Config();
 
@@ -136,7 +148,7 @@ namespace PrintInvoice
             _repair = new Repair(_labelService, _config);
             _repair.UpdateList += repair_UpdateList;
 
-            initPrinterCombo();
+            InitPrinterCombo();
 
             _printer.PrinterError += printer_PrinterError;
 
@@ -189,7 +201,7 @@ namespace PrintInvoice
                 tabPage.Text = _config.QueryList[i].Title;
             }
 
-            setQueryTab(0);
+            SetQueryTab(0);
             _controlsTabPage = tcQueries.TabPages[0];
             _unshipTabIndex = tcQueries.TabPages.Count - 4;
             _unshippedTabIndex = tcQueries.TabPages.Count - 3;
@@ -284,7 +296,7 @@ namespace PrintInvoice
             tbHelpRepair.Text = Settings.Default.RepairHelpText;
             tbHelpReprint.Text = Settings.Default.ReprintHelpText;
 
-            Log.getLogger().Info("Start application");
+            Log.GetLogger().Info("Start application");
         }
 
         private void bwStopReprint_DoWork(object sender, DoWorkEventArgs e)
@@ -306,11 +318,11 @@ namespace PrintInvoice
 
             setReprintControlsEnabled(true);
 
-            setControlText(btReprintPrint, "Print");
-            setControlEnabled(btReprintPrint, true);
+            SetControlText(btReprintPrint, "Print");
+            SetControlEnabled(btReprintPrint, true);
 
             if (_printerError)
-                showMessageBox(
+                ShowMessageBox(
                     this,
                     "Printer return error status (" + _printerErrorMessage + ").\nProcess is stopped.",
                     "Error",
@@ -337,13 +349,13 @@ namespace PrintInvoice
 
             if (idList.Count > 0) _invoiceStorage.unlock(idList);
 
-            setPrintControlsEnabled(true);
+            SetPrintControlsEnabled(true);
 
-            setControlText(btPrint, "Print");
-            setControlEnabled(btPrint, true);
+            SetControlText(btPrint, "Print");
+            SetControlEnabled(btPrint, true);
 
             if (_printerError)
-                showMessageBox(
+                ShowMessageBox(
                     this,
                     "Printer return error status (" + _printerErrorMessage + ").\nProcess is stopped.",
                     "Error",
@@ -351,10 +363,10 @@ namespace PrintInvoice
                     MessageBoxIcon.Error
                 );
 
-            findStartIndex();
+            FindStartIndex();
         }
 
-        private void processPrinterError()
+        private void ProcessPrinterError()
         {
             btPrint.Enabled = false;
 
@@ -372,7 +384,7 @@ namespace PrintInvoice
             {
                 if (_printerError)
                 {
-                    Invoke(new ProcessPrinterErrorCallback(processPrinterError));
+                    Invoke(new ProcessPrinterErrorCallback(ProcessPrinterError));
                     break;
                 }
 
@@ -398,9 +410,9 @@ namespace PrintInvoice
         {
             _bwPrinterErrorMonitor.CancelAsync();
             _printerErrorMonitorResetEvent.WaitOne();
-            setControlText(btPrint, "Print");
-            setPrintControlsEnabled(true);
-            showMessageBox(
+            SetControlText(btPrint, "Print");
+            SetPrintControlsEnabled(true);
+            ShowMessageBox(
                 this,
                 "Print job complete.",
                 "Message",
@@ -409,11 +421,11 @@ namespace PrintInvoice
             );
         }
 
-        public void setControlText(Control control, string text)
+        public void SetControlText(Control control, string text)
         {
             if (control.InvokeRequired)
             {
-                SetControlTextCallback d = setControlText;
+                SetControlTextCallback d = SetControlText;
                 Invoke(d, control, text);
             }
             else
@@ -422,11 +434,11 @@ namespace PrintInvoice
             }
         }
 
-        public void setControlEnabled(Control control, bool aEnabled)
+        public void SetControlEnabled(Control control, bool aEnabled)
         {
             if (control.InvokeRequired)
             {
-                SetControlEnabledCallback d = setControlEnabled;
+                SetControlEnabledCallback d = SetControlEnabled;
                 Invoke(d, control, aEnabled);
             }
             else
@@ -435,12 +447,12 @@ namespace PrintInvoice
             }
         }
 
-        public void showMessageBox(IWin32Window owner, string text, string caption, MessageBoxButtons buttons,
+        public void ShowMessageBox(IWin32Window owner, string text, string caption, MessageBoxButtons buttons,
             MessageBoxIcon icon)
         {
             if (InvokeRequired)
             {
-                ShowMessageBoxCallback d = showMessageBox;
+                ShowMessageBoxCallback d = ShowMessageBox;
                 Invoke(d, owner, text, caption, buttons, icon);
             }
             else
@@ -484,10 +496,10 @@ namespace PrintInvoice
         private void invoiceStorage_UpdateInvoiceState(object sender, PrintPackageStorageUpdatePackageStateEventArgs e)
         {
             var invoice = _invoiceStorage.getPackageByPackageId(e.PackageId);
-            setRowStyle(_rowIndex[e.PackageId], invoice);
-            setRowStyle(_subsetRowIndex[e.PackageId], invoice);
-            updateStat();
-            updateSubsetStat();
+            SetRowStyle(_rowIndex[e.PackageId], invoice);
+            SetRowStyle(_subsetRowIndex[e.PackageId], invoice);
+            UpdateStat();
+            UpdateSubsetStat();
         }
 
         private void invoiceProvider_Error(object sender, InvoiceProviderErrorEventArgs e)
@@ -520,13 +532,13 @@ namespace PrintInvoice
                         dgvSubset.Rows[row].Cells[col].Style = dgvSubset.DefaultCellStyle;
                         dgvSubset.Rows[row].Tag = _invoiceStorage.SubsetPackageList[row];
                         _subsetRowIndex[_invoiceStorage.SubsetPackageList[row].PackageId] = dgvSubset.Rows[row];
-                        setRowStyle(dgvSubset.Rows[row], _invoiceStorage.SubsetPackageList[row]);
+                        SetRowStyle(dgvSubset.Rows[row], _invoiceStorage.SubsetPackageList[row]);
                     }
                 }
 
                 btPrint.Enabled = dgvSubset.Rows.Count > 0;
                 tsslSubsetTotal.Text = $@"Total: {dgvSubset.RowCount.ToString()}";
-                updateSubsetStat();
+                UpdateSubsetStat();
                 chkPrintSequenceNumber.Checked = true;
             }
         }
@@ -553,8 +565,8 @@ namespace PrintInvoice
                 }
 
                 // copy to clipboard context menu values
-                fillCopyToClipboardMenuItem(miSubsetCopyToClipboard, dgvSubset);
-                fillCopyToClipboardMenuItem(miSetCopyToClipboard, dgvQuery);
+                FillCopyToClipboardMenuItem(miSubsetCopyToClipboard, dgvSubset);
+                FillCopyToClipboardMenuItem(miSetCopyToClipboard, dgvQuery);
 
                 dgvQuery.RowCount = _invoiceStorage.PackageList.Count;
                 _rowIndex.Clear();
@@ -566,16 +578,16 @@ namespace PrintInvoice
                         dgvQuery.Rows[row].Cells[col].Style = dgvQuery.DefaultCellStyle;
                         dgvQuery.Rows[row].Tag = _invoiceStorage.PackageList[row];
                         _rowIndex[_invoiceStorage.PackageList[row].PackageId] = dgvQuery.Rows[row];
-                        setRowStyle(dgvQuery.Rows[row], _invoiceStorage.PackageList[row]);
+                        SetRowStyle(dgvQuery.Rows[row], _invoiceStorage.PackageList[row]);
                     }
 
-                resetFilter();
+                ResetFilter();
                 tsslSetTotal.Text = $@"Total: {dgvQuery.RowCount.ToString()}";
-                updateStat();
+                UpdateStat();
             }
         }
 
-        private void fillCopyToClipboardMenuItem(ToolStripMenuItem aMenuItem, DataGridView aDgv)
+        private void FillCopyToClipboardMenuItem(ToolStripMenuItem aMenuItem, DataGridView aDgv)
         {
             aMenuItem.Text = @"Copy Cell Value To Clipboard";
             aMenuItem.DropDownItems.Clear();
@@ -620,16 +632,16 @@ namespace PrintInvoice
                     if (!_unshipped.IsLoaded)
                     {
                         _unshipped.load();
-                        updateUnshippedFilter();
-                        updateUnshippedStat();
+                        UpdateUnshippedFilter();
+                        UpdateUnshippedStat();
                     }
                 }
                 else
                 {
                     if (tc.SelectedIndex == _reprintTabIndex)
                     {
-                        updateReprintFilter();
-                        updateReprintStat();
+                        UpdateReprintFilter();
+                        UpdateReprintStat();
                     }
                     else
                     {
@@ -638,29 +650,30 @@ namespace PrintInvoice
                             if (!_repair.IsLoaded)
                             {
                                 _repair.load();
-                                updateRepairFilter();
-                                updateRepairStat();
+                                UpdateRepairFilter();
+                                UpdateRepairStat();
                             }
                         }
                         else
                         {
                             if (_controlsTabPage == e.TabPage)
                             {
-                                setQueryTab(e.TabPageIndex);
+                                SetQueryTab(e.TabPageIndex);
                             }
                             else
                             {
                                 // copy all controls from previously selected tab to newly selected
 
                                 e.TabPage.Controls.Clear();
+                                
                                 while (_controlsTabPage.Controls.Count > 0)
                                     e.TabPage.Controls.Add(_controlsTabPage.Controls[0]);
-                                ;
+                                
                                 e.TabPage.Padding = _controlsTabPage.Padding;
                                 e.TabPage.UseVisualStyleBackColor = _controlsTabPage.UseVisualStyleBackColor;
                                 _controlsTabPage.Controls.Clear();
 
-                                setQueryTab(e.TabPageIndex);
+                                SetQueryTab(e.TabPageIndex);
                             }
                         }
                     }
@@ -682,8 +695,8 @@ namespace PrintInvoice
                 _controlsTabPage = e.TabPage;
         }
 
-        // fills sobqueries control (combobox)
-        private void fillSubqueriesControl(int queryIndex)
+        // fills subqueries control (combobox)
+        private void FillSubqueriesControl(int queryIndex)
         {
             cbSubset.Items.Clear();
             cbSubset.Items.Add("All");
@@ -694,9 +707,9 @@ namespace PrintInvoice
             cbSubset.SelectedIndex = 0;
         }
 
-        private void setQueryTab(int queryIndex)
+        private void SetQueryTab(int queryIndex)
         {
-            fillSubqueriesControl(queryIndex);
+            FillSubqueriesControl(queryIndex);
 
             _invoiceStorage.setQuery(queryIndex);
 
@@ -724,16 +737,16 @@ namespace PrintInvoice
                     break;
             }
 
-            removeSortGlyph(dgvSubset);
+            RemoveSortGlyph(dgvSubset);
         }
 
-        private void removeSortGlyph(DataGridView aDataGridView)
+        private void RemoveSortGlyph(DataGridView aDataGridView)
         {
             if (aDataGridView.SortedColumn != null)
                 aDataGridView.SortedColumn.HeaderCell.SortGlyphDirection = SortOrder.None;
         }
 
-        private void resetFilter()
+        private void ResetFilter()
         {
             cbQueryShowUnprinted.Checked = true;
             cbQueryShowPrinted.Checked = true;
@@ -741,13 +754,13 @@ namespace PrintInvoice
             cbQueryShowLocked.Checked = true;
         }
 
-        private void updateFilter()
+        private void UpdateFilter()
         {
             foreach (DataGridViewRow row in dgvQuery.Rows)
             {
                 var visible = false;
 
-                var invoiceWrapper = row.Tag as PrintPackageWrapper;
+                var invoiceWrapper = (PrintPackageWrapper)row.Tag;
 
                 if (cbQueryShowUnprinted.Checked && invoiceWrapper.IsUnprinted) visible = true;
                 if (cbQueryShowPrinted.Checked && invoiceWrapper.IsPrinted) visible = true;
@@ -761,25 +774,25 @@ namespace PrintInvoice
 
         private void cbQueryShowUnprinted_CheckedChanged(object sender, EventArgs e)
         {
-            updateFilter();
+            UpdateFilter();
         }
 
         private void cbQueryShowPrinted_CheckedChanged(object sender, EventArgs e)
         {
-            updateFilter();
+            UpdateFilter();
         }
 
         private void cbQueryShowError_CheckedChanged(object sender, EventArgs e)
         {
-            updateFilter();
+            UpdateFilter();
         }
 
         private void cbQueryShowLocked_CheckedChanged(object sender, EventArgs e)
         {
-            updateFilter();
+            UpdateFilter();
         }
 
-        private void initPrinterCombo()
+        private void InitPrinterCombo()
         {
             var defaultPrinterName = ""; // (string)config.getValue("printerName", new PrintDocument().PrinterSettings.PrinterName);
             
@@ -824,7 +837,7 @@ namespace PrintInvoice
                 */
                 // warning about sequence number
                 if (!chkPrintSequenceNumber.Checked && MessageBox.Show(
-                        "Invoice sequence number printing is " +
+                        @"Invoice sequence number printing is " +
                         (chkPrintSequenceNumber.Checked ? "enabled" : "disabled") + ".\nContinue printing?",
                         "Warning",
                         MessageBoxButtons.YesNo,
@@ -901,10 +914,10 @@ namespace PrintInvoice
                             }
                         }
 
-                    startPrintJob(invoiceList, cbPrinter.SelectedItem.ToString(), false, chkPrintSequenceNumber.Checked,
+                    StartPrintJob(invoiceList, cbPrinter.SelectedItem.ToString(), false, chkPrintSequenceNumber.Checked,
                         false, false);
 
-                    setPrintControlsEnabled(false);
+                    SetPrintControlsEnabled(false);
 
                     btPrint.Text = "Stop";
                     btPrint.Enabled = true;
@@ -912,11 +925,11 @@ namespace PrintInvoice
             }
         }
 
-        private void setRowStyle(DataGridViewRow row, PrintPackageWrapper invoice)
+        private void SetRowStyle(DataGridViewRow row, PrintPackageWrapper invoice)
         {
             if (row.DataGridView.InvokeRequired)
             {
-                SetRowStyleCallback d = setRowStyle;
+                SetRowStyleCallback d = SetRowStyle;
                 Invoke(d, row, invoice);
             }
             else
@@ -1032,7 +1045,7 @@ namespace PrintInvoice
                 addToCustomSubsetToolStripMenuItem.Enabled = true;
         }
 
-        private void previewInvoice(int aInvoiceId, string aSequenceNumber, bool aIsPackJacket)
+        private void PreviewInvoice(int aInvoiceId, string aSequenceNumber, bool aIsPackJacket)
         {
             try
             {
@@ -1071,12 +1084,12 @@ namespace PrintInvoice
 
         private void miPreviewSetInvoice_Click(object sender, EventArgs e)
         {
-            previewInvoice((dgvQuery.CurrentRow.Tag as PrintPackageWrapper).PackageId, null, false);
+            PreviewInvoice((dgvQuery.CurrentRow.Tag as PrintPackageWrapper).PackageId, null, false);
         }
 
         private void miPreviewSubsetInvoice_Click(object sender, EventArgs e)
         {
-            previewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId, null, false);
+            PreviewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId, null, false);
         }
 
         private void miFindInvoice_Click(object sender, EventArgs e)
@@ -1086,7 +1099,7 @@ namespace PrintInvoice
             if (!_fmFindInvoice.Visible) _fmFindInvoice.Show(this);
         }
 
-        public bool setCurrentSubsetInvoice(string findValue, int colIndex, bool next)
+        public bool SetCurrentSubsetInvoice(string findValue, int colIndex, bool next)
         {
             var result = false;
             foreach (DataGridViewRow row in dgvSubset.Rows)
@@ -1112,7 +1125,7 @@ namespace PrintInvoice
             return result;
         }
 
-        public bool setCurrentSetInvoice(string findValue, int colIndex)
+        public bool SetCurrentSetInvoice(string findValue, int colIndex)
         {
             var result = false;
             foreach (DataGridViewRow row in dgvQuery.Rows)
@@ -1128,14 +1141,14 @@ namespace PrintInvoice
 
         private void miFindStartIndex_Click(object sender, EventArgs e)
         {
-            findStartIndex();
+            FindStartIndex();
         }
 
-        private void findStartIndex()
+        private void FindStartIndex()
         {
             if (InvokeRequired)
             {
-                FindStartIndexCallback d = findStartIndex;
+                FindStartIndexCallback d = FindStartIndex;
                 Invoke(d);
             }
             else
@@ -1156,10 +1169,10 @@ namespace PrintInvoice
                     errorList.Add($"Package: {package.PackageId}. Error: {package.ErrorText}");
             }
 
-            saveErrors(errorList);
+            SaveErrors(errorList);
         }
 
-        private void saveErrors(List<string> aList)
+        private void SaveErrors(List<string> aList)
         {
             if (aList.Count == 0)
             {
@@ -1184,7 +1197,7 @@ namespace PrintInvoice
             }
         }
 
-        private Stat getStat(DataGridView dgv)
+        private Stat GetStat(DataGridView dgv)
         {
             var stat = new Stat();
             foreach (DataGridViewRow row in dgv.Rows)
@@ -1203,22 +1216,22 @@ namespace PrintInvoice
             return stat;
         }
 
-        private void updateStat()
+        private void UpdateStat()
         {
             Stat stat;
 
-            stat = getStat(dgvQuery);
+            stat = GetStat(dgvQuery);
             tsslSetUnprinted.Text = $"Unprinted: {stat._unprinted}";
             tsslSetPrinted.Text = $"Printed: {stat._printed}";
             tsslSetFailed.Text = $"Failed: {stat._failed}";
             tsslSetLocked.Text = $"Locked: {stat._locked}";
         }
 
-        private void updateSubsetStat()
+        private void UpdateSubsetStat()
         {
             Stat stat;
 
-            stat = getStat(dgvSubset);
+            stat = GetStat(dgvSubset);
             tsslSubsetUnprinted.Text = $"Unprinted: {stat._unprinted}";
             tsslSubsetPrinted.Text = $"Printed: {stat._printed}";
             tsslSubsetFailed.Text = $"Failed: {stat._failed}";
@@ -1231,7 +1244,7 @@ namespace PrintInvoice
         }
 
         // set event handlers for main print process
-        private void setPrintEventHandlers()
+        private void SetPrintEventHandlers()
         {
             // ensure that only one event handler enabled - first remove then add new one
 
@@ -1262,7 +1275,7 @@ namespace PrintInvoice
         }
 
         // set event handlers for reprint process
-        private void setReprintEventHandlers()
+        private void SetReprintEventHandlers()
         {
             // ensure that only one event handler enabled - first remove then add new one
 
@@ -1292,19 +1305,19 @@ namespace PrintInvoice
             _printController.Complete += _printControllerCompleteReprint;
         }
 
-        private void startPrintJob(List<PrintPackageWrapper> aInvoiceList, string aPrinterName, bool aIsReprint,
+        private void StartPrintJob(List<PrintPackageWrapper> aInvoiceList, string aPrinterName, bool aIsReprint,
             bool aIsSequenceNumberEnabled, bool aIsPackJacket, bool aPrintPickList)
         {
             if (aIsReprint)
             {
-                setReprintEventHandlers();
+                SetReprintEventHandlers();
                 _invoiceStatusSaver.IsReprint = true;
                 _invoiceProvider.IsReprint = true;
                 _invoiceProvider.LockPackages = true;
             }
             else
             {
-                setPrintEventHandlers();
+                SetPrintEventHandlers();
                 _invoiceStatusSaver.IsReprint = false;
                 _invoiceProvider.IsReprint = false;
                 _invoiceProvider.LockPackages = true;
@@ -1314,7 +1327,7 @@ namespace PrintInvoice
             _printerErrorMonitorResetEvent.Reset();
             _bwPrinterErrorMonitor.RunWorkerAsync();
 
-            _printer.setName(aPrinterName);
+            _printer.SetName(aPrinterName);
             _printer.IsSequenceNumberEnabled = aIsSequenceNumberEnabled;
             _printer.PrintPickList = aPrintPickList;
             _printController.setJob(aInvoiceList, true, aIsSequenceNumberEnabled, aIsPackJacket);
@@ -1322,12 +1335,12 @@ namespace PrintInvoice
             _printController.run();
         }
 
-        private void setPrintControlsEnabled(bool aEnabled)
+        private void SetPrintControlsEnabled(bool aEnabled)
         {
-            setControlEnabled(cbSubset, aEnabled);
-            setControlEnabled(btExportErrors, aEnabled);
-            setControlEnabled(cbPrinter, aEnabled);
-            setControlEnabled(btReload, aEnabled);
+            SetControlEnabled(cbSubset, aEnabled);
+            SetControlEnabled(btExportErrors, aEnabled);
+            SetControlEnabled(cbPrinter, aEnabled);
+            SetControlEnabled(btReload, aEnabled);
         }
 
         private void tcQueries_Deselecting(object sender, TabControlCancelEventArgs e)
@@ -1356,8 +1369,8 @@ namespace PrintInvoice
             _invoiceStorage.setQuery(tcQueries.SelectedIndex);
 
             // remove sort glyphs
-            removeSortGlyph(dgvQuery);
-            removeSortGlyph(dgvSubset);
+            RemoveSortGlyph(dgvQuery);
+            RemoveSortGlyph(dgvSubset);
 
             if (cbSubset.SelectedIndex == 0)
                 _invoiceStorage.setSubsetAll();
@@ -1396,12 +1409,12 @@ namespace PrintInvoice
             );
         }
 
-        private void onUnshippedFilterClick(object sender, EventArgs e)
+        private void OnUnshippedFilterClick(object sender, EventArgs e)
         {
-            updateUnshippedFilter();
+            UpdateUnshippedFilter();
         }
 
-        public void updateUnshippedFilter()
+        public void UpdateUnshippedFilter()
         {
             foreach (DataGridViewRow row in dgvUnshipped.Rows)
             {
@@ -1426,7 +1439,7 @@ namespace PrintInvoice
             }
         }
 
-        public void updateUnshippedStat()
+        public void UpdateUnshippedStat()
         {
             var nNonupdated = 0;
             var nUpdated = 0;
@@ -1455,12 +1468,12 @@ namespace PrintInvoice
             tsslUnshippedFailed.Text = $"Failed: {nFailed}";
         }
 
-        private void onReprintFilterClick(object sender, EventArgs e)
+        private void OnReprintFilterClick(object sender, EventArgs e)
         {
-            updateReprintFilter();
+            UpdateReprintFilter();
         }
 
-        private void updateReprintFilter()
+        private void UpdateReprintFilter()
         {
             foreach (DataGridViewRow row in dgvReprint.Rows)
             {
@@ -1480,7 +1493,7 @@ namespace PrintInvoice
             }
         }
 
-        private void updateReprintStat()
+        private void UpdateReprintStat()
         {
             var nUnprinted = 0;
             var nPrinted = 0;
@@ -1505,12 +1518,12 @@ namespace PrintInvoice
             tsslReprintLocked.Text = $"Locked: {nLocked}";
         }
 
-        private void onRepairFilterClick(object sender, EventArgs e)
+        private void OnRepairFilterClick(object sender, EventArgs e)
         {
-            updateRepairFilter();
+            UpdateRepairFilter();
         }
 
-        private void updateRepairFilter()
+        private void UpdateRepairFilter()
         {
             foreach (DataGridViewRow row in dgvRepair.Rows)
             {
@@ -1528,7 +1541,7 @@ namespace PrintInvoice
             }
         }
 
-        private void updateRepairStat()
+        private void UpdateRepairStat()
         {
             var nNonrepaired = 0;
             var nRepaired = 0;
@@ -1576,18 +1589,18 @@ namespace PrintInvoice
 
         private void miPreviewSubsetInvoiceWithSequenceNumber_Click(object sender, EventArgs e)
         {
-            previewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId,
+            PreviewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId,
                 Routines.generateSequenceNumber(0, 0, 0, 0), false);
         }
 
         private void previewPackJacketInvoiceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            previewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId, null, true);
+            PreviewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId, null, true);
         }
 
         private void previewPackJacketInvoiceWithSequenceNumberToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            previewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId,
+            PreviewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId,
                 Routines.generateSequenceNumber(0, 0, 0, 0), true);
         }
 

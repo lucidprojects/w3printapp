@@ -33,9 +33,9 @@ namespace PrintInvoice
             }
             else
             {
-                var foundInSet = _fmMain.setCurrentSetInvoice(edFindValue.Text, PrintPackageStorage.InvoiceNumberColumnIndex);
+                var foundInSet = _fmMain.SetCurrentSetInvoice(edFindValue.Text, PrintPackageStorage.InvoiceNumberColumnIndex);
                 
-                var foundInSubset = _fmMain.setCurrentSubsetInvoice(edFindValue.Text, PrintPackageStorage.InvoiceNumberColumnIndex, false);
+                var foundInSubset = _fmMain.SetCurrentSubsetInvoice(edFindValue.Text, PrintPackageStorage.InvoiceNumberColumnIndex, false);
 
                 if (!foundInSet && !foundInSubset)
                     MessageBox.Show(@"Invoice not found.", @"Message", MessageBoxButtons.OK, MessageBoxIcon.Information);

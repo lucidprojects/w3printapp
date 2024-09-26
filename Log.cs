@@ -7,7 +7,7 @@ namespace PrintInvoice
     {
         private static ILog _log;
 
-        public static ILog getLogger()
+        public static ILog GetLogger()
         {
             if (_log == null)
             {
