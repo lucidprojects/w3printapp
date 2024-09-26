@@ -1,230 +1,208 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using System.Threading;
-using System.Windows.Forms;
+using PrintInvoice.Properties;
 
 namespace PrintInvoice
 {
-  using InvoiceIdType = Int32;
+    using InvoiceIdType = Int32;
 
-  public class InvoiceStatusSaverSaveEventArgs : EventArgs
-  {
-    private InvoiceIdType invoiceId;
-
-    public InvoiceStatusSaverSaveEventArgs(InvoiceIdType aInvoiceId)
+    public class InvoiceStatusSaverSaveEventArgs : EventArgs
     {
-      invoiceId = aInvoiceId;
-    }
-
-    public InvoiceIdType InvoiceId
-    {
-      get { return invoiceId; }
-    }
-  }
-
-  public delegate void InvoiceStatusSaverSaveEventHandler(object sender, InvoiceStatusSaverSaveEventArgs e);
-
-  public class InvoiceStatusSaverErrorEventArgs : EventArgs
-  {
-    private InvoiceIdType invoiceId;
-    private string message;
-
-    public InvoiceStatusSaverErrorEventArgs(InvoiceIdType aInvoiceId, string aMessage)
-    {
-      invoiceId = aInvoiceId;
-      message = aMessage;
-    }
-
-    public InvoiceIdType InvoiceId
-    {
-      get { return invoiceId; }
-    }
-
-    public string Message
-    {
-      get { return message; }
-    }
-  }
-
-  public delegate void InvoiceStatusSaverErrorEventHandler(object sender, InvoiceStatusSaverErrorEventArgs e);
-
-  public class InvoiceStatusSaverCompleteEventArgs : EventArgs{}
-
-  public delegate void InvoiceStatusSaverCompleteEventHandler(object sender, InvoiceStatusSaverCompleteEventArgs e);
-
-
-  public class InvoiceStatusSaver
-  {
-    private Printer printer;
-    private LabelService client;
-
-    private Queue<InvoiceIdType> queue = new Queue<InvoiceIdType>();
-    private BackgroundWorker bwSave;
-
-    private AutoResetEvent resetEvent;
-
-    private int batchId;
-    public int BatchId {
-      set { batchId = value; }
-      get { return batchId; }
-    }
-
-    private bool isReprint;
-    public bool IsReprint
-    {
-      set { isReprint = value; }
-    }
-
-    public bool MayEnqueue
-    {
-      get 
-      {
-        lock (queue)
-        { 
-          return (queue.Count < Properties.Settings.Default.SaveStatusQueueMaxSize);
-        }
-      }
-    }
-
-    public InvoiceStatusSaver(Printer aPrinter, LabelService aClient)
-    {
-      printer = aPrinter;
-      client = aClient;
-
-      bwSave = new BackgroundWorker();
-      bwSave.WorkerSupportsCancellation = true;
-      bwSave.DoWork += new DoWorkEventHandler(bwSave_DoWork);
-
-      printer.Print += new PrinterPrintEventHandler(printer_Print);
-
-      resetEvent = new AutoResetEvent(false);
-    }
-
-    public void run()
-    {
-      resetEvent.Reset();
-      bwSave.RunWorkerAsync();
-    }
-
-    public void stop()
-    {
-      bwSave.CancelAsync();
-      resetEvent.WaitOne();
-    }
-
-    void bwSave_DoWork(object sender, DoWorkEventArgs e)
-    {
-      Log.getLogger().Info(String.Format("StatusSaver thread started"));
-
-      BackgroundWorker bw = sender as BackgroundWorker;
-
-      for (;;)
-      {
-        lock (queue)
+        public InvoiceStatusSaverSaveEventArgs(InvoiceIdType aInvoiceId)
         {
-          if (queue.Count > 0)
-          {
-            InvoiceIdType invoiceId;
-            invoiceId = queue.Dequeue();
+            InvoiceId = aInvoiceId;
+        }
 
-            try
+        public InvoiceIdType InvoiceId { get; }
+    }
+
+    public delegate void InvoiceStatusSaverSaveEventHandler(object sender, InvoiceStatusSaverSaveEventArgs e);
+
+    public class InvoiceStatusSaverErrorEventArgs : EventArgs
+    {
+        public InvoiceStatusSaverErrorEventArgs(InvoiceIdType aInvoiceId, string aMessage)
+        {
+            InvoiceId = aInvoiceId;
+            Message = aMessage;
+        }
+
+        public InvoiceIdType InvoiceId { get; }
+
+        public string Message { get; }
+    }
+
+    public delegate void InvoiceStatusSaverErrorEventHandler(object sender, InvoiceStatusSaverErrorEventArgs e);
+
+    public class InvoiceStatusSaverCompleteEventArgs : EventArgs
+    {
+    }
+
+    public delegate void InvoiceStatusSaverCompleteEventHandler(object sender, InvoiceStatusSaverCompleteEventArgs e);
+
+
+    public class InvoiceStatusSaver
+    {
+        private readonly BackgroundWorker _bwSave;
+        private readonly LabelService _client;
+        private readonly Printer _printer;
+
+        private readonly Queue<InvoiceIdType> _queue = new Queue<InvoiceIdType>();
+
+        private readonly AutoResetEvent _resetEvent;
+
+        private bool _isReprint;
+
+        public InvoiceStatusSaver(Printer aPrinter, LabelService aClient)
+        {
+            _printer = aPrinter;
+            _client = aClient;
+
+            _bwSave = new BackgroundWorker();
+            _bwSave.WorkerSupportsCancellation = true;
+            _bwSave.DoWork += bwSave_DoWork;
+
+            _printer.Print += printer_Print;
+
+            _resetEvent = new AutoResetEvent(false);
+        }
+
+        public int BatchId { set; get; }
+
+        public bool IsReprint
+        {
+            set => _isReprint = value;
+        }
+
+        public bool MayEnqueue
+        {
+            get
             {
-              SetLabelPrintedRequestType request = new SetLabelPrintedRequestType();
-              request.labelId = invoiceId;
-              request.createNewBatch = false;
-              request.batchId = batchId;
-              request.printStationId = Properties.Settings.Default.PrintStationId;
-
-              SetLabelPrintedResponseType response = client.setLabelPrinted(request);
-              if (response.status != 0)
-              {
-                throw new Exception(response.message);
-              }
-
-              // Save
-              InvoiceStatusSaverSaveEventArgs eventArgs = new InvoiceStatusSaverSaveEventArgs(invoiceId);
-              onSave(eventArgs);
-              Log.getLogger().Debug(String.Format("StatusSaver: {0} status saved", invoiceId.ToString()));
+                lock (_queue)
+                {
+                    return _queue.Count < Settings.Default.SaveStatusQueueMaxSize;
+                }
             }
-            catch (Exception ex)
+        }
+
+        public void run()
+        {
+            _resetEvent.Reset();
+            _bwSave.RunWorkerAsync();
+        }
+
+        public void stop()
+        {
+            _bwSave.CancelAsync();
+            _resetEvent.WaitOne();
+        }
+
+        private void bwSave_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Log.getLogger().Info("StatusSaver thread started");
+
+            var bw = sender as BackgroundWorker;
+
+            for (;;)
             {
-              // Error
-              queue.Enqueue(invoiceId);
-              InvoiceStatusSaverErrorEventArgs eventArgs = new InvoiceStatusSaverErrorEventArgs(invoiceId, ex.Message);
-              onError(eventArgs);
+                lock (_queue)
+                {
+                    if (_queue.Count > 0)
+                    {
+                        var invoiceId = _queue.Dequeue();
+
+                        try
+                        {
+                            var request = new SetLabelPrintedRequestType
+                            {
+                                labelId = invoiceId,
+                                createNewBatch = false,
+                                batchId = BatchId,
+                                printStationId = Settings.Default.PrintStationId
+                            };
+
+                            var response = _client.setLabelPrinted(request);
+                            if (response.status != 0) throw new Exception(response.message);
+
+                            // Save
+                            var eventArgs = new InvoiceStatusSaverSaveEventArgs(invoiceId);
+                            onSave(eventArgs);
+                            Log.getLogger().Debug($"StatusSaver: {invoiceId.ToString()} status saved");
+                        }
+                        catch (Exception ex)
+                        {
+                            // Error
+                            _queue.Enqueue(invoiceId);
+                            var eventArgs = new InvoiceStatusSaverErrorEventArgs(invoiceId, ex.Message);
+                            onError(eventArgs);
+                        }
+                    }
+                }
+
+                // all statuses must be saved
+                lock (_queue)
+                {
+                    if (bw.CancellationPending && _queue.Count == 0)
+                    {
+                        e.Cancel = true;
+                        break;
+                    }
+                }
+
+                // check for complete
+                lock (_queue)
+                {
+                    if (_queue.Count == 0 && _printer.IsCompleted)
+                    {
+                        onComplete(new InvoiceStatusSaverCompleteEventArgs());
+                        break;
+                    }
+                }
+
+                Thread.Sleep(100);
             }
-          }
+
+            _resetEvent.Set();
+
+            Log.getLogger().Info("StatusSaver thread stopped");
         }
-        
-        // all statuses must be saved
-        lock (queue)
+
+        private void printer_Print(object sender, PrinterPrintEventArgs e)
         {
-          if (bw.CancellationPending && queue.Count == 0)
-          {
-            e.Cancel = true;
-            break;
-          }
+            lock (_queue)
+            {
+                _queue.Enqueue(e.PackageId);
+            }
         }
 
-        // check for complete
-        lock (queue)
+        public event InvoiceStatusSaverSaveEventHandler Save;
+
+        private void onSave(InvoiceStatusSaverSaveEventArgs e)
         {
-          if (queue.Count == 0 && printer.IsCompleted)
-          {
-            onComplete(new InvoiceStatusSaverCompleteEventArgs());
-            break;
-          }
+            Save?.Invoke(this, e);
         }
 
-        Thread.Sleep(100);
-      }
+        public event InvoiceStatusSaverErrorEventHandler Error;
 
-      resetEvent.Set();
+        private void onError(InvoiceStatusSaverErrorEventArgs e)
+        {
+            Error?.Invoke(this, e);
+        }
 
-      Log.getLogger().Info(String.Format("StatusSaver thread stopped"));
+        public event InvoiceStatusSaverCompleteEventHandler Complete;
+
+        private void onComplete(InvoiceStatusSaverCompleteEventArgs e)
+        {
+            Complete?.Invoke(this, e);
+        }
+
+        public void cleanUp()
+        {
+            lock (_queue)
+            {
+                _queue.Clear();
+            }
+        }
     }
-
-    void printer_Print(object sender, PrinterPrintEventArgs e)
-    {
-      lock (queue)
-      {
-        queue.Enqueue(e.PackageId);
-      }
-    }
-
-    public event InvoiceStatusSaverSaveEventHandler Save;
-
-    private void onSave(InvoiceStatusSaverSaveEventArgs e)
-    {
-      if (Save != null)
-        Save(this, e);
-    }
-
-    public event InvoiceStatusSaverErrorEventHandler Error;
-
-    private void onError(InvoiceStatusSaverErrorEventArgs e)
-    {
-      if (Error != null)
-        Error(this, e);
-    }
-
-    public event InvoiceStatusSaverCompleteEventHandler Complete;
-
-    private void onComplete(InvoiceStatusSaverCompleteEventArgs e)
-    {
-      if (Complete != null)
-        Complete(this, e);
-    }
-
-    public void cleanUp()
-    {
-      lock (queue)
-      {
-        queue.Clear();
-      }
-    }
-
-  }
 }

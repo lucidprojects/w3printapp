@@ -1,267 +1,257 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PrintInvoice
 {
-  using UnshipPackageList = List<UnshipPackageWrapper>;
-
-  public class UnshipPackageWrapper : PackageWrapper
-  {
-    public enum PackageStateType { SHIPPED, UNSHIPPED, ERROR };
-
-    // private datafields
-    private PackageStateType state;
-
-    public UnshipPackageWrapper(int aPackageId) : base(aPackageId)
+    public class UnshipPackageWrapper : PackageWrapper
     {
-    }
-
-    // public properties
-    public PackageStateType State
-    {
-      get { return state; }
-      set { state = value; }
-    }
-  }
-
-  public class Unship : PackageStorage<UnshipPackageWrapper>
-  {
-    public const int PACKAGE_ID_COLUMN_INDEX = 0;
-
-    // private datafields
-    private LabelService client;
-    private Config config;
-
-    public Unship(LabelService aClient, Config aConfig) : base()
-    {
-      client = aClient;
-      config = aConfig;
-    }
-
-    public void addSingle(string[] aTrackingNumberList)
-    {
-      // get package data from service
-      GetPackageDataRequestType request = new GetPackageDataRequestType();
-      request.singleDataQuery = config.UnshipSinglePackageDataQuery;
-      request.singleTrackingNumberList = aTrackingNumberList;
-      GetPackageDataResponseType response = client.getPackageData(request);
-      if (response.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
-      else 
-      {
-        if (fieldMetadata == null)
+        public enum PackageStateType
         {
-          fieldMetadata = response.meta;
+            SHIPPED,
+            UNSHIPPED,
+            ERROR
         }
 
-        if (response.packageDataList != null)
+        // private datafields
+
+        public UnshipPackageWrapper(int aPackageId) : base(aPackageId)
         {
-          foreach (PackageDataListItemType item in response.packageDataList)
-          {
-            UnshipPackageWrapper package = new UnshipPackageWrapper(PackageWrapper.NULL_PACKAGE_ID);
-            package.TrackingNumber = item.trackingNumber;
-            switch (item.status)
-            { 
-              case 0:
-                package.PackageId = Int32.Parse(item.fieldValueList[PACKAGE_ID_COLUMN_INDEX]);
-                package.State = UnshipPackageWrapper.PackageStateType.SHIPPED;
-                package.FieldValueList = item.fieldValueList;
-                break;
-
-              case 1:
-                package.State = UnshipPackageWrapper.PackageStateType.ERROR;
-                package.ErrorText = "Package record not found";
-                package.FieldValueList = item.fieldValueList;
-                break;
-            }
-            add(package);
-          }
-
-          onUpdateList(new EventArgs());
         }
-      }
+
+        // public properties
+        public PackageStateType State { get; set; }
     }
 
-    public void addBatch(string[] aTrackingNumberList)
+    public class Unship : PackageStorage<UnshipPackageWrapper>
     {
-      // get package data from service
-      GetPackageDataRequestType request = new GetPackageDataRequestType();
-      request.singleDataQuery = config.UnshipSinglePackageDataQuery; // need for checking if package record exists
-      request.batchDataQuery = config.UnshipBatchPackageDataQuery;
-      request.batchTrackingNumberList = aTrackingNumberList;
-      GetPackageDataResponseType response = client.getPackageData(request);
-      if (response.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
-      else
-      {
-        if (fieldMetadata == null)
+        public const int PackageIdColumnIndex = 0;
+
+        // private datafields
+        private readonly LabelService _client;
+        private readonly Config _config;
+
+        public Unship(LabelService aClient, Config aConfig)
         {
-          fieldMetadata = response.meta;
+            _client = aClient;
+            _config = aConfig;
         }
 
-        if (response.packageDataList != null)
+        public void addSingle(string[] aTrackingNumberList)
         {
-          foreach (PackageDataListItemType item in response.packageDataList)
-          {
-            UnshipPackageWrapper package = new UnshipPackageWrapper(PackageWrapper.NULL_PACKAGE_ID);
-            package.TrackingNumber = item.trackingNumber;
-            switch (item.status)
+            // get package data from service
+            var request = new GetPackageDataRequestType
             {
-              case 0:
-                package.PackageId = Int32.Parse(item.fieldValueList[PACKAGE_ID_COLUMN_INDEX]);
-                package.State = UnshipPackageWrapper.PackageStateType.SHIPPED;
-                package.FieldValueList = item.fieldValueList;
-                break;
+                singleDataQuery = _config.UnshipSinglePackageDataQuery,
+                singleTrackingNumberList = aTrackingNumberList
+            };
+            var response = _client.getPackageData(request);
+            if (response.status != 0)
+                throw new Exception(
+                    $"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
 
-              case 1:
-                package.State = UnshipPackageWrapper.PackageStateType.ERROR;
-                package.ErrorText = "Package record not found";
-                package.FieldValueList = item.fieldValueList;
-                break;
+            if (_fieldMetadata == null) _fieldMetadata = response.meta;
+
+            if (response.packageDataList != null)
+            {
+                foreach (var item in response.packageDataList)
+                {
+                    var package = new UnshipPackageWrapper(PackageWrapper.NullPackageId)
+                    {
+                        TrackingNumber = item.trackingNumber
+                    };
+
+                    switch (item.status)
+                    {
+                        case 0:
+                            package.PackageId = int.Parse(item.fieldValueList[PackageIdColumnIndex]);
+                            package.State = UnshipPackageWrapper.PackageStateType.SHIPPED;
+                            package.FieldValueList = item.fieldValueList;
+                            break;
+
+                        case 1:
+                            package.State = UnshipPackageWrapper.PackageStateType.ERROR;
+                            package.ErrorText = "Package record not found";
+                            package.FieldValueList = item.fieldValueList;
+                            break;
+                    }
+
+                    add(package);
+                }
+
+                onUpdateList(EventArgs.Empty);
             }
-            add(package);
-          }
-
-          onUpdateList(new EventArgs());
         }
-      }
-    }
 
-    public void unship(out int aSuccess, out int aFail)
-    {
-      aSuccess = 0;
-      aFail = 0;
-
-      int success;
-      int fail;
-
-      List<UnshipRequestItemType> list = new List<UnshipRequestItemType>();
-      foreach (UnshipPackageWrapper package in packageList)
-      {
-        if (package.State != UnshipPackageWrapper.PackageStateType.ERROR && package.State != UnshipPackageWrapper.PackageStateType.UNSHIPPED)
+        public void addBatch(string[] aTrackingNumberList)
         {
-          UnshipRequestItemType item = new UnshipRequestItemType();
-          item.trackingNumber = package.TrackingNumber;
-          item.packageId = package.PackageId;
-          list.Add(item);
+            // get package data from service
+            var request = new GetPackageDataRequestType
+            {
+                singleDataQuery = _config.UnshipSinglePackageDataQuery, // need for checking if package record exists
+                batchDataQuery = _config.UnshipBatchPackageDataQuery,
+                batchTrackingNumberList = aTrackingNumberList
+            };
+            var response = _client.getPackageData(request);
+            if (response.status != 0)
+                throw new Exception(
+                    $"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+
+            if (_fieldMetadata == null) _fieldMetadata = response.meta;
+
+            if (response.packageDataList != null)
+            {
+                foreach (var item in response.packageDataList)
+                {
+                    var package = new UnshipPackageWrapper(PackageWrapper.NullPackageId)
+                    {
+                        TrackingNumber = item.trackingNumber
+                    };
+
+                    switch (item.status)
+                    {
+                        case 0:
+                            package.PackageId = int.Parse(item.fieldValueList[PackageIdColumnIndex]);
+                            package.State = UnshipPackageWrapper.PackageStateType.SHIPPED;
+                            package.FieldValueList = item.fieldValueList;
+                            break;
+
+                        case 1:
+                            package.State = UnshipPackageWrapper.PackageStateType.ERROR;
+                            package.ErrorText = "Package record not found";
+                            package.FieldValueList = item.fieldValueList;
+                            break;
+                    }
+
+                    add(package);
+                }
+
+                onUpdateList(EventArgs.Empty);
+            }
         }
 
-        if (list.Count == 100)
+        public void unship(out int aSuccess, out int aFail)
         {
-          unshipRange(list, out success, out fail);
-          aSuccess += success;
-          aFail += fail;
-          list.Clear();
+            aSuccess = 0;
+            aFail = 0;
+
+            int success;
+            int fail;
+
+            var list = new List<UnshipRequestItemType>();
+
+            foreach (var package in _packageList)
+            {
+                if (package.State != UnshipPackageWrapper.PackageStateType.ERROR && package.State != UnshipPackageWrapper.PackageStateType.UNSHIPPED)
+                {
+                    var item = new UnshipRequestItemType
+                    {
+                        trackingNumber = package.TrackingNumber,
+                        packageId = package.PackageId
+                    };
+
+                    list.Add(item);
+                }
+
+                if (list.Count == 100)
+                {
+                    unshipRange(list, out success, out fail);
+                    aSuccess += success;
+                    aFail += fail;
+                    list.Clear();
+                }
+            }
+
+            if (list.Count > 0)
+            {
+                unshipRange(list, out success, out fail);
+                aSuccess += success;
+                aFail += fail;
+            }
+
+            onUpdateList(EventArgs.Empty);
         }
-      }
 
-      if (list.Count > 0)
-      {
-        unshipRange(list, out success, out fail);
-        aSuccess += success;
-        aFail += fail;
-      }
-
-      onUpdateList(new EventArgs());
-    }
-
-    private void unshipRange(List<UnshipRequestItemType> aList, out int aSuccess, out int aFail)
-    {
-      aSuccess = 0;
-      aFail = 0;
-
-      UnshipRequestType request = new UnshipRequestType();
-
-      request.itemList = aList.ToArray();
-
-      UnshipResponseType response = client.unship(request);
-
-      if (response.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
-      else
-      {
-        foreach (UnshipResultListItem resultItem in response.resultList)
+        private void unshipRange(List<UnshipRequestItemType> aList, out int aSuccess, out int aFail)
         {
-          if (resultItem.isApproved)
-          {
-            packageIdIndex[resultItem.packageId].State = UnshipPackageWrapper.PackageStateType.UNSHIPPED;
-            aSuccess++;
-          }
-          else
-          {
-            packageIdIndex[resultItem.packageId].State = UnshipPackageWrapper.PackageStateType.ERROR;
-            packageIdIndex[resultItem.packageId].ErrorText = resultItem.errorMessage;
-            aFail++;
-          }
+            aSuccess = 0;
+            aFail = 0;
+
+            var request = new UnshipRequestType
+            {
+                itemList = aList.ToArray()
+            };
+
+            var response = _client.unship(request);
+
+            if (response.status != 0)
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+            
+            foreach (var resultItem in response.resultList)
+                if (resultItem.isApproved)
+                {
+                    _packageIdIndex[resultItem.packageId].State = UnshipPackageWrapper.PackageStateType.UNSHIPPED;
+                    aSuccess++;
+                }
+                else
+                {
+                    _packageIdIndex[resultItem.packageId].State = UnshipPackageWrapper.PackageStateType.ERROR;
+                    _packageIdIndex[resultItem.packageId].ErrorText = resultItem.errorMessage;
+                    aFail++;
+                }
         }
 
-      }
-    }
-
-    new public void remove(List<UnshipPackageWrapper> aList)
-    {
-      base.remove(aList);
-      onUpdateList(new EventArgs());
-    }
-
-    new public void clear()
-    {
-      base.clear();
-      onUpdateList(new EventArgs());
-    }
-
-    public int addBatchById(int aBatchId)
-    {
-      RunSqlQueryRequestType request = new RunSqlQueryRequestType();
-      request.query = config.UnshipBatchPackageDataQuery;
-      request.clientVersion = Routines.getVersion();
-      request.parameters = new string[1];
-      request.parameters[0] = aBatchId.ToString();
-
-      RunSqlQueryResponseType response = client.runSqlQuery(request);
-
-      if (response.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
-      else
-      {
-        if (fieldMetadata == null)
+        public new void remove(List<UnshipPackageWrapper> aList)
         {
-          fieldMetadata = new DatabaseFieldMetadataType[response.meta.Length - 1];
-          Array.Copy(response.meta, 1, fieldMetadata, 0, fieldMetadata.Length);
+            base.remove(aList);
+            onUpdateList(EventArgs.Empty);
         }
 
-        if (response.rows != null)
+        public new void clear()
         {
-          foreach (RowType item in response.rows)
-          {
-            UnshipPackageWrapper package = new UnshipPackageWrapper(Int32.Parse(item.columns[1]));
-            package.TrackingNumber = item.columns[0];
-            package.FieldValueList = new string[item.columns.Length - 1];
-            Array.Copy(item.columns, 1, package.FieldValueList, 0, package.FieldValueList.Length);
-            add(package);
-          }
-
-          onUpdateList(new EventArgs());
+            base.clear();
+            onUpdateList(EventArgs.Empty);
         }
-      }
 
-      if (response.rows != null && response.rows.Length > 0)
-      {
-        return response.rows.Length;
-      }
-      else
-      {
-        return 0;
-      }
+        public int addBatchById(int aBatchId)
+        {
+            var request = new RunSqlQueryRequestType
+            {
+                query = _config.UnshipBatchPackageDataQuery,
+                clientVersion = Routines.getVersion(),
+                parameters = new string[1]
+            };
+            
+            request.parameters[0] = aBatchId.ToString();
+
+            var response = _client.runSqlQuery(request);
+
+            if (response.status != 0)
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+
+            if (_fieldMetadata == null)
+            {
+                _fieldMetadata = new DatabaseFieldMetadataType[response.meta.Length - 1];
+                Array.Copy(response.meta, 1, _fieldMetadata, 0, _fieldMetadata.Length);
+            }
+
+            if (response.rows != null)
+            {
+                foreach (var item in response.rows)
+                {
+                    var package = new UnshipPackageWrapper(int.Parse(item.columns[1]))
+                    {
+                        TrackingNumber = item.columns[0],
+                        FieldValueList = new string[item.columns.Length - 1]
+                    };
+
+                    Array.Copy(item.columns, 1, package.FieldValueList, 0, package.FieldValueList.Length);
+                    add(package);
+                }
+
+                onUpdateList(EventArgs.Empty);
+            }
+
+            return response.rows != null && response.rows.Length > 0 ? response.rows.Length : 0;
+        }
     }
-  }
 }

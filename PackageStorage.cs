@@ -1,158 +1,120 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Globalization;
+using System.Linq;
 
 namespace PrintInvoice
 {
-  // events delegates
+    // events delegates
 
-  // UpdateList
-  public delegate void PackageStorageUpdateListEventHandler(object sender, EventArgs e);
+    // UpdateList
+    public delegate void PackageStorageUpdateListEventHandler(object sender, EventArgs e);
 
-  public class PackageStorage<T> where T : PackageWrapper
-  {
-    // public properties
-    public List<T> PackageList
+    public class PackageStorage<T> where T : PackageWrapper
     {
-      get { return packageList; }
-    }
+        protected CultureInfo _cultureInfo = new CultureInfo("en-US");
+        protected DatabaseFieldMetadataType[] _fieldMetadata = null;
 
-    public string[] FieldNames
-    {
-      get 
-      {
-        if (fieldMetadata == null)
+        // indexes for fast access
+        protected Dictionary<int, T> _packageIdIndex = new Dictionary<int, T>();
+
+        // data fields
+        protected List<T> _packageList = new List<T>();
+
+        protected Dictionary<string, T> _trackingNumberIndex = new Dictionary<string, T>();
+
+        // public properties
+        public List<T> PackageList => _packageList;
+
+        public string[] FieldNames => _fieldMetadata?.Select(t => t.name).ToArray();
+
+        // public methods
+
+        // get typed field value by value and col
+        public object getTypedFieldValue(string aValue, int aCol)
         {
-          return null;
-        }
-        else
-        {
-          List<string> l = new List<string>();
-          for (int i = 0; i < fieldMetadata.Length; i++)
-          {
-            l.Add(fieldMetadata[i].name);
-          }
-          return l.ToArray();
-        }
-      }
-    }
+            if (aValue.Length == 0)
+                return null;
+            try
+            {
+                switch (_fieldMetadata[aCol].type)
+                {
+                    case "int":
+                        return int.Parse(aValue);
 
-    // public methods
+                    case "real":
+                        return double.Parse(aValue, _cultureInfo);
 
-    // get typed field value by value and col
-    public object getTypedFieldValue(string aValue, int aCol) 
-    {
-      if (aValue.Length == 0)
-      {
-        return null;
-      }
-      else
-      {
-        try
-        {
-          switch (fieldMetadata[aCol].type)
-          {
-            case "int":
-              return Int32.Parse(aValue);
+                    case "datetime":
+                        return DateTime.Parse(aValue, _cultureInfo);
 
-            case "real":
-              return Double.Parse(aValue, cultureInfo);
-
-            case "datetime":
-              return DateTime.Parse(aValue, cultureInfo);
-
-            default: // string
-              return aValue;
-          }
-        }
-        catch (Exception)
-        {
-          return null;
-        }
-      }
-    }
-
-    // get typed field value by row and col
-    public object getTypedFieldValue(int aRow, int aCol)
-    {
-      return getTypedFieldValue(packageList[aRow].FieldValueList[aCol], aCol);
-
-    }
-
-    // get package
-    public T getPackageByPackageId(int aPackageId)
-    { 
-      return packageIdIndex[aPackageId];
-    }
-
-    // add package to list
-    public void add(T aPackage)
-    {
-      if ((aPackage.PackageId != PackageWrapper.NULL_PACKAGE_ID && !packageIdIndex.ContainsKey(aPackage.PackageId))
-          ||
-          (aPackage.TrackingNumber != null && !trackingNumberIndex.ContainsKey(aPackage.TrackingNumber))
-          ||
-          (aPackage.PackageId == PackageWrapper.NULL_PACKAGE_ID && aPackage.TrackingNumber == null))
-      {
-        packageList.Add(aPackage);
-
-        // add to index by package id
-        if (aPackage.PackageId != PackageWrapper.NULL_PACKAGE_ID)
-        {
-          packageIdIndex[aPackage.PackageId] = aPackage;
+                    default: // string
+                        return aValue;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        // add to index by tracking number
-        if (aPackage.TrackingNumber != null)
+        // get typed field value by row and col
+        public object getTypedFieldValue(int aRow, int aCol)
         {
-          trackingNumberIndex[aPackage.TrackingNumber] = aPackage;
+            return getTypedFieldValue(_packageList[aRow].FieldValueList[aCol], aCol);
         }
-      }
-    }
 
-    // remove packages from storage
-    public void remove(List<T> aPackageList)
-    {
-      foreach (T package in aPackageList)
-      {
-        packageList.Remove(package);
-        if (packageIdIndex.ContainsKey(package.PackageId))
+        // get package
+        public T getPackageByPackageId(int aPackageId)
         {
-          packageIdIndex.Remove(package.PackageId);
+            return _packageIdIndex[aPackageId];
         }
-        if (package.TrackingNumber != null && trackingNumberIndex.ContainsKey(package.TrackingNumber))
+
+        // add package to list
+        public void add(T aPackage)
         {
-          trackingNumberIndex.Remove(package.TrackingNumber);
+            if ((aPackage.PackageId != PackageWrapper.NullPackageId && !_packageIdIndex.ContainsKey(aPackage.PackageId)) ||
+                (aPackage.TrackingNumber != null && !_trackingNumberIndex.ContainsKey(aPackage.TrackingNumber)) ||
+                (aPackage.PackageId == PackageWrapper.NullPackageId && aPackage.TrackingNumber == null))
+            {
+                _packageList.Add(aPackage);
+
+                // add to index by package id
+                if (aPackage.PackageId != PackageWrapper.NullPackageId) _packageIdIndex[aPackage.PackageId] = aPackage;
+
+                // add to index by tracking number
+                if (aPackage.TrackingNumber != null) _trackingNumberIndex[aPackage.TrackingNumber] = aPackage;
+            }
         }
-      }
+
+        // remove packages from storage
+        public void remove(List<T> aPackageList)
+        {
+            foreach (var package in aPackageList)
+            {
+                _packageList.Remove(package);
+                if (_packageIdIndex.ContainsKey(package.PackageId)) _packageIdIndex.Remove(package.PackageId);
+                if (package.TrackingNumber != null && _trackingNumberIndex.ContainsKey(package.TrackingNumber))
+                    _trackingNumberIndex.Remove(package.TrackingNumber);
+            }
+        }
+
+        // clear storage
+        public void clear()
+        {
+            _packageIdIndex.Clear();
+            _trackingNumberIndex.Clear();
+            _packageList.Clear();
+        }
+
+        // public events
+        public event PackageStorageUpdateListEventHandler UpdateList;
+
+
+        // events callers
+        protected void onUpdateList(EventArgs e)
+        {
+            UpdateList?.Invoke(this, e);
+        }
     }
-
-    // clear storage
-    public void clear()
-    {
-      packageIdIndex.Clear();
-      trackingNumberIndex.Clear();
-      packageList.Clear();
-    }
-
-    // public events
-    public event PackageStorageUpdateListEventHandler UpdateList;
-
-    // data fields
-    protected List<T> packageList = new List<T>();
-    protected DatabaseFieldMetadataType[] fieldMetadata = null;
-    protected System.Globalization.CultureInfo cultureInfo = new System.Globalization.CultureInfo("en-US"); 
-
-    // indexes for fast access
-    protected Dictionary<int, T> packageIdIndex = new Dictionary<int, T>();
-    protected Dictionary<string, T> trackingNumberIndex = new Dictionary<string, T>();
-
-
-    // events callers
-    protected void onUpdateList(EventArgs e)
-    {
-      if (UpdateList != null)
-        UpdateList(this, e);
-    }
-  }
 }

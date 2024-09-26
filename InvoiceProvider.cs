@@ -1,247 +1,206 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using System.Threading;
-using System.Windows.Forms;
+using PrintInvoice.Properties;
 
 namespace PrintInvoice
 {
-  public class InvoiceProviderLoadEventArgs : EventArgs
-  { 
-    private PrintPackageWrapper printInvoiceWrapper;
-
-    public InvoiceProviderLoadEventArgs(PrintPackageWrapper aPrintInvoiceWrapper)
+    public class InvoiceProviderLoadEventArgs : EventArgs
     {
-      printInvoiceWrapper = aPrintInvoiceWrapper;
-    }
-
-    public PrintPackageWrapper PrintInvoiceWrapper
-    {
-      get { return printInvoiceWrapper; }
-    }
-  }
-
-  public delegate void InvoiceProviderLoadEventHandler(object sender, InvoiceProviderLoadEventArgs e);
-
-  public class InvoiceProviderErrorEventArgs : EventArgs
-  {
-    private int packageId;
-    private string message;
-
-    public InvoiceProviderErrorEventArgs(int aInvoiceId, string aMessage)
-    {
-      packageId = aInvoiceId;
-      message = aMessage;
-    }
-
-    public int InvoiceId
-    {
-      get { return packageId; }
-    }
-
-    public string Message
-    {
-      get { return message; }
-    }
-  }
-
-  public delegate void InvoiceProviderErrorEventHandler(object sender, InvoiceProviderErrorEventArgs e);
-
-  public class InvoiceProvider
-  {
-    private List<PrintPackageWrapper> list = new List<PrintPackageWrapper>();
-    private Queue<PrintPackageWrapper> loadCache = new Queue<PrintPackageWrapper>(Properties.Settings.Default.InvoiceLoaderCacheSize);
-    private LabelService client = null;
-    private BackgroundWorker bwLoad;
-
-    private AutoResetEvent resetEvent = new AutoResetEvent(false);
-    private bool completed;
-
-    private bool lockPackages;
-
-    public InvoiceProvider(LabelService aClient)
-    {
-      client = aClient;
-
-      bwLoad = new BackgroundWorker();
-      bwLoad.WorkerSupportsCancellation = true;
-      bwLoad.DoWork += new DoWorkEventHandler(bwLoad_DoWork);
-    }
-
-    public bool LockPackages
-    {
-      set { lockPackages = value; }
-    }
-
-    void bwLoad_DoWork(object sender, DoWorkEventArgs e)
-    {
-      Log.getLogger().Info(String.Format("InvoiceProvider thread started"));
-
-      BackgroundWorker bw = sender as BackgroundWorker;
-
-      while (list.Count > 0)
-      {
-        if (loadCache.Count < Properties.Settings.Default.InvoiceLoaderCacheSize)
+        public InvoiceProviderLoadEventArgs(PrintPackageWrapper aPrintInvoiceWrapper)
         {
-
-          PrintPackageWrapper package = list[0];
-          GetLabelRequestType request = new GetLabelRequestType();
-          request.packageId = package.PackageId;
-          request.@lock = lockPackages;
-          request.isReprint = isReprint;
-          request.isPackJacket = package.isPackJacket;
-
-          if (!isReprint)
-          {
-            request.isPrintReprint = package.IsPrinted;
-          }
-
-
-          try
-          {
-            GetLabelResponseType response = client.getLabel(request);
-
-            if (response.status != 0)
-            {
-              throw new Exception(response.message);
-            }
-
-            if (!lockPackages)
-            {
-              package.State = PrintPackageWrapper.LOADED;
-            }
-            else
-            {
-              if (response.locked)
-              {
-                package.State = PrintPackageWrapper.LOADED;
-              }
-              else
-              {
-                package.State = PrintPackageWrapper.LOCKED; // locked by another process
-              }
-            }
-
-            if (response.base64data != null)
-            {
-              package.Pdf = Convert.FromBase64String(response.base64data);
-            }
-
-            // Load event
-            onLoad(new InvoiceProviderLoadEventArgs(package));
-
-            // enqueue to cache
-            if (package.IsLoaded)
-            {
-              loadCache.Enqueue(package);
-            }
-
-            Log.getLogger().Debug(String.Format("InvoiceProvider: {0} enqueued to cache", package.PackageId.ToString()));
-          }
-          catch (Exception ex)
-          {
-            // Error event
-            onError(new InvoiceProviderErrorEventArgs(package.PackageId, ex.Message));
-          }
-
-          list.RemoveAt(0);
-
-        } // if loadCache < max
-
-        if (bw.CancellationPending)
-        {
-          e.Cancel = true;
-          break;
+            PrintInvoiceWrapper = aPrintInvoiceWrapper;
         }
 
-        Thread.Sleep(100);
-      } // while idList.Count > 0
-
-      if (!e.Cancel)
-      {
-        completed = true;
-      }
-
-      resetEvent.Set();
-
-      Log.getLogger().Info(String.Format("InvoiceProvider thread stopped"));
+        public PrintPackageWrapper PrintInvoiceWrapper { get; }
     }
 
-    public void run()
+    public delegate void InvoiceProviderLoadEventHandler(object sender, InvoiceProviderLoadEventArgs e);
+
+    public class InvoiceProviderErrorEventArgs : EventArgs
     {
-      resetEvent.Reset();
-      bwLoad.RunWorkerAsync();
-    }
-
-    public void stop()
-    {
-      bwLoad.CancelAsync();
-      resetEvent.WaitOne();
-    }
-
-    public event InvoiceProviderLoadEventHandler Load;
-
-    private void onLoad(InvoiceProviderLoadEventArgs e)
-    {
-      if (Load != null)
-        Load(this, e);
-    }
-
-    public event InvoiceProviderErrorEventHandler Error;
-
-    private void onError(InvoiceProviderErrorEventArgs e)
-    {
-      if (Error != null)
-        Error(this, e);
-    }
-
-    public bool IsCompleted
-    {
-      get { return completed && (loadCache.Count == 0); }
-    }
-
-    private bool isReprint;
-    public bool IsReprint
-    {
-      set { isReprint = value; }
-    }
-
-    public void setList(List<PrintPackageWrapper> aList)
-    {
-      list.Clear();
-
-      foreach (PrintPackageWrapper package in aList)
-      {
-        list.Add(package);
-      }
-
-      completed = false;
-    }
-
-    public PrintPackageWrapper getInvoice()
-    {
-      lock (loadCache)
-      {
-        if (loadCache.Count > 0)
+        public InvoiceProviderErrorEventArgs(int aInvoiceId, string aMessage)
         {
-          PrintPackageWrapper package = loadCache.Dequeue();
-          Log.getLogger().Debug(String.Format("InvoiceProvider.getInvoice(): {0} returned", package.PackageId.ToString()));
-          return package;
+            InvoiceId = aInvoiceId;
+            Message = aMessage;
         }
-        else
-        {
-          return null;
-        }
-      }
+
+        public int InvoiceId { get; }
+
+        public string Message { get; }
     }
 
-    public void cleanUp()
+    public delegate void InvoiceProviderErrorEventHandler(object sender, InvoiceProviderErrorEventArgs e);
+
+    public class InvoiceProvider
     {
-      lock (loadCache)
-      {
-        loadCache.Clear(); 
-      }
+        private readonly BackgroundWorker _bwLoad;
+        private readonly LabelService _client;
+        private readonly List<PrintPackageWrapper> _list = new List<PrintPackageWrapper>();
+
+        private readonly Queue<PrintPackageWrapper> _loadCache =
+            new Queue<PrintPackageWrapper>(Settings.Default.InvoiceLoaderCacheSize);
+
+        private readonly AutoResetEvent _resetEvent = new AutoResetEvent(false);
+        private bool _completed;
+
+        private bool _isReprint;
+
+        private bool _lockPackages;
+
+        public InvoiceProvider(LabelService aClient)
+        {
+            _client = aClient;
+
+            _bwLoad = new BackgroundWorker();
+            _bwLoad.WorkerSupportsCancellation = true;
+            _bwLoad.DoWork += bwLoad_DoWork;
+        }
+
+        public bool LockPackages
+        {
+            set => _lockPackages = value;
+        }
+
+        public bool IsCompleted => _completed && _loadCache.Count == 0;
+
+        public bool IsReprint
+        {
+            set => _isReprint = value;
+        }
+
+        private void bwLoad_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Log.getLogger().Info("InvoiceProvider thread started");
+
+            var bw = sender as BackgroundWorker;
+
+            while (_list.Count > 0)
+            {
+                if (_loadCache.Count < Settings.Default.InvoiceLoaderCacheSize)
+                {
+                    var package = _list[0];
+                    var request = new GetLabelRequestType
+                    {
+                        packageId = package.PackageId,
+                        @lock = _lockPackages,
+                        isReprint = _isReprint,
+                        isPackJacket = package._isPackJacket
+                    };
+
+                    if (!_isReprint) request.isPrintReprint = package.IsPrinted;
+
+
+                    try
+                    {
+                        var response = _client.getLabel(request);
+
+                        if (response.status != 0) throw new Exception(response.message);
+
+                        if (!_lockPackages)
+                        {
+                            package.State = PrintPackageWrapper.Loaded;
+                        }
+                        else
+                        {
+                            if (response.locked)
+                                package.State = PrintPackageWrapper.Loaded;
+                            else
+                                package.State = PrintPackageWrapper.Locked; // locked by another process
+                        }
+
+                        if (response.base64data != null) package.Pdf = Convert.FromBase64String(response.base64data);
+
+                        // Load event
+                        onLoad(new InvoiceProviderLoadEventArgs(package));
+
+                        // enqueue to cache
+                        if (package.IsLoaded) _loadCache.Enqueue(package);
+
+                        Log.getLogger().Debug($"InvoiceProvider: {package.PackageId.ToString()} enqueued to cache");
+                    }
+                    catch (Exception ex)
+                    {
+                        // Error event
+                        onError(new InvoiceProviderErrorEventArgs(package.PackageId, ex.Message));
+                    }
+
+                    _list.RemoveAt(0);
+                } // if loadCache < max
+
+                if (bw.CancellationPending)
+                {
+                    e.Cancel = true;
+                    break;
+                }
+
+                Thread.Sleep(100);
+            } // while idList.Count > 0
+
+            if (!e.Cancel) _completed = true;
+
+            _resetEvent.Set();
+
+            Log.getLogger().Info("InvoiceProvider thread stopped");
+        }
+
+        public void run()
+        {
+            _resetEvent.Reset();
+            _bwLoad.RunWorkerAsync();
+        }
+
+        public void stop()
+        {
+            _bwLoad.CancelAsync();
+            _resetEvent.WaitOne();
+        }
+
+        public event InvoiceProviderLoadEventHandler Load;
+
+        private void onLoad(InvoiceProviderLoadEventArgs e)
+        {
+            Load?.Invoke(this, e);
+        }
+
+        public event InvoiceProviderErrorEventHandler Error;
+
+        private void onError(InvoiceProviderErrorEventArgs e)
+        {
+            Error?.Invoke(this, e);
+        }
+
+        public void setList(List<PrintPackageWrapper> aList)
+        {
+            _list.Clear();
+
+            foreach (var package in aList) _list.Add(package);
+
+            _completed = false;
+        }
+
+        public PrintPackageWrapper getInvoice()
+        {
+            lock (_loadCache)
+            {
+                if (_loadCache.Count > 0)
+                {
+                    var package = _loadCache.Dequeue();
+                    Log.getLogger().Debug($"InvoiceProvider.getInvoice(): {package.PackageId.ToString()} returned");
+                    return package;
+                }
+
+                return null;
+            }
+        }
+
+        public void cleanUp()
+        {
+            lock (_loadCache)
+            {
+                _loadCache.Clear();
+            }
+        }
     }
-  }
 }

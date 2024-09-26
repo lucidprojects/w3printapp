@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using log4net;
+using log4net.Config;
 
 namespace PrintInvoice
 {
-  class Log
-  {
-    private static log4net.ILog log = null;
+    internal class Log
+    {
+        private static ILog _log;
 
-    public static log4net.ILog getLogger() {
-      if (log == null) {
-        log4net.Config.XmlConfigurator.Configure();
-        log = log4net.LogManager.GetLogger(typeof(Program));        
-      }
+        public static ILog getLogger()
+        {
+            if (_log == null)
+            {
+                XmlConfigurator.Configure();
+                _log = LogManager.GetLogger(typeof(Program));
+            }
 
-      return log;
+            return _log;
+        }
     }
-  }
 }

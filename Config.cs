@@ -3,176 +3,115 @@
  * Works with application configuration (queries, subqueries, settings).
  */
 
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using System.Windows.Forms;
 using System.IO;
 using System.Net;
+using System.Windows.Forms;
+using System.Xml;
+using PrintInvoice.Properties;
 
 namespace PrintInvoice
 {
-  /*
-   * Class Query
-   * Works with query data.
-   */
-  public class Query
-  {
-    private string title;
-    private string path;
-    private List<Query> subqueryList = new List<Query>();
-
-    public Query(string aTitle, string aPath)
+    /*
+     * Class Query
+     * Works with query data.
+     */
+    public class Query
     {
-      title = aTitle;
-      path = aPath;
-    }
+        private readonly string _path;
 
-    public string Title
-    {
-      get { return title; }
-    }
-
-    public string Text
-    {
-      get 
-      {
-        return (System.IO.File.ReadAllText(path));
-      }
-    }
-
-    public void addSubquery(Query subquery)
-    {
-      subqueryList.Add(subquery);
-    }
-
-    public List<Query> SubqueryList
-    {
-      get { return subqueryList; }
-    }
-  }
-
-  public class Config
-  {
-    private List<Query> queryList = new List<Query>();
-    private Properties.Settings settings = new Properties.Settings();
-
-    public Config()
-    {
-        System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-      loadQueries();
-    }
-
-    public List<Query> QueryList
-    {
-      get { return queryList; }
-    }
-
-    private void loadQueries()
-    {
-      XmlReaderSettings readerSettings = new XmlReaderSettings();
-      readerSettings.ConformanceLevel = ConformanceLevel.Fragment;
-      readerSettings.IgnoreWhitespace = true;
-      readerSettings.IgnoreComments = true;
-      XmlReader reader = XmlReader.Create(Application.StartupPath + "\\queries.xml", readerSettings);
-
-      //reader.MoveToContent();
-
-      Query query = null;
-      string queriesDir = "";
-      string subqueriesDir = "";
-      while (reader.Read())
-      {
-        switch (reader.NodeType)
+        public Query(string aTitle, string aPath)
         {
-          case XmlNodeType.Element:
-            if (reader.Name == "queries")
-            {
-              queriesDir = reader.GetAttribute("dir");
-            }
-
-            if (reader.Name == "query")
-            {
-              query = new Query(reader.GetAttribute("title"), Application.StartupPath + (queriesDir.Length == 0 ? "" : "\\") + queriesDir + "\\" + reader.GetAttribute("file"));
-            }
-
-            if (reader.Name == "subqueries")
-            {
-              subqueriesDir = reader.GetAttribute("dir");
-            }
-
-            if (reader.Name == "subquery")
-            {
-              query.addSubquery(new Query(reader.GetAttribute("title"), Application.StartupPath + (queriesDir.Length == 0 ? "" : "\\") + queriesDir + (subqueriesDir.Length == 0 ? "" : "\\") + subqueriesDir + "\\" + reader.GetAttribute("file")));
-            }
-            break;
-
-          case XmlNodeType.EndElement:
-            if (reader.Name == "query")
-            {
-              queryList.Add(query);
-            }
-            break;
+            Title = aTitle;
+            _path = aPath;
         }
-      }
+
+        public string Title { get; }
+
+        public string Text => File.ReadAllText(_path);
+
+        public List<Query> SubqueryList { get; } = new List<Query>();
+
+        public void addSubquery(Query subquery)
+        {
+            SubqueryList.Add(subquery);
+        }
     }
 
-    public string LabelServiceUrl
+    public class Config
     {
-      get { return settings.LabelServiceUrl; }
-    }
+        private readonly Settings _settings = new Settings();
 
-    public string UnshipSinglePackageDataQuery
-    {
-      get {
-        return (File.ReadAllText(Application.StartupPath + "\\" + settings.UnshipSinglePackageDataQuery));       
-      }
-    }
+        public Config()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+            loadQueries();
+        }
 
-    public string UnshipBatchPackageDataQuery
-    {
-      get
-      {
-        return (File.ReadAllText(Application.StartupPath + "\\" + settings.UnshipBatchPackageDataQuery));
-      }
-    }
+        public List<Query> QueryList { get; } = new List<Query>();
 
-    public string UnshippedQuery
-    {
-      get { return (File.ReadAllText(Application.StartupPath + "\\" + settings.UnshippedQuery)); }
-    }
+        public string LabelServiceUrl => _settings.LabelServiceUrl;
 
-    public string ReprintSinglePackageDataQuery
-    {
-      get
-      {
-        return (File.ReadAllText(Application.StartupPath + "\\" + settings.ReprintSinglePackageDataQuery));
-      }
-    }
+        public string UnshipSinglePackageDataQuery =>
+            File.ReadAllText(Application.StartupPath + "\\" + _settings.UnshipSinglePackageDataQuery);
 
-    public string ReprintBatchPackageDataQuery
-    {
-      get
-      {
-        return (File.ReadAllText(Application.StartupPath + "\\" + settings.ReprintBatchPackageDataQuery));
-      }
-    }
+        public string UnshipBatchPackageDataQuery =>
+            File.ReadAllText(Application.StartupPath + "\\" + _settings.UnshipBatchPackageDataQuery);
 
-    public string RepairQuery
-    {
-      get
-      {
-        return (File.ReadAllText(Application.StartupPath + "\\" + settings.RepairQuery));
-      }
-    }
+        public string UnshippedQuery => File.ReadAllText(Application.StartupPath + "\\" + _settings.UnshippedQuery);
 
-    public string LastBatchesQuery
-    {
-      get
-      {
-        return (File.ReadAllText(Application.StartupPath + "\\" + settings.LastBatchesQuery));
-      }
+        public string ReprintSinglePackageDataQuery =>
+            File.ReadAllText(Application.StartupPath + "\\" + _settings.ReprintSinglePackageDataQuery);
+
+        public string ReprintBatchPackageDataQuery =>
+            File.ReadAllText(Application.StartupPath + "\\" + _settings.ReprintBatchPackageDataQuery);
+
+        public string RepairQuery => File.ReadAllText(Application.StartupPath + "\\" + _settings.RepairQuery);
+
+        public string LastBatchesQuery => File.ReadAllText(Application.StartupPath + "\\" + _settings.LastBatchesQuery);
+
+        private void loadQueries()
+        {
+            var readerSettings = new XmlReaderSettings
+            {
+                ConformanceLevel = ConformanceLevel.Fragment,
+                IgnoreWhitespace = true,
+                IgnoreComments = true
+            };
+            var reader = XmlReader.Create(Application.StartupPath + "\\queries.xml", readerSettings);
+
+            //reader.MoveToContent();
+
+            Query query = null;
+            var queriesDir = "";
+            var subqueriesDir = "";
+
+            while (reader.Read())
+            {
+                switch (reader.NodeType)
+                {
+                    case XmlNodeType.Element:
+                        if (reader.Name == "queries") queriesDir = reader.GetAttribute("dir");
+
+                        if (reader.Name == "query")
+                            query = new Query(reader.GetAttribute("title"),
+                                Application.StartupPath + (queriesDir.Length == 0 ? "" : "\\") + queriesDir + "\\" +
+                                reader.GetAttribute("file"));
+
+                        if (reader.Name == "subqueries") subqueriesDir = reader.GetAttribute("dir");
+
+                        if (reader.Name == "subquery")
+                            query.addSubquery(new Query(reader.GetAttribute("title"),
+                                Application.StartupPath + (queriesDir.Length == 0 ? "" : "\\") + queriesDir +
+                                (subqueriesDir.Length == 0 ? "" : "\\") + subqueriesDir + "\\" +
+                                reader.GetAttribute("file")));
+                        break;
+
+                    case XmlNodeType.EndElement:
+                        if (reader.Name == "query") QueryList.Add(query);
+                        break;
+                }
+            }
+        }
     }
-  }
 }

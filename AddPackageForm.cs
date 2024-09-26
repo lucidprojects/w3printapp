@@ -1,83 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PrintInvoice
 {
-  public partial class AddPackageForm : Form
-  {
-    public enum ResultType { ADD_SINGLE, ADD_BATCH, CANCEL};
-
-    private AddBatchQuestionForm fmUnshipBatchQuestion = null;
-    private ResultType result;
-
-    public AddPackageForm()
+    public partial class AddPackageForm : Form
     {
-      InitializeComponent();
-    }
-
-    public ResultType Result
-    {
-      get { return result; }
-      set { result = value; }
-    }
-
-    private void btAdd_Click(object sender, EventArgs e)
-    {
-      //clear empty lines
-      List<string> lines = new List<string>();
-      for (int i = 0; i < tbInvoiceIdList.Lines.Length; i++)
-      {
-        if (tbInvoiceIdList.Lines[i].Length != 0)
+        public enum ResultType
         {
-          lines.Add(tbInvoiceIdList.Lines[i]);
+            ADD_SINGLE,
+            ADD_BATCH,
+            CANCEL
         }
-      }
-      tbInvoiceIdList.Lines = lines.ToArray();
 
-      if (tbInvoiceIdList.Text.Length == 0)
-      {
-        MessageBox.Show(
-          "Please specify Tracking ID(s).",
-          "Error",
-          MessageBoxButtons.OK,
-          MessageBoxIcon.Error
-          );
-      }
-      else
-      {
-        // create form if not exists
-        if (fmUnshipBatchQuestion == null)
+        private AddBatchQuestionForm _fmUnshipBatchQuestion;
+
+        public AddPackageForm()
         {
-          fmUnshipBatchQuestion = new AddBatchQuestionForm();
+            InitializeComponent();
         }
 
-        fmUnshipBatchQuestion.result = AddBatchQuestionForm.Result.CANCEL;
-        fmUnshipBatchQuestion.ShowDialog();
+        public ResultType Result { get; set; }
 
-        switch (fmUnshipBatchQuestion.result)
-        { 
-          case AddBatchQuestionForm.Result.SINGLE:
-            result = ResultType.ADD_SINGLE;
-            break;
+        private void btAdd_Click(object sender, EventArgs e)
+        {
+            //clear empty lines
+            tbInvoiceIdList.Lines = tbInvoiceIdList.Lines.Where(t => t.Length != 0).ToArray();
 
-          case AddBatchQuestionForm.Result.BATCH:
-            result = ResultType.ADD_BATCH;
-            break;
+            if (tbInvoiceIdList.Text.Length == 0)
+            {
+                MessageBox.Show(@"Please specify Tracking ID(s).", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                // create form if not exists
+                if (_fmUnshipBatchQuestion == null) _fmUnshipBatchQuestion = new AddBatchQuestionForm();
+
+                _fmUnshipBatchQuestion._result = AddBatchQuestionForm.Result.CANCEL;
+                _fmUnshipBatchQuestion.ShowDialog();
+
+                switch (_fmUnshipBatchQuestion._result)
+                {
+                    case AddBatchQuestionForm.Result.SINGLE:
+                        Result = ResultType.ADD_SINGLE;
+                        break;
+
+                    case AddBatchQuestionForm.Result.BATCH:
+                        Result = ResultType.ADD_BATCH;
+                        break;
+                }
+
+                Close();
+            }
         }
 
-        Close();
-      }
+        private void btClose_Click(object sender, EventArgs e)
+        {
+            Result = ResultType.CANCEL;
+            Close();
+        }
     }
-
-    private void btClose_Click(object sender, EventArgs e)
-    {
-      result = ResultType.CANCEL;
-      Close();
-    }
-  }
 }

@@ -1,305 +1,260 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Security;
+using PrintInvoice.Properties;
 
 namespace PrintInvoice
 {
-  using PackageList = List<PrintPackageWrapper>;
+    using PackageList = List<PrintPackageWrapper>;
 
-  public class PrintPackageWrapper : PackageWrapper
-  {
-    public PrintPackageWrapper(int aPackageId)
-      : base(aPackageId)
+    public class PrintPackageWrapper : PackageWrapper
     {
-      State = UNPRINTED;
-    }
+        public const int Unprinted = 0x01;
+        public const int Loaded = 0x02;
+        public const int Printed = 0x04;
+        public const int StatusSaved = 0x08;
+        public const int Error = 0x10;
+        public const int Locked = 0x20;
+        public int _elementBatch;
+        public int _elementBatchCount;
 
-    public const int UNPRINTED    = 0x01;
-    public const int LOADED       = 0x02;
-    public const int PRINTED      = 0x04;
-    public const int STATUS_SAVED = 0x08;
-    public const int ERROR        = 0x10;
-    public const int LOCKED       = 0x20;
+        // Master Pisk List
+        public bool _isFirstBatchPackage;
 
-    private int state;
-    private byte[] pdf;
+        // Pack Jacket
+        public bool _isPackJacket;
+        public int _mplElementBatchCount; // mater picklist element batch count
+        public int _printBatchCount;
 
-    public int State
-    {
-      set 
-      { 
-        if (value == UNPRINTED)
+        // sequence number
+        public int _printBatchId;
+
+        private int _state;
+
+        public PrintPackageWrapper(int aPackageId)
+            : base(aPackageId)
         {
-          state = UNPRINTED;
+            State = Unprinted;
         }
 
-        if (value == LOADED)
+        public int State
         {
-          state = UNPRINTED | LOADED;
-        }
-
-        if (value == PRINTED)
-        {
-          state = LOADED | PRINTED;
-        }
-
-        if (value == STATUS_SAVED)
-        {
-          state = LOADED | PRINTED | STATUS_SAVED;
-        }
-
-        if (value == ERROR)
-        {
-          state = ERROR;
-        }
-
-        if (value == LOCKED)
-        {
-          state = LOCKED;
-        }
-      }
-    }
-
-    public bool IsUnprinted { get { return (state & UNPRINTED) != 0; } }
-    public bool IsLoaded { get { return (state & LOADED) != 0; } }
-    public bool IsPrinted { get { return (state & PRINTED) != 0; } }
-    public bool IsStatusSaved { get { return (state & STATUS_SAVED) != 0; } }
-    public bool IsError { get { return (state & ERROR) != 0; } }
-    public bool IsLocked { get { return (state & LOCKED) != 0; } } // locked by another process
-
-    public byte[] Pdf
-    {
-      get { return pdf; }
-      set { pdf = value; }
-    }
-
-    // sequence number
-    public int printBatchId;
-    public int printBatchCount;
-    public int elementBatch;
-    public int elementBatchCount;
-
-    public string getOrderedElemens() { 
-      return FieldValueList[Properties.Settings.Default.ElementsOrderedFieldIndex];
-    }
-
-    // Master Pisk List
-    public bool isFirstBatchPackage;
-    public int mplElementBatchCount; // mater picklist element batch count
-
-    // Pack Jacket
-    public bool isPackJacket;
-  }
-
-  // Update event delegate
-  public delegate void InvoiceStorageUpdateEventHandler(object sender, EventArgs e);
-
-  // UpdateSubset event delegate
-  public delegate void InvoiceStorageUpdateSubsetEventHandler(object sender, EventArgs e);
-
-  // UpdatePackageState event args
-  public class PrintPackageStorageUpdatePackageStateEventArgs : EventArgs 
-  {
-    private int packageId;
-
-    public PrintPackageStorageUpdatePackageStateEventArgs(int aPackageId)
-    {
-      packageId = aPackageId;
-    }
-
-    public int PackageId
-    {
-      get { return packageId; }
-    }
-	
-  }
-
-  // UpdateInvoiceState event delegate
-  public delegate void PrintPackageStorageUpdatePackageStateEventHandler(object sender, PrintPackageStorageUpdatePackageStateEventArgs e);
-
-
-  class PrintPackageStorage : PackageStorage<PrintPackageWrapper>
-  {
-    // consts
-    public const int PACKAGE_ID_COLUMN_INDEX = 0;
-    public const int INVOICE_NUMBER_COLUMN_INDEX = 1;
-    public const int TRACKING_NUMBER_COLUMN_INDEX = 2;
-
-    private int queryIndex;
-
-    private LabelService labelService;
-    private Config config;
-
-    private PackageList subsetPackageList = new PackageList();
-    private PackageList customPackageList = new PackageList();
-    private PackageList currentSubset = null;
-    private List<string> fieldNames = new List<string>();
-
-    public event InvoiceStorageUpdateEventHandler Update;
-    public event InvoiceStorageUpdateSubsetEventHandler UpdateSubset;
-    public event PrintPackageStorageUpdatePackageStateEventHandler UpdatePackageState;
-    
-    public PrintPackageStorage(Config aConfig, LabelService aLabelService)
-    {
-      config = aConfig;
-      labelService = aLabelService;
-    }
-
-    public void setQuery(int aQueryIndex)
-    {
-      clear();
-      customPackageList.Clear();
-      subsetPackageList.Clear();
-
-      RunSqlQueryRequestType request = new RunSqlQueryRequestType();
-      request.query = SecurityElement.Escape(config.QueryList[aQueryIndex].Text);
-      request.clientVersion = Routines.getVersion();
-      RunSqlQueryResponseType response = labelService.runSqlQuery(request);
-      if (response.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
-
-      if (response.rows != null)
-      {
-        foreach (RowType row in response.rows)
-        {
-          int packageId = Int32.Parse(row.columns[PACKAGE_ID_COLUMN_INDEX]);
-          PrintPackageWrapper package = new PrintPackageWrapper(packageId);
-          // TODO: set tracking number column index in settings
-          package.TrackingNumber = row.columns[TRACKING_NUMBER_COLUMN_INDEX];
-          package.FieldValueList = row.columns;
-          add(package);
-        }
-      }
-
-      fieldMetadata = response.meta;
-
-      onUpdate(new EventArgs());
-
-      queryIndex = aQueryIndex;
-    }
-
-    public void setSubsetAll()
-    {
-      currentSubset = packageList;
-      onUpdateSubset(new EventArgs());
-    }
-
-    public void setSubsetCustom()
-    {
-      currentSubset = customPackageList;
-      onUpdateSubset(new EventArgs());
-    }
-
-    public void setSubset(int aSubqueryIndex)
-    {
-      subsetPackageList.Clear();
-      RunSqlQueryRequestType request = new RunSqlQueryRequestType();
-      request.query = SecurityElement.Escape(config.QueryList[queryIndex].SubqueryList[aSubqueryIndex].Text);
-      request.clientVersion = Routines.getVersion();
-      RunSqlQueryResponseType response = labelService.runSqlQuery(request);
-      if (response.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
-
-      if (response.rows != null)
-      {
-        foreach (RowType responseRow in response.rows)
-        {
-          string invoiceId = responseRow.columns[0];
-          foreach (PrintPackageWrapper invoiceWrapper in packageList)
-          {
-            if (invoiceWrapper.FieldValueList[0] == invoiceId)
+            set
             {
-              subsetPackageList.Add(invoiceWrapper);
-              break;
+                if (value == Unprinted) _state = Unprinted;
+
+                if (value == Loaded) _state = Unprinted | Loaded;
+
+                if (value == Printed) _state = Loaded | Printed;
+
+                if (value == StatusSaved) _state = Loaded | Printed | StatusSaved;
+
+                if (value == Error) _state = Error;
+
+                if (value == Locked) _state = Locked;
             }
-          }
         }
-      }
 
-      currentSubset = subsetPackageList;
-      onUpdateSubset(new EventArgs());
-    }
+        public bool IsUnprinted => (_state & Unprinted) != 0;
+        public bool IsLoaded => (_state & Loaded) != 0;
+        public bool IsPrinted => (_state & Printed) != 0;
+        public bool IsStatusSaved => (_state & StatusSaved) != 0;
+        public bool IsError => (_state & Error) != 0;
+        public bool IsLocked => (_state & Locked) != 0; // locked by another process
 
-    public void addToCustomSubset(List<int> aIdList)
-    {
-      foreach (int id in aIdList)
-      {
-        PrintPackageWrapper invoice = packageIdIndex[id];
-        if (!customPackageList.Contains(invoice))
+        public byte[] Pdf { get; set; }
+
+        public string getOrderedElemens()
         {
-          customPackageList.Add(invoice);
+            return FieldValueList[Settings.Default.ElementsOrderedFieldIndex];
         }
-      }
-      onUpdateSubset(new EventArgs());
     }
 
-    public void removeFromCustomSubset(List<int> aIdList)
+    // Update event delegate
+    public delegate void InvoiceStorageUpdateEventHandler(object sender, EventArgs e);
+
+    // UpdateSubset event delegate
+    public delegate void InvoiceStorageUpdateSubsetEventHandler(object sender, EventArgs e);
+
+    // UpdatePackageState event args
+    public class PrintPackageStorageUpdatePackageStateEventArgs : EventArgs
     {
-      foreach (int id in aIdList)
-      {
-        PrintPackageWrapper invoice = packageIdIndex[id];
-        customPackageList.Remove(invoice);
-      }
-      onUpdateSubset(new EventArgs());
-    }
-
-    public void setPackageState(int aPackageId, int aState, string aErrorText)
-    {
-      PrintPackageWrapper package = getPackageByPackageId(aPackageId);
-      package.State = aState;
-      if (aState == PrintPackageWrapper.ERROR)
-      {
-        package.ErrorText = aErrorText;
-      }
-      onUpdatePackageState(new PrintPackageStorageUpdatePackageStateEventArgs(aPackageId));
-    }
-
-    public PackageList SubsetPackageList
-    {
-      get { return currentSubset; }
-    }
-
-
-    private void onUpdate(EventArgs e)
-    {
-      if (Update != null)
-        Update(this, e);
-    }
-
-    private void onUpdateSubset(EventArgs e)
-    {
-      if (UpdateSubset != null)
-        UpdateSubset(this, e);
-    }
-
-    private void onUpdatePackageState(PrintPackageStorageUpdatePackageStateEventArgs e)
-    {
-      if (UpdatePackageState != null)
-        UpdatePackageState(this, e);
-    }
-
-    public void unlock(List<int> aIdList)
-    {
-      UnlockResponseType response = labelService.unlock(aIdList.ToArray());
-
-      if (response.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
-      else
-      {
-        foreach (int packageId in aIdList) 
+        public PrintPackageStorageUpdatePackageStateEventArgs(int aPackageId)
         {
-          packageIdIndex[packageId].State = PrintPackageWrapper.UNPRINTED;
-          onUpdatePackageState(new PrintPackageStorageUpdatePackageStateEventArgs(packageId));
+            PackageId = aPackageId;
         }
-      }
+
+        public int PackageId { get; }
     }
 
-  }
+    // UpdateInvoiceState event delegate
+    public delegate void PrintPackageStorageUpdatePackageStateEventHandler(object sender,
+        PrintPackageStorageUpdatePackageStateEventArgs e);
+
+
+    internal class PrintPackageStorage : PackageStorage<PrintPackageWrapper>
+    {
+        // consts
+        public const int PackageIdColumnIndex = 0;
+        public const int InvoiceNumberColumnIndex = 1;
+        public const int TrackingNumberColumnIndex = 2;
+        private readonly Config _config;
+        private readonly PackageList _customPackageList = new PackageList();
+
+        private readonly LabelService _labelService;
+
+        private readonly PackageList _subsetPackageList = new PackageList();
+        private List<string> _fieldNames = new List<string>();
+
+        private int _queryIndex;
+
+        public PrintPackageStorage(Config aConfig, LabelService aLabelService)
+        {
+            _config = aConfig;
+            _labelService = aLabelService;
+        }
+
+        public PackageList SubsetPackageList { get; private set; }
+
+        public event InvoiceStorageUpdateEventHandler Update;
+        public event InvoiceStorageUpdateSubsetEventHandler UpdateSubset;
+        public event PrintPackageStorageUpdatePackageStateEventHandler UpdatePackageState;
+
+        public void setQuery(int aQueryIndex)
+        {
+            clear();
+            _customPackageList.Clear();
+            _subsetPackageList.Clear();
+
+            var request = new RunSqlQueryRequestType
+            {
+                query = SecurityElement.Escape(_config.QueryList[aQueryIndex].Text),
+                clientVersion = Routines.getVersion()
+            };
+            var response = _labelService.runSqlQuery(request);
+            if (response.status != 0)
+                throw new Exception(
+                    $"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+
+            if (response.rows != null)
+                foreach (var row in response.rows)
+                {
+                    var packageId = int.Parse(row.columns[PackageIdColumnIndex]);
+                    var package = new PrintPackageWrapper(packageId)
+                    {
+                        // TODO: set tracking number column index in settings
+                        TrackingNumber = row.columns[TrackingNumberColumnIndex],
+                        FieldValueList = row.columns
+                    };
+                    add(package);
+                }
+
+            _fieldMetadata = response.meta;
+
+            onUpdate(EventArgs.Empty);
+
+            _queryIndex = aQueryIndex;
+        }
+
+        public void setSubsetAll()
+        {
+            SubsetPackageList = _packageList;
+            onUpdateSubset(EventArgs.Empty);
+        }
+
+        public void setSubsetCustom()
+        {
+            SubsetPackageList = _customPackageList;
+            onUpdateSubset(EventArgs.Empty);
+        }
+
+        public void setSubset(int aSubqueryIndex)
+        {
+            _subsetPackageList.Clear();
+            var request = new RunSqlQueryRequestType
+            {
+                query = SecurityElement.Escape(_config.QueryList[_queryIndex].SubqueryList[aSubqueryIndex].Text),
+                clientVersion = Routines.getVersion()
+            };
+            var response = _labelService.runSqlQuery(request);
+            if (response.status != 0)
+                throw new Exception(
+                    $"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+
+            if (response.rows != null)
+                foreach (var responseRow in response.rows)
+                {
+                    var invoiceId = responseRow.columns[0];
+                    foreach (var invoiceWrapper in _packageList)
+                        if (invoiceWrapper.FieldValueList[0] == invoiceId)
+                        {
+                            _subsetPackageList.Add(invoiceWrapper);
+                            break;
+                        }
+                }
+
+            SubsetPackageList = _subsetPackageList;
+            onUpdateSubset(EventArgs.Empty);
+        }
+
+        public void addToCustomSubset(List<int> aIdList)
+        {
+            foreach (var id in aIdList)
+            {
+                var invoice = _packageIdIndex[id];
+                if (!_customPackageList.Contains(invoice)) _customPackageList.Add(invoice);
+            }
+
+            onUpdateSubset(EventArgs.Empty);
+        }
+
+        public void removeFromCustomSubset(List<int> aIdList)
+        {
+            foreach (var id in aIdList)
+            {
+                var invoice = _packageIdIndex[id];
+                _customPackageList.Remove(invoice);
+            }
+
+            onUpdateSubset(EventArgs.Empty);
+        }
+
+        public void setPackageState(int aPackageId, int aState, string aErrorText)
+        {
+            var package = getPackageByPackageId(aPackageId);
+            package.State = aState;
+            if (aState == PrintPackageWrapper.Error) package.ErrorText = aErrorText;
+            onUpdatePackageState(new PrintPackageStorageUpdatePackageStateEventArgs(aPackageId));
+        }
+
+
+        private void onUpdate(EventArgs e)
+        {
+            Update?.Invoke(this, e);
+        }
+
+        private void onUpdateSubset(EventArgs e)
+        {
+            UpdateSubset?.Invoke(this, e);
+        }
+
+        private void onUpdatePackageState(PrintPackageStorageUpdatePackageStateEventArgs e)
+        {
+            UpdatePackageState?.Invoke(this, e);
+        }
+
+        public void unlock(List<int> aIdList)
+        {
+            var response = _labelService.unlock(aIdList.ToArray());
+
+            if (response.status != 0)
+                throw new Exception(
+                    $"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+            foreach (var packageId in aIdList)
+            {
+                _packageIdIndex[packageId].State = PrintPackageWrapper.Unprinted;
+                onUpdatePackageState(new PrintPackageStorageUpdatePackageStateEventArgs(packageId));
+            }
+        }
+    }
 }

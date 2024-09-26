@@ -177,7 +177,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="generate_soap_client_class.bat" />
     <None Include="PrintInvoice_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">

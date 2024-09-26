@@ -1,303 +1,279 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Security;
+using PrintInvoice.Properties;
 
 namespace PrintInvoice
 {
-  using UnshippedPackageList = List<UnshippedPackageWrapper>;
-
-  public class UnshippedPackageWrapper : PackageWrapper
-  {
-    public const string STATUS_NEW = "NEW";
-    public const string STATUS_UNSHIPPED = "UNSHIPPED";
-    public const string STATUS_PICKABLE = "PICKABLE";
-
-    public enum StateType {ORIGINAL, UPDATED_PICKABLE, UPDATED_ONHOLD, ERROR};
-
-    public UnshippedPackageWrapper(int aPackageId)
-      : base(aPackageId)
+    public class UnshippedPackageWrapper : PackageWrapper
     {
-    }
-
-    // private datafields
-    private StateType state;
-    private string status;
-    private string originalStatus;
-
-    // public properties
-
-    public StateType State
-    {
-      get { return state; }
-      set { state = value; }
-    }
-
-    public string Status
-    {
-      get { return status; }
-      set { status = value; }
-    }
-
-    public string OriginalStatus
-    {
-      set { originalStatus = value; }
-      get { return originalStatus; }
-    }
-
-    public void resetStatus()
-    {
-      status = originalStatus;
-      state = StateType.ORIGINAL;
-    }
-  }
-
-  public class PackageStatus
-  {
-    public int packageId;
-    public string status;
-    public string requiredStatus;
-
-    public PackageStatus(int aPackageId, string aStatus, string aRequiredStatus)
-    {
-      packageId = aPackageId;
-      status = aStatus;
-      requiredStatus = aRequiredStatus;
-    }
-  }
-
-
-  // Update event delegate
-  public delegate void UnshippedListUpdateEventHandler(object sender, EventArgs e);
-
-  // UpdateMaxDailyPackages event delegate
-  public delegate void UnshippedUpdateMaxDailyPackagesEventHandler(object sender, EventArgs e);
-
-  public class Unshipped : PackageStorage<UnshippedPackageWrapper>
-  {
-
-    public const int PACKAGE_ID_COLUMN_INDEX = 0;
-    public const int STATUS_COLUMN_INDEX = 1;
-
-    // public events
-    public event UnshippedUpdateMaxDailyPackagesEventHandler UpdateMaxDailyPackages;
-
-    // private datafields
-    private LabelService client;
-    private Config config;
-
-    private bool isLoaded = false;
-
-    private int maxDailyPackages = 0;
-    private int pmodMaxDailyPackages = 0;
-
-    public Unshipped(LabelService aClient, Config aConfig) : base()
-    {
-      client = aClient;
-      config = aConfig;
-    }
-
-    // public properties
-
-    public bool IsLoaded
-    {
-      get { return isLoaded; }
-    }
-
-    public int MaxDailyPackages
-    {
-      get { return maxDailyPackages; }
-    }
-
-    public int PmodMaxDailyPackages
-    {
-      get { return pmodMaxDailyPackages; }
-    }
-
-    // private members
-
-    // private methods
-
-    private void onUpdateMaxDailyPackages(EventArgs e)
-    {
-      if (UpdateMaxDailyPackages != null)
-        UpdateMaxDailyPackages(this, e);
-    }
-
-    public void load()
-    {
-      RunSqlQueryRequestType request = new RunSqlQueryRequestType();
-      request.query = SecurityElement.Escape(config.UnshippedQuery);
-      request.clientVersion = Routines.getVersion();
-      RunSqlQueryResponseType response = client.runSqlQuery(request);
-      if (response.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
-
-      clear();
-
-      if (response.rows != null)
-      {
-        foreach (RowType row in response.rows)
+        public enum StateType
         {
-          int packageId = Int32.Parse(row.columns[PACKAGE_ID_COLUMN_INDEX]);
-          UnshippedPackageWrapper package = new UnshippedPackageWrapper(packageId);
-          package.State = UnshippedPackageWrapper.StateType.ORIGINAL;
-          package.OriginalStatus = row.columns[STATUS_COLUMN_INDEX];
-          package.Status = row.columns[STATUS_COLUMN_INDEX];
-          package.FieldValueList = row.columns;
-
-          add(package);
+            ORIGINAL,
+            UPDATED_PICKABLE,
+            UPDATED_ONHOLD,
+            ERROR
         }
-      }
 
-      if (fieldMetadata == null)
-      {
-        fieldMetadata = response.meta;
-      }
+        public const string StatusNew = "NEW";
+        public const string StatusUnshipped = "UNSHIPPED";
+        public const string StatusPickable = "PICKABLE";
 
-      isLoaded = true;
+        // private datafields
 
-      onUpdateList(new EventArgs());
-
-      // load max daily packages
-      GetMaxDailyPackagesRequestType maxDailyPackagesRequest = new GetMaxDailyPackagesRequestType();
-      maxDailyPackagesRequest.groupId = "PKG_MAX_DAILY_PACKAGES";
-      GetMaxDailyPackagesResponseType maxDailyPackagesResponse = client.getMaxDailyPackages(maxDailyPackagesRequest);
-      if (maxDailyPackagesResponse.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
-      maxDailyPackages = maxDailyPackagesResponse.maxDailyPackages;
-
-      // load PMOD max daily packages
-      maxDailyPackagesRequest.groupId = "PKG_PMOD_MAX_DAILY_PACKAGES";
-      maxDailyPackagesResponse = client.getMaxDailyPackages(maxDailyPackagesRequest);
-      if (maxDailyPackagesResponse.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
-      pmodMaxDailyPackages = maxDailyPackagesResponse.maxDailyPackages;
-
-      onUpdateMaxDailyPackages(new EventArgs());
-    }
-
-    public void setPickable(List<PackageStatus> aPackageList, out int aFailed)
-    {
-      SetPackageStatusRequestType request = new SetPackageStatusRequestType();
-      request.itemList = new SetPackageStatusRequestItemType[aPackageList.Count];
-      for (int i = 0; i < aPackageList.Count; i++)
-      {
-        request.itemList[i] = new SetPackageStatusRequestItemType();
-        request.itemList[i].packageId = aPackageList[i].packageId;
-        request.itemList[i].status = aPackageList[i].status;
-        request.itemList[i].requiredStatus = aPackageList[i].requiredStatus;
-      }
-
-      SetPackageStatusResponseType response = client.setPackageStatus(request);
-
-      if (response.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
-
-      aFailed = 0;
-      foreach (SetPackageStatusResponseItemtype responseItem in response.resultList) {
-        if (responseItem.isSuccess)
+        public UnshippedPackageWrapper(int aPackageId)
+            : base(aPackageId)
         {
-          ((UnshippedPackageWrapper)(packageIdIndex[responseItem.packageId])).State = UnshippedPackageWrapper.StateType.UPDATED_PICKABLE;
         }
-        else {
-          ((UnshippedPackageWrapper)(packageIdIndex[responseItem.packageId])).State = UnshippedPackageWrapper.StateType.ERROR;
-          ((UnshippedPackageWrapper)(packageIdIndex[responseItem.packageId])).ErrorText = responseItem.errorMessage;
-          aFailed++;
+
+        // public properties
+
+        public StateType State { get; set; }
+
+        public string Status { get; set; }
+
+        public string OriginalStatus { set; get; }
+
+        public void resetStatus()
+        {
+            Status = OriginalStatus;
+            State = StateType.ORIGINAL;
         }
-      }
-
-      onUpdateList(new EventArgs());
     }
 
-    public void resetStatus(List<UnshippedPackageWrapper> aPackageList)
+    public class PackageStatus
     {
-      SetPackageStatusRequestType request = new SetPackageStatusRequestType();
-      request.itemList = new SetPackageStatusRequestItemType[aPackageList.Count];
-      for (int i = 0; i < aPackageList.Count; i++)
-      {
-        request.itemList[i] = new SetPackageStatusRequestItemType();
-        request.itemList[i].packageId = aPackageList[i].PackageId;
-        request.itemList[i].status = aPackageList[i].OriginalStatus;
-      }
+        public int _packageId;
+        public string _requiredStatus;
+        public string _status;
 
-      SetPackageStatusResponseType response = client.setPackageStatus(request);
-
-      if (response.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
-
-      foreach (UnshippedPackageWrapper package in aPackageList)
-      {
-        ((UnshippedPackageWrapper)(packageIdIndex[package.PackageId])).resetStatus();
-      }
-
-      onUpdateList(new EventArgs());
+        public PackageStatus(int aPackageId, string aStatus, string aRequiredStatus)
+        {
+            _packageId = aPackageId;
+            _status = aStatus;
+            _requiredStatus = aRequiredStatus;
+        }
     }
 
-    public void setMaxDailyPackages(int aValue)
+
+    // Update event delegate
+    public delegate void UnshippedListUpdateEventHandler(object sender, EventArgs e);
+
+    // UpdateMaxDailyPackages event delegate
+    public delegate void UnshippedUpdateMaxDailyPackagesEventHandler(object sender, EventArgs e);
+
+    public class Unshipped : PackageStorage<UnshippedPackageWrapper>
     {
-      SetMaxDailyPackagesRequestType request = new SetMaxDailyPackagesRequestType();
-      request.value = aValue;
-      request.groupId = "PKG_MAX_DAILY_PACKAGES";
+        public const int PackageIdColumnIndex = 0;
+        public const int StatusColumnIndex = 1;
 
-      SetMaxDailyPackagesResponseType response = client.setMaxDailyPackages(request);
+        // private datafields
+        private readonly LabelService _client;
+        private readonly Config _config;
 
-      if (response.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
+        public Unshipped(LabelService aClient, Config aConfig)
+        {
+            _client = aClient;
+            _config = aConfig;
+        }
 
-      maxDailyPackages = aValue;
-      onUpdateMaxDailyPackages(new EventArgs());
+        // public properties
+
+        public bool IsLoaded { get; private set; }
+
+        public int MaxDailyPackages { get; private set; }
+
+        public int PmodMaxDailyPackages { get; private set; }
+
+        // public events
+        public event UnshippedUpdateMaxDailyPackagesEventHandler UpdateMaxDailyPackages;
+
+        // private members
+
+        // private methods
+
+        private void onUpdateMaxDailyPackages(EventArgs e)
+        {
+            UpdateMaxDailyPackages?.Invoke(this, e);
+        }
+
+        public void load()
+        {
+            var request = new RunSqlQueryRequestType
+            {
+                query = SecurityElement.Escape(_config.UnshippedQuery),
+                clientVersion = Routines.getVersion()
+            };
+            
+            var response = _client.runSqlQuery(request);
+            
+            if (response.status != 0)
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+
+            clear();
+
+            if (response.rows != null)
+                foreach (var row in response.rows)
+                {
+                    var packageId = int.Parse(row.columns[PackageIdColumnIndex]);
+                    var package = new UnshippedPackageWrapper(packageId)
+                    {
+                        State = UnshippedPackageWrapper.StateType.ORIGINAL,
+                        OriginalStatus = row.columns[StatusColumnIndex],
+                        Status = row.columns[StatusColumnIndex],
+                        FieldValueList = row.columns
+                    };
+
+                    add(package);
+                }
+
+            if (_fieldMetadata == null) _fieldMetadata = response.meta;
+
+            IsLoaded = true;
+
+            onUpdateList(EventArgs.Empty);
+
+            // load max daily packages
+            var maxDailyPackagesRequest = new GetMaxDailyPackagesRequestType
+            {
+                groupId = "PKG_MAX_DAILY_PACKAGES"
+            };
+            var maxDailyPackagesResponse = _client.getMaxDailyPackages(maxDailyPackagesRequest);
+            
+            if (maxDailyPackagesResponse.status != 0)
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+            
+            MaxDailyPackages = maxDailyPackagesResponse.maxDailyPackages;
+
+            // load PMOD max daily packages
+            maxDailyPackagesRequest.groupId = "PKG_PMOD_MAX_DAILY_PACKAGES";
+            maxDailyPackagesResponse = _client.getMaxDailyPackages(maxDailyPackagesRequest);
+            
+            if (maxDailyPackagesResponse.status != 0)
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+            
+            PmodMaxDailyPackages = maxDailyPackagesResponse.maxDailyPackages;
+
+            onUpdateMaxDailyPackages(EventArgs.Empty);
+        }
+
+        public void setPickable(List<PackageStatus> aPackageList, out int aFailed)
+        {
+            var request = new SetPackageStatusRequestType
+            {
+                itemList = new SetPackageStatusRequestItemType[aPackageList.Count]
+            };
+            
+            for (var i = 0; i < aPackageList.Count; i++)
+            {
+                request.itemList[i] = new SetPackageStatusRequestItemType
+                {
+                    packageId = aPackageList[i]._packageId,
+                    status = aPackageList[i]._status,
+                    requiredStatus = aPackageList[i]._requiredStatus
+                };
+            }
+
+            var response = _client.setPackageStatus(request);
+
+            if (response.status != 0)
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+
+            aFailed = 0;
+
+            foreach (var responseItem in response.resultList)
+                if (responseItem.isSuccess)
+                {
+                    _packageIdIndex[responseItem.packageId].State = UnshippedPackageWrapper.StateType.UPDATED_PICKABLE;
+                }
+                else
+                {
+                    _packageIdIndex[responseItem.packageId].State = UnshippedPackageWrapper.StateType.ERROR;
+                    _packageIdIndex[responseItem.packageId].ErrorText = responseItem.errorMessage;
+                    aFailed++;
+                }
+
+            onUpdateList(EventArgs.Empty);
+        }
+
+        public void resetStatus(List<UnshippedPackageWrapper> aPackageList)
+        {
+            var request = new SetPackageStatusRequestType
+            {
+                itemList = new SetPackageStatusRequestItemType[aPackageList.Count]
+            };
+            
+            for (var i = 0; i < aPackageList.Count; i++)
+            {
+                request.itemList[i] = new SetPackageStatusRequestItemType
+                {
+                    packageId = aPackageList[i].PackageId,
+                    status = aPackageList[i].OriginalStatus
+                };
+            }
+
+            var response = _client.setPackageStatus(request);
+
+            if (response.status != 0)
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+
+            foreach (var package in aPackageList) _packageIdIndex[package.PackageId].resetStatus();
+
+            onUpdateList(EventArgs.Empty);
+        }
+
+        public void setMaxDailyPackages(int aValue)
+        {
+            var request = new SetMaxDailyPackagesRequestType
+            {
+                value = aValue,
+                groupId = "PKG_MAX_DAILY_PACKAGES"
+            };
+
+            var response = _client.setMaxDailyPackages(request);
+
+            if (response.status != 0)
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+
+            MaxDailyPackages = aValue;
+            onUpdateMaxDailyPackages(EventArgs.Empty);
+        }
+
+
+        public void setPmodMaxDailyPackages(int aValue)
+        {
+            var request = new SetMaxDailyPackagesRequestType
+            {
+                value = aValue,
+                groupId = "PKG_PMOD_MAX_DAILY_PACKAGES"
+            };
+
+            var response = _client.setMaxDailyPackages(request);
+
+            if (response.status != 0)
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+
+            PmodMaxDailyPackages = aValue;
+            onUpdateMaxDailyPackages(EventArgs.Empty);
+        }
+
+        public void onHold(List<int> aPackageIdList)
+        {
+            var request = new OnHoldRequestType
+            {
+                packageId = aPackageIdList.ToArray(),
+                printStationId = Settings.Default.PrintStationId
+            };
+
+            var response = _client.onHold(request);
+
+            if (response.status != 0)
+                throw new Exception($"Label service returns error status\nStatus: {response.status}\nMessage: {response.message}\nSubstatus: {response.substatus}\nSubmessage: {response.submessage}");
+
+            foreach (var packageId in aPackageIdList)
+                _packageIdIndex[packageId].State = UnshippedPackageWrapper.StateType.UPDATED_ONHOLD;
+
+            onUpdateList(EventArgs.Empty);
+        }
     }
-
-
-    public void setPmodMaxDailyPackages(int aValue)
-    {
-      SetMaxDailyPackagesRequestType request = new SetMaxDailyPackagesRequestType();
-      request.value = aValue;
-      request.groupId = "PKG_PMOD_MAX_DAILY_PACKAGES";
-
-      SetMaxDailyPackagesResponseType response = client.setMaxDailyPackages(request);
-
-      if (response.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
-
-      pmodMaxDailyPackages = aValue;
-      onUpdateMaxDailyPackages(new EventArgs());
-    }
-
-    public void onHold(List<int> aPackageIdList)
-    {
-      OnHoldRequestType request = new OnHoldRequestType();
-      request.packageId = aPackageIdList.ToArray();
-      request.printStationId = Properties.Settings.Default.PrintStationId;
-        
-      ResponseBaseType response = client.onHold(request);
-
-      if (response.status != 0)
-      {
-        throw new Exception(String.Format("Label service returns error status\nStatus: {0}\nMessage: {1}\nSubstatus: {2}\nSubmessage: {3}", response.status, response.message, response.substatus, response.submessage));
-      }
-
-      foreach (int packageId in aPackageIdList)
-      {
-        ((UnshippedPackageWrapper)(packageIdIndex[packageId])).State = UnshippedPackageWrapper.StateType.UPDATED_ONHOLD;
-      }
-
-      onUpdateList(new EventArgs());
-    }
-  }
 }
