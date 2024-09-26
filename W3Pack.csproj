@@ -253,7 +253,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="w3pack_32.ico" />
-    <Content Include="w3pack_32[1].ico" />
     <None Include="last_batches.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
