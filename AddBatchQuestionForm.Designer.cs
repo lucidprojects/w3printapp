@@ -39,13 +39,13 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(22, 19);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(363, 13);
+            this.label1.Size = new System.Drawing.Size(390, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Do you want to add single package(s) or all invoices in the same batch(es)?";
             // 
             // btSingle
             // 
-            this.btSingle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btSingle.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btSingle.Location = new System.Drawing.Point(46, 54);
             this.btSingle.Name = "btSingle";
             this.btSingle.Size = new System.Drawing.Size(100, 35);
@@ -56,7 +56,7 @@
             // 
             // btBatch
             // 
-            this.btBatch.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btBatch.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btBatch.Location = new System.Drawing.Point(152, 54);
             this.btBatch.Name = "btBatch";
             this.btBatch.Size = new System.Drawing.Size(100, 35);
@@ -68,7 +68,7 @@
             // btCancel
             // 
             this.btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btCancel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btCancel.Location = new System.Drawing.Point(258, 54);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(100, 35);
@@ -87,6 +87,7 @@
             this.Controls.Add(this.btBatch);
             this.Controls.Add(this.btSingle);
             this.Controls.Add(this.label1);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;

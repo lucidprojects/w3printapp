@@ -262,7 +262,7 @@ namespace PrintInvoice
             this.printToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(848, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1184, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -318,7 +318,7 @@ namespace PrintInvoice
             this.tpTemplate.Location = new System.Drawing.Point(4, 22);
             this.tpTemplate.Name = "tpTemplate";
             this.tpTemplate.Padding = new System.Windows.Forms.Padding(3);
-            this.tpTemplate.Size = new System.Drawing.Size(840, 432);
+            this.tpTemplate.Size = new System.Drawing.Size(876, 511);
             this.tpTemplate.TabIndex = 0;
             this.tpTemplate.Text = "Template Tab Page";
             this.tpTemplate.UseVisualStyleBackColor = true;
@@ -340,8 +340,8 @@ namespace PrintInvoice
             // 
             this.splitContainer1.Panel2.Controls.Add(this.panel8);
             this.splitContainer1.Panel2.Controls.Add(this.panel7);
-            this.splitContainer1.Size = new System.Drawing.Size(834, 364);
-            this.splitContainer1.SplitterDistance = 198;
+            this.splitContainer1.Size = new System.Drawing.Size(870, 443);
+            this.splitContainer1.SplitterDistance = 240;
             this.splitContainer1.TabIndex = 1;
             // 
             // panel6
@@ -352,13 +352,14 @@ namespace PrintInvoice
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(0, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(632, 196);
+            this.panel6.Size = new System.Drawing.Size(668, 238);
             this.panel6.TabIndex = 5;
             // 
             // dgvSubset
             // 
             this.dgvSubset.AllowUserToAddRows = false;
             this.dgvSubset.AllowUserToDeleteRows = false;
+            this.dgvSubset.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvSubset.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvSubset.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSubset.ContextMenuStrip = this.cmsSubset;
@@ -367,7 +368,7 @@ namespace PrintInvoice
             this.dgvSubset.Name = "dgvSubset";
             this.dgvSubset.ReadOnly = true;
             this.dgvSubset.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSubset.Size = new System.Drawing.Size(632, 122);
+            this.dgvSubset.Size = new System.Drawing.Size(668, 164);
             this.dgvSubset.TabIndex = 3;
             this.dgvSubset.Sorted += new System.EventHandler(this.dgvSubset_Sorted);
             // 
@@ -441,17 +442,17 @@ namespace PrintInvoice
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(632, 49);
+            this.panel2.Size = new System.Drawing.Size(668, 49);
             this.panel2.TabIndex = 0;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label4.ForeColor = System.Drawing.Color.Navy;
             this.label4.Location = new System.Drawing.Point(4, 5);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(131, 13);
+            this.label4.Size = new System.Drawing.Size(120, 13);
             this.label4.TabIndex = 1;
             this.label4.Text = "Invoices to be printed";
             // 
@@ -471,9 +472,9 @@ namespace PrintInvoice
             this.panel3.BackColor = System.Drawing.SystemColors.Control;
             this.panel3.Controls.Add(this.ssSubset);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 171);
+            this.panel3.Location = new System.Drawing.Point(0, 213);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(632, 25);
+            this.panel3.Size = new System.Drawing.Size(668, 25);
             this.panel3.TabIndex = 1;
             // 
             // ssSubset
@@ -487,7 +488,7 @@ namespace PrintInvoice
             this.tsslSubsetLocked});
             this.ssSubset.Location = new System.Drawing.Point(0, 0);
             this.ssSubset.Name = "ssSubset";
-            this.ssSubset.Size = new System.Drawing.Size(632, 25);
+            this.ssSubset.Size = new System.Drawing.Size(668, 25);
             this.ssSubset.SizingGrip = false;
             this.ssSubset.TabIndex = 0;
             // 
@@ -530,17 +531,17 @@ namespace PrintInvoice
             this.panel1.Controls.Add(this.cbPrinter);
             this.panel1.Controls.Add(this.btPrint);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(632, 0);
+            this.panel1.Location = new System.Drawing.Point(668, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 196);
+            this.panel1.Size = new System.Drawing.Size(200, 238);
             this.panel1.TabIndex = 4;
             // 
             // chkPrintSequenceNumber
             // 
             this.chkPrintSequenceNumber.AutoSize = true;
-            this.chkPrintSequenceNumber.Location = new System.Drawing.Point(11, 57);
+            this.chkPrintSequenceNumber.Location = new System.Drawing.Point(11, 83);
             this.chkPrintSequenceNumber.Name = "chkPrintSequenceNumber";
-            this.chkPrintSequenceNumber.Size = new System.Drawing.Size(177, 17);
+            this.chkPrintSequenceNumber.Size = new System.Drawing.Size(186, 17);
             this.chkPrintSequenceNumber.TabIndex = 8;
             this.chkPrintSequenceNumber.Text = "Print Invoice Sequence Number";
             this.chkPrintSequenceNumber.UseVisualStyleBackColor = true;
@@ -551,13 +552,13 @@ namespace PrintInvoice
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(8, 5);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 13);
+            this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "Printer";
             // 
             // btExportErrors
             // 
-            this.btExportErrors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btExportErrors.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btExportErrors.Location = new System.Drawing.Point(11, 147);
             this.btExportErrors.Name = "btExportErrors";
             this.btExportErrors.Size = new System.Drawing.Size(180, 35);
@@ -569,7 +570,7 @@ namespace PrintInvoice
             // cbPrinter
             // 
             this.cbPrinter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbPrinter.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbPrinter.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbPrinter.FormattingEnabled = true;
             this.cbPrinter.Location = new System.Drawing.Point(11, 21);
             this.cbPrinter.Name = "cbPrinter";
@@ -578,7 +579,7 @@ namespace PrintInvoice
             // 
             // btPrint
             // 
-            this.btPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPrint.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btPrint.Location = new System.Drawing.Point(11, 106);
             this.btPrint.Name = "btPrint";
             this.btPrint.Size = new System.Drawing.Size(180, 35);
@@ -595,13 +596,14 @@ namespace PrintInvoice
             this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel8.Location = new System.Drawing.Point(0, 0);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(632, 160);
+            this.panel8.Size = new System.Drawing.Size(668, 197);
             this.panel8.TabIndex = 6;
             // 
             // dgvQuery
             // 
             this.dgvQuery.AllowUserToAddRows = false;
             this.dgvQuery.AllowUserToDeleteRows = false;
+            this.dgvQuery.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvQuery.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvQuery.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvQuery.ContextMenuStrip = this.cmsSet;
@@ -610,7 +612,7 @@ namespace PrintInvoice
             this.dgvQuery.Name = "dgvQuery";
             this.dgvQuery.ReadOnly = true;
             this.dgvQuery.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvQuery.Size = new System.Drawing.Size(632, 90);
+            this.dgvQuery.Size = new System.Drawing.Size(668, 127);
             this.dgvQuery.TabIndex = 2;
             // 
             // cmsSet
@@ -654,17 +656,17 @@ namespace PrintInvoice
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(632, 42);
+            this.panel4.Size = new System.Drawing.Size(668, 42);
             this.panel4.TabIndex = 0;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label5.ForeColor = System.Drawing.Color.Navy;
             this.label5.Location = new System.Drawing.Point(4, 5);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(72, 13);
+            this.label5.Size = new System.Drawing.Size(66, 13);
             this.label5.TabIndex = 4;
             this.label5.Text = "All invoices";
             // 
@@ -675,7 +677,7 @@ namespace PrintInvoice
             this.cbQueryShowLocked.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbQueryShowLocked.Location = new System.Drawing.Point(300, 21);
             this.cbQueryShowLocked.Name = "cbQueryShowLocked";
-            this.cbQueryShowLocked.Size = new System.Drawing.Size(92, 17);
+            this.cbQueryShowLocked.Size = new System.Drawing.Size(94, 17);
             this.cbQueryShowLocked.TabIndex = 3;
             this.cbQueryShowLocked.Text = "Show Locked";
             this.cbQueryShowLocked.UseVisualStyleBackColor = true;
@@ -688,7 +690,7 @@ namespace PrintInvoice
             this.cbQueryShowError.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbQueryShowError.Location = new System.Drawing.Point(210, 21);
             this.cbQueryShowError.Name = "cbQueryShowError";
-            this.cbQueryShowError.Size = new System.Drawing.Size(84, 17);
+            this.cbQueryShowError.Size = new System.Drawing.Size(89, 17);
             this.cbQueryShowError.TabIndex = 2;
             this.cbQueryShowError.Text = "Show Failed";
             this.cbQueryShowError.UseVisualStyleBackColor = true;
@@ -701,7 +703,7 @@ namespace PrintInvoice
             this.cbQueryShowPrinted.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbQueryShowPrinted.Location = new System.Drawing.Point(115, 21);
             this.cbQueryShowPrinted.Name = "cbQueryShowPrinted";
-            this.cbQueryShowPrinted.Size = new System.Drawing.Size(89, 17);
+            this.cbQueryShowPrinted.Size = new System.Drawing.Size(95, 17);
             this.cbQueryShowPrinted.TabIndex = 1;
             this.cbQueryShowPrinted.Text = "Show Printed";
             this.cbQueryShowPrinted.UseVisualStyleBackColor = true;
@@ -714,7 +716,7 @@ namespace PrintInvoice
             this.cbQueryShowUnprinted.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbQueryShowUnprinted.Location = new System.Drawing.Point(7, 21);
             this.cbQueryShowUnprinted.Name = "cbQueryShowUnprinted";
-            this.cbQueryShowUnprinted.Size = new System.Drawing.Size(102, 17);
+            this.cbQueryShowUnprinted.Size = new System.Drawing.Size(111, 17);
             this.cbQueryShowUnprinted.TabIndex = 0;
             this.cbQueryShowUnprinted.Text = "Show Unprinted";
             this.cbQueryShowUnprinted.UseVisualStyleBackColor = true;
@@ -725,9 +727,9 @@ namespace PrintInvoice
             this.panel5.BackColor = System.Drawing.SystemColors.Control;
             this.panel5.Controls.Add(this.ssSet);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(0, 132);
+            this.panel5.Location = new System.Drawing.Point(0, 169);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(632, 28);
+            this.panel5.Size = new System.Drawing.Size(668, 28);
             this.panel5.TabIndex = 1;
             // 
             // ssSet
@@ -741,7 +743,7 @@ namespace PrintInvoice
             this.tsslSetLocked});
             this.ssSet.Location = new System.Drawing.Point(0, 0);
             this.ssSet.Name = "ssSet";
-            this.ssSet.Size = new System.Drawing.Size(632, 28);
+            this.ssSet.Size = new System.Drawing.Size(668, 28);
             this.ssSet.SizingGrip = false;
             this.ssSet.TabIndex = 0;
             this.ssSet.Text = "statusStrip1";
@@ -781,14 +783,14 @@ namespace PrintInvoice
             this.panel7.BackColor = System.Drawing.SystemColors.Control;
             this.panel7.Controls.Add(this.btReload);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel7.Location = new System.Drawing.Point(632, 0);
+            this.panel7.Location = new System.Drawing.Point(668, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(200, 160);
+            this.panel7.Size = new System.Drawing.Size(200, 197);
             this.panel7.TabIndex = 5;
             // 
             // btReload
             // 
-            this.btReload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btReload.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btReload.Location = new System.Drawing.Point(11, 42);
             this.btReload.Name = "btReload";
             this.btReload.Size = new System.Drawing.Size(180, 35);
@@ -804,7 +806,7 @@ namespace PrintInvoice
             this.panel21.Location = new System.Drawing.Point(3, 3);
             this.panel21.Name = "panel21";
             this.panel21.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.panel21.Size = new System.Drawing.Size(834, 62);
+            this.panel21.Size = new System.Drawing.Size(870, 62);
             this.panel21.TabIndex = 2;
             // 
             // tbHelp
@@ -816,7 +818,7 @@ namespace PrintInvoice
             this.tbHelp.Name = "tbHelp";
             this.tbHelp.ReadOnly = true;
             this.tbHelp.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbHelp.Size = new System.Drawing.Size(834, 59);
+            this.tbHelp.Size = new System.Drawing.Size(870, 59);
             this.tbHelp.TabIndex = 0;
             // 
             // sfdExportErrors
@@ -836,7 +838,7 @@ namespace PrintInvoice
             this.tcQueries.Location = new System.Drawing.Point(0, 24);
             this.tcQueries.Name = "tcQueries";
             this.tcQueries.SelectedIndex = 0;
-            this.tcQueries.Size = new System.Drawing.Size(848, 458);
+            this.tcQueries.Size = new System.Drawing.Size(1184, 537);
             this.tcQueries.TabIndex = 1;
             this.tcQueries.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Selecting);
             this.tcQueries.Deselecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tcQueries_Deselecting);
@@ -863,7 +865,7 @@ namespace PrintInvoice
             this.tpUnship.Location = new System.Drawing.Point(4, 22);
             this.tpUnship.Name = "tpUnship";
             this.tpUnship.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUnship.Size = new System.Drawing.Size(840, 432);
+            this.tpUnship.Size = new System.Drawing.Size(876, 511);
             this.tpUnship.TabIndex = 1;
             this.tpUnship.Text = "Unship";
             this.tpUnship.UseVisualStyleBackColor = true;
@@ -876,13 +878,14 @@ namespace PrintInvoice
             this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel9.Location = new System.Drawing.Point(3, 65);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(634, 364);
+            this.panel9.Size = new System.Drawing.Size(670, 443);
             this.panel9.TabIndex = 0;
             // 
             // dgvUnship
             // 
             this.dgvUnship.AllowUserToAddRows = false;
             this.dgvUnship.AllowUserToDeleteRows = false;
+            this.dgvUnship.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvUnship.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvUnship.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUnship.ContextMenuStrip = this.cmsUnship;
@@ -891,7 +894,7 @@ namespace PrintInvoice
             this.dgvUnship.Name = "dgvUnship";
             this.dgvUnship.ReadOnly = true;
             this.dgvUnship.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUnship.Size = new System.Drawing.Size(634, 308);
+            this.dgvUnship.Size = new System.Drawing.Size(670, 387);
             this.dgvUnship.TabIndex = 4;
             // 
             // cmsUnship
@@ -920,9 +923,9 @@ namespace PrintInvoice
             // 
             this.panel12.Controls.Add(this.ssUnship);
             this.panel12.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel12.Location = new System.Drawing.Point(0, 336);
+            this.panel12.Location = new System.Drawing.Point(0, 415);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(634, 28);
+            this.panel12.Size = new System.Drawing.Size(670, 28);
             this.panel12.TabIndex = 3;
             // 
             // ssUnship
@@ -935,7 +938,7 @@ namespace PrintInvoice
             this.tsslUnshipFailed});
             this.ssUnship.Location = new System.Drawing.Point(0, 0);
             this.ssUnship.Name = "ssUnship";
-            this.ssUnship.Size = new System.Drawing.Size(634, 28);
+            this.ssUnship.Size = new System.Drawing.Size(670, 28);
             this.ssUnship.SizingGrip = false;
             this.ssUnship.TabIndex = 3;
             this.ssUnship.Text = "statusStrip1";
@@ -973,7 +976,7 @@ namespace PrintInvoice
             this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel11.Location = new System.Drawing.Point(0, 0);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(634, 28);
+            this.panel11.Size = new System.Drawing.Size(670, 28);
             this.panel11.TabIndex = 1;
             // 
             // chkUnshipFilterShowFailed
@@ -983,7 +986,7 @@ namespace PrintInvoice
             this.chkUnshipFilterShowFailed.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUnshipFilterShowFailed.Location = new System.Drawing.Point(218, 6);
             this.chkUnshipFilterShowFailed.Name = "chkUnshipFilterShowFailed";
-            this.chkUnshipFilterShowFailed.Size = new System.Drawing.Size(84, 17);
+            this.chkUnshipFilterShowFailed.Size = new System.Drawing.Size(89, 17);
             this.chkUnshipFilterShowFailed.TabIndex = 2;
             this.chkUnshipFilterShowFailed.Text = "Show Failed";
             this.chkUnshipFilterShowFailed.UseVisualStyleBackColor = true;
@@ -996,7 +999,7 @@ namespace PrintInvoice
             this.chkUnshipFilterShowUnshipped.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUnshipFilterShowUnshipped.Location = new System.Drawing.Point(105, 6);
             this.chkUnshipFilterShowUnshipped.Name = "chkUnshipFilterShowUnshipped";
-            this.chkUnshipFilterShowUnshipped.Size = new System.Drawing.Size(107, 17);
+            this.chkUnshipFilterShowUnshipped.Size = new System.Drawing.Size(115, 17);
             this.chkUnshipFilterShowUnshipped.TabIndex = 1;
             this.chkUnshipFilterShowUnshipped.Text = "Show Unshipped";
             this.chkUnshipFilterShowUnshipped.UseVisualStyleBackColor = true;
@@ -1009,7 +1012,7 @@ namespace PrintInvoice
             this.chkUnshipFilterShowShipped.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUnshipFilterShowShipped.Location = new System.Drawing.Point(4, 6);
             this.chkUnshipFilterShowShipped.Name = "chkUnshipFilterShowShipped";
-            this.chkUnshipFilterShowShipped.Size = new System.Drawing.Size(95, 17);
+            this.chkUnshipFilterShowShipped.Size = new System.Drawing.Size(101, 17);
             this.chkUnshipFilterShowShipped.TabIndex = 0;
             this.chkUnshipFilterShowShipped.Text = "Show Shipped";
             this.chkUnshipFilterShowShipped.UseVisualStyleBackColor = true;
@@ -1024,14 +1027,14 @@ namespace PrintInvoice
             this.panel10.Controls.Add(this.btUnship);
             this.panel10.Controls.Add(this.btAddUnshipInvoice);
             this.panel10.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel10.Location = new System.Drawing.Point(637, 65);
+            this.panel10.Location = new System.Drawing.Point(673, 65);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(200, 364);
+            this.panel10.Size = new System.Drawing.Size(200, 443);
             this.panel10.TabIndex = 1;
             // 
             // btUnshipLastBatches
             // 
-            this.btUnshipLastBatches.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btUnshipLastBatches.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btUnshipLastBatches.Location = new System.Drawing.Point(10, 69);
             this.btUnshipLastBatches.Name = "btUnshipLastBatches";
             this.btUnshipLastBatches.Size = new System.Drawing.Size(180, 35);
@@ -1042,7 +1045,7 @@ namespace PrintInvoice
             // 
             // btUnshipClear
             // 
-            this.btUnshipClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btUnshipClear.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btUnshipClear.Location = new System.Drawing.Point(10, 125);
             this.btUnshipClear.Name = "btUnshipClear";
             this.btUnshipClear.Size = new System.Drawing.Size(180, 35);
@@ -1053,7 +1056,7 @@ namespace PrintInvoice
             // 
             // btExportUnshipErrors
             // 
-            this.btExportUnshipErrors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btExportUnshipErrors.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btExportUnshipErrors.Location = new System.Drawing.Point(10, 222);
             this.btExportUnshipErrors.Name = "btExportUnshipErrors";
             this.btExportUnshipErrors.Size = new System.Drawing.Size(180, 35);
@@ -1064,7 +1067,7 @@ namespace PrintInvoice
             // 
             // btUnship
             // 
-            this.btUnship.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btUnship.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btUnship.Location = new System.Drawing.Point(10, 181);
             this.btUnship.Name = "btUnship";
             this.btUnship.Size = new System.Drawing.Size(180, 35);
@@ -1075,7 +1078,7 @@ namespace PrintInvoice
             // 
             // btAddUnshipInvoice
             // 
-            this.btAddUnshipInvoice.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btAddUnshipInvoice.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btAddUnshipInvoice.Location = new System.Drawing.Point(10, 28);
             this.btAddUnshipInvoice.Name = "btAddUnshipInvoice";
             this.btAddUnshipInvoice.Size = new System.Drawing.Size(180, 35);
@@ -1091,7 +1094,7 @@ namespace PrintInvoice
             this.panel23.Location = new System.Drawing.Point(3, 3);
             this.panel23.Name = "panel23";
             this.panel23.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.panel23.Size = new System.Drawing.Size(834, 62);
+            this.panel23.Size = new System.Drawing.Size(870, 62);
             this.panel23.TabIndex = 4;
             // 
             // tbHelpUnship
@@ -1103,7 +1106,7 @@ namespace PrintInvoice
             this.tbHelpUnship.Name = "tbHelpUnship";
             this.tbHelpUnship.ReadOnly = true;
             this.tbHelpUnship.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbHelpUnship.Size = new System.Drawing.Size(834, 59);
+            this.tbHelpUnship.Size = new System.Drawing.Size(870, 59);
             this.tbHelpUnship.TabIndex = 0;
             // 
             // tpUnshipped
@@ -1114,7 +1117,7 @@ namespace PrintInvoice
             this.tpUnshipped.Location = new System.Drawing.Point(4, 22);
             this.tpUnshipped.Name = "tpUnshipped";
             this.tpUnshipped.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUnshipped.Size = new System.Drawing.Size(840, 432);
+            this.tpUnshipped.Size = new System.Drawing.Size(876, 511);
             this.tpUnshipped.TabIndex = 2;
             this.tpUnshipped.Text = "Pick New";
             this.tpUnshipped.UseVisualStyleBackColor = true;
@@ -1127,13 +1130,14 @@ namespace PrintInvoice
             this.panel13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel13.Location = new System.Drawing.Point(3, 65);
             this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(634, 364);
+            this.panel13.Size = new System.Drawing.Size(670, 443);
             this.panel13.TabIndex = 0;
             // 
             // dgvUnshipped
             // 
             this.dgvUnshipped.AllowUserToAddRows = false;
             this.dgvUnshipped.AllowUserToDeleteRows = false;
+            this.dgvUnshipped.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvUnshipped.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvUnshipped.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUnshipped.ContextMenuStrip = this.cmsUnshipped;
@@ -1142,7 +1146,7 @@ namespace PrintInvoice
             this.dgvUnshipped.Name = "dgvUnshipped";
             this.dgvUnshipped.ReadOnly = true;
             this.dgvUnshipped.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUnshipped.Size = new System.Drawing.Size(634, 308);
+            this.dgvUnshipped.Size = new System.Drawing.Size(670, 387);
             this.dgvUnshipped.TabIndex = 4;
             // 
             // cmsUnshipped
@@ -1169,7 +1173,7 @@ namespace PrintInvoice
             this.panel15.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel15.Location = new System.Drawing.Point(0, 0);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(634, 28);
+            this.panel15.Size = new System.Drawing.Size(670, 28);
             this.panel15.TabIndex = 1;
             // 
             // chkUnshippedShowNonupdated
@@ -1179,7 +1183,7 @@ namespace PrintInvoice
             this.chkUnshippedShowNonupdated.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUnshippedShowNonupdated.Location = new System.Drawing.Point(5, 6);
             this.chkUnshippedShowNonupdated.Name = "chkUnshippedShowNonupdated";
-            this.chkUnshippedShowNonupdated.Size = new System.Drawing.Size(115, 17);
+            this.chkUnshippedShowNonupdated.Size = new System.Drawing.Size(124, 17);
             this.chkUnshippedShowNonupdated.TabIndex = 4;
             this.chkUnshippedShowNonupdated.Text = "Show Nonupdated";
             this.chkUnshippedShowNonupdated.UseVisualStyleBackColor = true;
@@ -1192,7 +1196,7 @@ namespace PrintInvoice
             this.chkUnshippedShowFailed.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUnshippedShowFailed.Location = new System.Drawing.Point(229, 6);
             this.chkUnshippedShowFailed.Name = "chkUnshippedShowFailed";
-            this.chkUnshippedShowFailed.Size = new System.Drawing.Size(84, 17);
+            this.chkUnshippedShowFailed.Size = new System.Drawing.Size(89, 17);
             this.chkUnshippedShowFailed.TabIndex = 3;
             this.chkUnshippedShowFailed.Text = "Show Failed";
             this.chkUnshippedShowFailed.UseVisualStyleBackColor = true;
@@ -1205,7 +1209,7 @@ namespace PrintInvoice
             this.chkUnshippedShowUpdated.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUnshippedShowUpdated.Location = new System.Drawing.Point(126, 6);
             this.chkUnshippedShowUpdated.Name = "chkUnshippedShowUpdated";
-            this.chkUnshippedShowUpdated.Size = new System.Drawing.Size(97, 17);
+            this.chkUnshippedShowUpdated.Size = new System.Drawing.Size(103, 17);
             this.chkUnshippedShowUpdated.TabIndex = 2;
             this.chkUnshippedShowUpdated.Text = "Show Updated";
             this.chkUnshippedShowUpdated.UseVisualStyleBackColor = true;
@@ -1218,7 +1222,7 @@ namespace PrintInvoice
             this.chkUnshippedShowUnshipped.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUnshippedShowUnshipped.Location = new System.Drawing.Point(436, 6);
             this.chkUnshippedShowUnshipped.Name = "chkUnshippedShowUnshipped";
-            this.chkUnshippedShowUnshipped.Size = new System.Drawing.Size(107, 17);
+            this.chkUnshippedShowUnshipped.Size = new System.Drawing.Size(115, 17);
             this.chkUnshippedShowUnshipped.TabIndex = 1;
             this.chkUnshippedShowUnshipped.Text = "Show Unshipped";
             this.chkUnshippedShowUnshipped.UseVisualStyleBackColor = true;
@@ -1232,7 +1236,7 @@ namespace PrintInvoice
             this.chkUnshippedShowNew.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUnshippedShowNew.Location = new System.Drawing.Point(549, 6);
             this.chkUnshippedShowNew.Name = "chkUnshippedShowNew";
-            this.chkUnshippedShowNew.Size = new System.Drawing.Size(78, 17);
+            this.chkUnshippedShowNew.Size = new System.Drawing.Size(81, 17);
             this.chkUnshippedShowNew.TabIndex = 0;
             this.chkUnshippedShowNew.Text = "Show New";
             this.chkUnshippedShowNew.UseVisualStyleBackColor = true;
@@ -1243,9 +1247,9 @@ namespace PrintInvoice
             // 
             this.panel14.Controls.Add(this.ssUnshipped);
             this.panel14.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel14.Location = new System.Drawing.Point(0, 336);
+            this.panel14.Location = new System.Drawing.Point(0, 415);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(634, 28);
+            this.panel14.Size = new System.Drawing.Size(670, 28);
             this.panel14.TabIndex = 3;
             // 
             // ssUnshipped
@@ -1258,7 +1262,7 @@ namespace PrintInvoice
             this.tsslUnshippedFailed});
             this.ssUnshipped.Location = new System.Drawing.Point(0, 0);
             this.ssUnshipped.Name = "ssUnshipped";
-            this.ssUnshipped.Size = new System.Drawing.Size(634, 28);
+            this.ssUnshipped.Size = new System.Drawing.Size(670, 28);
             this.ssUnshipped.SizingGrip = false;
             this.ssUnshipped.TabIndex = 3;
             this.ssUnshipped.Text = "statusStrip2";
@@ -1299,14 +1303,14 @@ namespace PrintInvoice
             this.panel16.Controls.Add(this.btUnshippedSetPickable);
             this.panel16.Controls.Add(this.btReloarUnshipped);
             this.panel16.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel16.Location = new System.Drawing.Point(637, 65);
+            this.panel16.Location = new System.Drawing.Point(673, 65);
             this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(200, 364);
+            this.panel16.Size = new System.Drawing.Size(200, 443);
             this.panel16.TabIndex = 1;
             // 
             // btOnHold
             // 
-            this.btOnHold.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btOnHold.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btOnHold.Location = new System.Drawing.Point(10, 178);
             this.btOnHold.Name = "btOnHold";
             this.btOnHold.Size = new System.Drawing.Size(180, 35);
@@ -1317,9 +1321,10 @@ namespace PrintInvoice
             // 
             // btSetPmodMaxDailyPackages
             // 
+            this.btSetPmodMaxDailyPackages.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btSetPmodMaxDailyPackages.Location = new System.Drawing.Point(10, 391);
             this.btSetPmodMaxDailyPackages.Name = "btSetPmodMaxDailyPackages";
-            this.btSetPmodMaxDailyPackages.Size = new System.Drawing.Size(180, 23);
+            this.btSetPmodMaxDailyPackages.Size = new System.Drawing.Size(180, 35);
             this.btSetPmodMaxDailyPackages.TabIndex = 10;
             this.btSetPmodMaxDailyPackages.Text = "Update Value";
             this.btSetPmodMaxDailyPackages.UseVisualStyleBackColor = true;
@@ -1328,14 +1333,15 @@ namespace PrintInvoice
             // edPmodMaxDailyPackages
             // 
             this.edPmodMaxDailyPackages.Enabled = false;
+            this.edPmodMaxDailyPackages.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.edPmodMaxDailyPackages.Location = new System.Drawing.Point(10, 365);
             this.edPmodMaxDailyPackages.Name = "edPmodMaxDailyPackages";
-            this.edPmodMaxDailyPackages.Size = new System.Drawing.Size(180, 20);
+            this.edPmodMaxDailyPackages.Size = new System.Drawing.Size(180, 22);
             this.edPmodMaxDailyPackages.TabIndex = 9;
             // 
             // btUnshippedResetStatus
             // 
-            this.btUnshippedResetStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btUnshippedResetStatus.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btUnshippedResetStatus.Location = new System.Drawing.Point(10, 238);
             this.btUnshippedResetStatus.Name = "btUnshippedResetStatus";
             this.btUnshippedResetStatus.Size = new System.Drawing.Size(180, 35);
@@ -1346,8 +1352,8 @@ namespace PrintInvoice
             // 
             // btUnshippedClearSelection
             // 
-            this.btUnshippedClearSelection.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btUnshippedClearSelection.Location = new System.Drawing.Point(6, 86);
+            this.btUnshippedClearSelection.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btUnshippedClearSelection.Location = new System.Drawing.Point(10, 86);
             this.btUnshippedClearSelection.Name = "btUnshippedClearSelection";
             this.btUnshippedClearSelection.Size = new System.Drawing.Size(180, 35);
             this.btUnshippedClearSelection.TabIndex = 3;
@@ -1357,7 +1363,7 @@ namespace PrintInvoice
             // 
             // btUnshippedSelectAll
             // 
-            this.btUnshippedSelectAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btUnshippedSelectAll.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btUnshippedSelectAll.Location = new System.Drawing.Point(10, 45);
             this.btUnshippedSelectAll.Name = "btUnshippedSelectAll";
             this.btUnshippedSelectAll.Size = new System.Drawing.Size(180, 35);
@@ -1368,8 +1374,8 @@ namespace PrintInvoice
             // 
             // btUnshippedSetPickable
             // 
-            this.btUnshippedSetPickable.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btUnshippedSetPickable.Location = new System.Drawing.Point(9, 137);
+            this.btUnshippedSetPickable.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btUnshippedSetPickable.Location = new System.Drawing.Point(10, 137);
             this.btUnshippedSetPickable.Name = "btUnshippedSetPickable";
             this.btUnshippedSetPickable.Size = new System.Drawing.Size(180, 35);
             this.btUnshippedSetPickable.TabIndex = 1;
@@ -1379,7 +1385,7 @@ namespace PrintInvoice
             // 
             // btReloarUnshipped
             // 
-            this.btReloarUnshipped.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btReloarUnshipped.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btReloarUnshipped.Location = new System.Drawing.Point(10, 291);
             this.btReloarUnshipped.Name = "btReloarUnshipped";
             this.btReloarUnshipped.Size = new System.Drawing.Size(180, 35);
@@ -1395,7 +1401,7 @@ namespace PrintInvoice
             this.panel22.Location = new System.Drawing.Point(3, 3);
             this.panel22.Name = "panel22";
             this.panel22.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.panel22.Size = new System.Drawing.Size(834, 62);
+            this.panel22.Size = new System.Drawing.Size(870, 62);
             this.panel22.TabIndex = 3;
             // 
             // tbHelpUnshipped
@@ -1407,7 +1413,7 @@ namespace PrintInvoice
             this.tbHelpUnshipped.Name = "tbHelpUnshipped";
             this.tbHelpUnshipped.ReadOnly = true;
             this.tbHelpUnshipped.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbHelpUnshipped.Size = new System.Drawing.Size(834, 59);
+            this.tbHelpUnshipped.Size = new System.Drawing.Size(870, 59);
             this.tbHelpUnshipped.TabIndex = 0;
             // 
             // tpReprint
@@ -1418,7 +1424,7 @@ namespace PrintInvoice
             this.tpReprint.Location = new System.Drawing.Point(4, 22);
             this.tpReprint.Name = "tpReprint";
             this.tpReprint.Padding = new System.Windows.Forms.Padding(3);
-            this.tpReprint.Size = new System.Drawing.Size(840, 432);
+            this.tpReprint.Size = new System.Drawing.Size(876, 511);
             this.tpReprint.TabIndex = 3;
             this.tpReprint.Text = "Reprint";
             this.tpReprint.UseVisualStyleBackColor = true;
@@ -1431,13 +1437,14 @@ namespace PrintInvoice
             this.panel17.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel17.Location = new System.Drawing.Point(3, 65);
             this.panel17.Name = "panel17";
-            this.panel17.Size = new System.Drawing.Size(634, 364);
+            this.panel17.Size = new System.Drawing.Size(670, 443);
             this.panel17.TabIndex = 0;
             // 
             // dgvReprint
             // 
             this.dgvReprint.AllowUserToAddRows = false;
             this.dgvReprint.AllowUserToDeleteRows = false;
+            this.dgvReprint.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvReprint.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvReprint.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvReprint.ContextMenuStrip = this.cmsReprint;
@@ -1446,7 +1453,7 @@ namespace PrintInvoice
             this.dgvReprint.Name = "dgvReprint";
             this.dgvReprint.ReadOnly = true;
             this.dgvReprint.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvReprint.Size = new System.Drawing.Size(634, 308);
+            this.dgvReprint.Size = new System.Drawing.Size(670, 387);
             this.dgvReprint.TabIndex = 4;
             // 
             // cmsReprint
@@ -1483,9 +1490,9 @@ namespace PrintInvoice
             // 
             this.panel18.Controls.Add(this.ssReprint);
             this.panel18.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel18.Location = new System.Drawing.Point(0, 336);
+            this.panel18.Location = new System.Drawing.Point(0, 415);
             this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(634, 28);
+            this.panel18.Size = new System.Drawing.Size(670, 28);
             this.panel18.TabIndex = 3;
             // 
             // ssReprint
@@ -1499,7 +1506,7 @@ namespace PrintInvoice
             this.tsslReprintLocked});
             this.ssReprint.Location = new System.Drawing.Point(0, 0);
             this.ssReprint.Name = "ssReprint";
-            this.ssReprint.Size = new System.Drawing.Size(634, 28);
+            this.ssReprint.Size = new System.Drawing.Size(670, 28);
             this.ssReprint.SizingGrip = false;
             this.ssReprint.TabIndex = 3;
             this.ssReprint.Text = "statusStrip3";
@@ -1544,7 +1551,7 @@ namespace PrintInvoice
             this.panel19.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel19.Location = new System.Drawing.Point(0, 0);
             this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(634, 28);
+            this.panel19.Size = new System.Drawing.Size(670, 28);
             this.panel19.TabIndex = 1;
             // 
             // chkReprintShowLocked
@@ -1554,7 +1561,7 @@ namespace PrintInvoice
             this.chkReprintShowLocked.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkReprintShowLocked.Location = new System.Drawing.Point(298, 6);
             this.chkReprintShowLocked.Name = "chkReprintShowLocked";
-            this.chkReprintShowLocked.Size = new System.Drawing.Size(92, 17);
+            this.chkReprintShowLocked.Size = new System.Drawing.Size(94, 17);
             this.chkReprintShowLocked.TabIndex = 7;
             this.chkReprintShowLocked.Text = "Show Locked";
             this.chkReprintShowLocked.UseVisualStyleBackColor = true;
@@ -1567,7 +1574,7 @@ namespace PrintInvoice
             this.chkReprintShowFailed.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkReprintShowFailed.Location = new System.Drawing.Point(208, 6);
             this.chkReprintShowFailed.Name = "chkReprintShowFailed";
-            this.chkReprintShowFailed.Size = new System.Drawing.Size(84, 17);
+            this.chkReprintShowFailed.Size = new System.Drawing.Size(89, 17);
             this.chkReprintShowFailed.TabIndex = 6;
             this.chkReprintShowFailed.Text = "Show Failed";
             this.chkReprintShowFailed.UseVisualStyleBackColor = true;
@@ -1580,7 +1587,7 @@ namespace PrintInvoice
             this.chkReprintShowPrinted.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkReprintShowPrinted.Location = new System.Drawing.Point(113, 6);
             this.chkReprintShowPrinted.Name = "chkReprintShowPrinted";
-            this.chkReprintShowPrinted.Size = new System.Drawing.Size(89, 17);
+            this.chkReprintShowPrinted.Size = new System.Drawing.Size(95, 17);
             this.chkReprintShowPrinted.TabIndex = 5;
             this.chkReprintShowPrinted.Text = "Show Printed";
             this.chkReprintShowPrinted.UseVisualStyleBackColor = true;
@@ -1593,7 +1600,7 @@ namespace PrintInvoice
             this.chkReprintShowUnprinted.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkReprintShowUnprinted.Location = new System.Drawing.Point(5, 6);
             this.chkReprintShowUnprinted.Name = "chkReprintShowUnprinted";
-            this.chkReprintShowUnprinted.Size = new System.Drawing.Size(102, 17);
+            this.chkReprintShowUnprinted.Size = new System.Drawing.Size(111, 17);
             this.chkReprintShowUnprinted.TabIndex = 4;
             this.chkReprintShowUnprinted.Text = "Show Unprinted";
             this.chkReprintShowUnprinted.UseVisualStyleBackColor = true;
@@ -1611,17 +1618,17 @@ namespace PrintInvoice
             this.panel20.Controls.Add(this.btReprintClear);
             this.panel20.Controls.Add(this.btAddReprintPackage);
             this.panel20.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel20.Location = new System.Drawing.Point(637, 65);
+            this.panel20.Location = new System.Drawing.Point(673, 65);
             this.panel20.Name = "panel20";
-            this.panel20.Size = new System.Drawing.Size(200, 364);
+            this.panel20.Size = new System.Drawing.Size(200, 443);
             this.panel20.TabIndex = 1;
             // 
             // chkReprintSequenceNumber
             // 
             this.chkReprintSequenceNumber.AutoSize = true;
-            this.chkReprintSequenceNumber.Location = new System.Drawing.Point(10, 209);
+            this.chkReprintSequenceNumber.Location = new System.Drawing.Point(10, 235);
             this.chkReprintSequenceNumber.Name = "chkReprintSequenceNumber";
-            this.chkReprintSequenceNumber.Size = new System.Drawing.Size(177, 17);
+            this.chkReprintSequenceNumber.Size = new System.Drawing.Size(186, 17);
             this.chkReprintSequenceNumber.TabIndex = 9;
             this.chkReprintSequenceNumber.Text = "Print Invoice Sequence Number";
             this.chkReprintSequenceNumber.UseVisualStyleBackColor = true;
@@ -1629,7 +1636,7 @@ namespace PrintInvoice
             // 
             // btReprintLastBatches
             // 
-            this.btReprintLastBatches.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btReprintLastBatches.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btReprintLastBatches.Location = new System.Drawing.Point(10, 110);
             this.btReprintLastBatches.Name = "btReprintLastBatches";
             this.btReprintLastBatches.Size = new System.Drawing.Size(180, 35);
@@ -1643,23 +1650,23 @@ namespace PrintInvoice
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(7, 12);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(37, 13);
+            this.label3.Size = new System.Drawing.Size(41, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Printer";
             // 
             // cbReprintPrinter
             // 
             this.cbReprintPrinter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbReprintPrinter.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbReprintPrinter.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this.cbReprintPrinter.FormattingEnabled = true;
             this.cbReprintPrinter.Location = new System.Drawing.Point(10, 28);
             this.cbReprintPrinter.Name = "cbReprintPrinter";
-            this.cbReprintPrinter.Size = new System.Drawing.Size(180, 23);
+            this.cbReprintPrinter.Size = new System.Drawing.Size(180, 21);
             this.cbReprintPrinter.TabIndex = 6;
             // 
             // btReprintExportErrors
             // 
-            this.btReprintExportErrors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btReprintExportErrors.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btReprintExportErrors.Location = new System.Drawing.Point(10, 313);
             this.btReprintExportErrors.Name = "btReprintExportErrors";
             this.btReprintExportErrors.Size = new System.Drawing.Size(180, 35);
@@ -1670,7 +1677,7 @@ namespace PrintInvoice
             // 
             // btReprintPrint
             // 
-            this.btReprintPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btReprintPrint.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btReprintPrint.Location = new System.Drawing.Point(10, 258);
             this.btReprintPrint.Name = "btReprintPrint";
             this.btReprintPrint.Size = new System.Drawing.Size(180, 35);
@@ -1681,7 +1688,7 @@ namespace PrintInvoice
             // 
             // btReprintClear
             // 
-            this.btReprintClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btReprintClear.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btReprintClear.Location = new System.Drawing.Point(10, 166);
             this.btReprintClear.Name = "btReprintClear";
             this.btReprintClear.Size = new System.Drawing.Size(180, 35);
@@ -1692,7 +1699,7 @@ namespace PrintInvoice
             // 
             // btAddReprintPackage
             // 
-            this.btAddReprintPackage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btAddReprintPackage.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btAddReprintPackage.Location = new System.Drawing.Point(10, 69);
             this.btAddReprintPackage.Name = "btAddReprintPackage";
             this.btAddReprintPackage.Size = new System.Drawing.Size(180, 35);
@@ -1708,7 +1715,7 @@ namespace PrintInvoice
             this.panel24.Location = new System.Drawing.Point(3, 3);
             this.panel24.Name = "panel24";
             this.panel24.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.panel24.Size = new System.Drawing.Size(834, 62);
+            this.panel24.Size = new System.Drawing.Size(870, 62);
             this.panel24.TabIndex = 5;
             // 
             // tbHelpReprint
@@ -1720,7 +1727,7 @@ namespace PrintInvoice
             this.tbHelpReprint.Name = "tbHelpReprint";
             this.tbHelpReprint.ReadOnly = true;
             this.tbHelpReprint.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbHelpReprint.Size = new System.Drawing.Size(834, 59);
+            this.tbHelpReprint.Size = new System.Drawing.Size(870, 59);
             this.tbHelpReprint.TabIndex = 0;
             // 
             // tpRepair
@@ -1731,7 +1738,7 @@ namespace PrintInvoice
             this.tpRepair.Location = new System.Drawing.Point(4, 22);
             this.tpRepair.Name = "tpRepair";
             this.tpRepair.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRepair.Size = new System.Drawing.Size(840, 432);
+            this.tpRepair.Size = new System.Drawing.Size(1176, 511);
             this.tpRepair.TabIndex = 5;
             this.tpRepair.Text = "Repair";
             this.tpRepair.UseVisualStyleBackColor = true;
@@ -1744,13 +1751,14 @@ namespace PrintInvoice
             this.panel25.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel25.Location = new System.Drawing.Point(3, 65);
             this.panel25.Name = "panel25";
-            this.panel25.Size = new System.Drawing.Size(634, 364);
+            this.panel25.Size = new System.Drawing.Size(970, 443);
             this.panel25.TabIndex = 0;
             // 
             // dgvRepair
             // 
             this.dgvRepair.AllowUserToAddRows = false;
             this.dgvRepair.AllowUserToDeleteRows = false;
+            this.dgvRepair.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvRepair.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvRepair.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRepair.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1758,16 +1766,16 @@ namespace PrintInvoice
             this.dgvRepair.Name = "dgvRepair";
             this.dgvRepair.ReadOnly = true;
             this.dgvRepair.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRepair.Size = new System.Drawing.Size(634, 308);
+            this.dgvRepair.Size = new System.Drawing.Size(970, 387);
             this.dgvRepair.TabIndex = 4;
             // 
             // panel26
             // 
             this.panel26.Controls.Add(this.ssRepair);
             this.panel26.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel26.Location = new System.Drawing.Point(0, 336);
+            this.panel26.Location = new System.Drawing.Point(0, 415);
             this.panel26.Name = "panel26";
-            this.panel26.Size = new System.Drawing.Size(634, 28);
+            this.panel26.Size = new System.Drawing.Size(970, 28);
             this.panel26.TabIndex = 3;
             // 
             // ssRepair
@@ -1779,7 +1787,7 @@ namespace PrintInvoice
             this.tsslRepairRepaired});
             this.ssRepair.Location = new System.Drawing.Point(0, 0);
             this.ssRepair.Name = "ssRepair";
-            this.ssRepair.Size = new System.Drawing.Size(634, 28);
+            this.ssRepair.Size = new System.Drawing.Size(970, 28);
             this.ssRepair.SizingGrip = false;
             this.ssRepair.TabIndex = 3;
             this.ssRepair.Text = "statusStrip2";
@@ -1810,7 +1818,7 @@ namespace PrintInvoice
             this.panel27.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel27.Location = new System.Drawing.Point(0, 0);
             this.panel27.Name = "panel27";
-            this.panel27.Size = new System.Drawing.Size(634, 28);
+            this.panel27.Size = new System.Drawing.Size(970, 28);
             this.panel27.TabIndex = 1;
             // 
             // chkRepairShowRepaired
@@ -1820,7 +1828,7 @@ namespace PrintInvoice
             this.chkRepairShowRepaired.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRepairShowRepaired.Location = new System.Drawing.Point(125, 6);
             this.chkRepairShowRepaired.Name = "chkRepairShowRepaired";
-            this.chkRepairShowRepaired.Size = new System.Drawing.Size(99, 17);
+            this.chkRepairShowRepaired.Size = new System.Drawing.Size(104, 17);
             this.chkRepairShowRepaired.TabIndex = 7;
             this.chkRepairShowRepaired.Text = "Show Repaired";
             this.chkRepairShowRepaired.UseVisualStyleBackColor = true;
@@ -1832,7 +1840,7 @@ namespace PrintInvoice
             this.chkRepairShowNonrepaired.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRepairShowNonrepaired.Location = new System.Drawing.Point(5, 6);
             this.chkRepairShowNonrepaired.Name = "chkRepairShowNonrepaired";
-            this.chkRepairShowNonrepaired.Size = new System.Drawing.Size(114, 17);
+            this.chkRepairShowNonrepaired.Size = new System.Drawing.Size(123, 17);
             this.chkRepairShowNonrepaired.TabIndex = 6;
             this.chkRepairShowNonrepaired.Text = "Show Nonrepaired";
             this.chkRepairShowNonrepaired.UseVisualStyleBackColor = true;
@@ -1848,14 +1856,14 @@ namespace PrintInvoice
             this.panel28.Controls.Add(this.btRepairSelectAll);
             this.panel28.Controls.Add(this.btRepairReload);
             this.panel28.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel28.Location = new System.Drawing.Point(637, 65);
+            this.panel28.Location = new System.Drawing.Point(973, 65);
             this.panel28.Name = "panel28";
-            this.panel28.Size = new System.Drawing.Size(200, 364);
+            this.panel28.Size = new System.Drawing.Size(200, 443);
             this.panel28.TabIndex = 1;
             // 
             // btRepairExportPackagesErrors
             // 
-            this.btRepairExportPackagesErrors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btRepairExportPackagesErrors.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btRepairExportPackagesErrors.Location = new System.Drawing.Point(10, 218);
             this.btRepairExportPackagesErrors.Name = "btRepairExportPackagesErrors";
             this.btRepairExportPackagesErrors.Size = new System.Drawing.Size(180, 35);
@@ -1866,7 +1874,7 @@ namespace PrintInvoice
             // 
             // btRepairExportErrors
             // 
-            this.btRepairExportErrors.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btRepairExportErrors.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btRepairExportErrors.Location = new System.Drawing.Point(10, 272);
             this.btRepairExportErrors.Name = "btRepairExportErrors";
             this.btRepairExportErrors.Size = new System.Drawing.Size(180, 35);
@@ -1877,7 +1885,7 @@ namespace PrintInvoice
             // 
             // btRepair
             // 
-            this.btRepair.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btRepair.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btRepair.Location = new System.Drawing.Point(10, 177);
             this.btRepair.Name = "btRepair";
             this.btRepair.Size = new System.Drawing.Size(180, 35);
@@ -1888,7 +1896,7 @@ namespace PrintInvoice
             // 
             // btRepairClearSelection
             // 
-            this.btRepairClearSelection.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btRepairClearSelection.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btRepairClearSelection.Location = new System.Drawing.Point(10, 121);
             this.btRepairClearSelection.Name = "btRepairClearSelection";
             this.btRepairClearSelection.Size = new System.Drawing.Size(180, 35);
@@ -1899,7 +1907,7 @@ namespace PrintInvoice
             // 
             // btRepairSelectAll
             // 
-            this.btRepairSelectAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btRepairSelectAll.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btRepairSelectAll.Location = new System.Drawing.Point(10, 80);
             this.btRepairSelectAll.Name = "btRepairSelectAll";
             this.btRepairSelectAll.Size = new System.Drawing.Size(180, 35);
@@ -1910,7 +1918,7 @@ namespace PrintInvoice
             // 
             // btRepairReload
             // 
-            this.btRepairReload.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btRepairReload.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btRepairReload.Location = new System.Drawing.Point(10, 28);
             this.btRepairReload.Name = "btRepairReload";
             this.btRepairReload.Size = new System.Drawing.Size(180, 35);
@@ -1926,7 +1934,7 @@ namespace PrintInvoice
             this.panel29.Location = new System.Drawing.Point(3, 3);
             this.panel29.Name = "panel29";
             this.panel29.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.panel29.Size = new System.Drawing.Size(834, 62);
+            this.panel29.Size = new System.Drawing.Size(1170, 62);
             this.panel29.TabIndex = 6;
             // 
             // tbHelpRepair
@@ -1938,19 +1946,20 @@ namespace PrintInvoice
             this.tbHelpRepair.Name = "tbHelpRepair";
             this.tbHelpRepair.ReadOnly = true;
             this.tbHelpRepair.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbHelpRepair.Size = new System.Drawing.Size(834, 59);
+            this.tbHelpRepair.Size = new System.Drawing.Size(1170, 59);
             this.tbHelpRepair.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(848, 482);
+            this.ClientSize = new System.Drawing.Size(1184, 561);
             this.Controls.Add(this.tcQueries);
             this.Controls.Add(this.menuStrip1);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(800, 500);
+            this.MinimumSize = new System.Drawing.Size(1200, 600);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "W3 PACK";

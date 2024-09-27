@@ -45,7 +45,7 @@
             // 
             // btPrint
             // 
-            this.btPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btPrint.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btPrint.Location = new System.Drawing.Point(46, 110);
             this.btPrint.Name = "btPrint";
             this.btPrint.Size = new System.Drawing.Size(100, 35);
@@ -56,7 +56,7 @@
             // 
             // btDontPrint
             // 
-            this.btDontPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btDontPrint.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btDontPrint.Location = new System.Drawing.Point(152, 110);
             this.btDontPrint.Name = "btDontPrint";
             this.btDontPrint.Size = new System.Drawing.Size(100, 35);
@@ -70,7 +70,7 @@
             this.ckDontAsk.AutoSize = true;
             this.ckDontAsk.Location = new System.Drawing.Point(23, 82);
             this.ckDontAsk.Name = "ckDontAsk";
-            this.ckDontAsk.Size = new System.Drawing.Size(107, 17);
+            this.ckDontAsk.Size = new System.Drawing.Size(114, 17);
             this.ckDontAsk.TabIndex = 3;
             this.ckDontAsk.Text = "Do not ask again";
             this.ckDontAsk.UseVisualStyleBackColor = true;
@@ -84,6 +84,7 @@
             this.Controls.Add(this.btDontPrint);
             this.Controls.Add(this.btPrint);
             this.Controls.Add(this.laMessage);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;

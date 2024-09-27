@@ -556,6 +556,7 @@ namespace PrintInvoice
                 var fieldNames = _invoiceStorage.FieldNames;
                 dgvQuery.ColumnCount = fieldNames.Length;
                 dgvSubset.ColumnCount = fieldNames.Length;
+                
                 for (var i = 0; i < fieldNames.Length; i++)
                 {
                     dgvQuery.Columns[i].HeaderText = fieldNames[i];

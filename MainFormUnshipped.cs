@@ -15,11 +15,13 @@ namespace PrintInvoice
                 dgvUnshipped.ColumnCount = _unshipped.FieldNames?.Length ?? 0;
 
                 if (_unshipped.FieldNames != null)
+                {
                     for (var i = 0; i < _unshipped.FieldNames.Length; i++)
                     {
                         dgvUnshipped.Columns[i].HeaderText = _unshipped.FieldNames[i];
                         dgvUnshipped.Columns[i].SortMode = DataGridViewColumnSortMode.Automatic;
                     }
+                }
 
                 FillCopyToClipboardMenuItem(miUnshippedCopyToClipboard, dgvUnshipped);
 
