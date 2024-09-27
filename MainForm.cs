@@ -171,14 +171,14 @@ namespace PrintInvoice
 
             _printControllerCompleteReprint = printController_CompleteReprint;
             _printControllerComplete = printController_Complete;
-
-
+            
             // set up tabs for root queries
-            var h = tcQueries.Handle; // bug? see http://social.msdn.microsoft.com/Forums/en-US/winforms/thread/5d10fd0c-1aa6-4092-922e-1fd7af979663
+            _ = tcQueries.Handle;
 
             for (var i = 0; i < _config.QueryList.Count; i++)
             {
                 TabPage tabPage;
+
                 if (i == 0) // existing tab with controls
                 {
                     tabPage = tcQueries.TabPages[0];
@@ -1083,24 +1083,28 @@ namespace PrintInvoice
             var result = false;
 
             foreach (DataGridViewRow row in dgvSubset.Rows)
+            {
                 if (row.Visible && row.Cells[colIndex].Value.ToString() == findValue)
                 {
                     result = true;
                     dgvSubset.CurrentCell = row.Cells[colIndex];
                     break;
                 }
+            }
 
             if (result && next) // need next row
             {
                 result = false;
 
                 for (var i = dgvSubset.CurrentRow.Index + 1; i < dgvSubset.Rows.Count; i++)
+                {
                     if (dgvSubset.Rows[i].Visible)
                     {
                         dgvSubset.CurrentCell = dgvSubset.Rows[i].Cells[colIndex];
                         result = true;
                         break;
                     }
+                }
             }
 
             return result;
@@ -1111,12 +1115,14 @@ namespace PrintInvoice
             var result = false;
 
             foreach (DataGridViewRow row in dgvQuery.Rows)
+            {
                 if (row.Visible && row.Cells[colIndex].Value.ToString() == findValue)
                 {
                     result = true;
                     dgvQuery.CurrentCell = row.Cells[colIndex];
                     break;
                 }
+            }
 
             return result;
         }
@@ -1380,6 +1386,7 @@ namespace PrintInvoice
             var nFailed = 0;
 
             foreach (var package in _unshipped.PackageList)
+            {
                 switch (package.State)
                 {
                     case UnshippedPackageWrapper.StateType.ORIGINAL:
@@ -1395,6 +1402,7 @@ namespace PrintInvoice
                         nFailed++;
                         break;
                 }
+            }
 
             tsslUnshippedTotal.Text = $@"Total: {_unshipped.PackageList.Count}";
             tsslNonupdated.Text = $@"Nonupdated: {nNonUpdated}";
@@ -1491,8 +1499,7 @@ namespace PrintInvoice
 
         private void miPreviewSubsetInvoiceWithSequenceNumber_Click(object sender, EventArgs e)
         {
-            PreviewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId,
-                Routines.GenerateSequenceNumber(0, 0, 0, 0), false);
+            PreviewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId,Routines.GenerateSequenceNumber(0, 0, 0, 0), false);
         }
 
         private void previewPackJacketInvoiceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1502,8 +1509,7 @@ namespace PrintInvoice
 
         private void previewPackJacketInvoiceWithSequenceNumberToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PreviewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId,
-                Routines.GenerateSequenceNumber(0, 0, 0, 0), true);
+            PreviewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId, Routines.GenerateSequenceNumber(0, 0, 0, 0), true);
         }
 
         private void chkPrintSequenceNumber_Click(object sender, EventArgs e)
@@ -1552,5 +1558,14 @@ namespace PrintInvoice
         private delegate void SetRowStyleCallback(DataGridViewRow row, PrintPackageWrapper package);
 
         private delegate void FindStartIndexCallback();
+
+        private void tcQueries_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            Brush titleBrush = new SolidBrush(e.State == DrawItemState.Selected ? Color.DarkBlue : Color.Black);
+            var font = new Font("Segoe UI", 10f, e.State == DrawItemState.Selected ? FontStyle.Bold : FontStyle.Regular);
+            var title = tcQueries.TabPages[e.Index].Text;
+            var size = e.Graphics.MeasureString(title, font);
+            e.Graphics.DrawString(title, font, titleBrush, new PointF(e.Bounds.X + (e.Bounds.Width - size.Width) / 2, e.Bounds.Y + (e.Bounds.Height - size.Height) / 2 + 2));
+        }
     }
 }

@@ -315,10 +315,10 @@ namespace PrintInvoice
             // 
             this.tpTemplate.Controls.Add(this.splitContainer1);
             this.tpTemplate.Controls.Add(this.panel21);
-            this.tpTemplate.Location = new System.Drawing.Point(4, 22);
+            this.tpTemplate.Location = new System.Drawing.Point(4, 28);
             this.tpTemplate.Name = "tpTemplate";
             this.tpTemplate.Padding = new System.Windows.Forms.Padding(3);
-            this.tpTemplate.Size = new System.Drawing.Size(876, 511);
+            this.tpTemplate.Size = new System.Drawing.Size(1176, 505);
             this.tpTemplate.TabIndex = 0;
             this.tpTemplate.Text = "Template Tab Page";
             this.tpTemplate.UseVisualStyleBackColor = true;
@@ -340,8 +340,8 @@ namespace PrintInvoice
             // 
             this.splitContainer1.Panel2.Controls.Add(this.panel8);
             this.splitContainer1.Panel2.Controls.Add(this.panel7);
-            this.splitContainer1.Size = new System.Drawing.Size(870, 443);
-            this.splitContainer1.SplitterDistance = 240;
+            this.splitContainer1.Size = new System.Drawing.Size(1170, 437);
+            this.splitContainer1.SplitterDistance = 236;
             this.splitContainer1.TabIndex = 1;
             // 
             // panel6
@@ -352,7 +352,7 @@ namespace PrintInvoice
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(0, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(668, 238);
+            this.panel6.Size = new System.Drawing.Size(968, 234);
             this.panel6.TabIndex = 5;
             // 
             // dgvSubset
@@ -368,7 +368,7 @@ namespace PrintInvoice
             this.dgvSubset.Name = "dgvSubset";
             this.dgvSubset.ReadOnly = true;
             this.dgvSubset.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSubset.Size = new System.Drawing.Size(668, 164);
+            this.dgvSubset.Size = new System.Drawing.Size(968, 160);
             this.dgvSubset.TabIndex = 3;
             this.dgvSubset.Sorted += new System.EventHandler(this.dgvSubset_Sorted);
             // 
@@ -442,7 +442,7 @@ namespace PrintInvoice
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(668, 49);
+            this.panel2.Size = new System.Drawing.Size(968, 49);
             this.panel2.TabIndex = 0;
             // 
             // label4
@@ -472,9 +472,9 @@ namespace PrintInvoice
             this.panel3.BackColor = System.Drawing.SystemColors.Control;
             this.panel3.Controls.Add(this.ssSubset);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 213);
+            this.panel3.Location = new System.Drawing.Point(0, 209);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(668, 25);
+            this.panel3.Size = new System.Drawing.Size(968, 25);
             this.panel3.TabIndex = 1;
             // 
             // ssSubset
@@ -488,7 +488,7 @@ namespace PrintInvoice
             this.tsslSubsetLocked});
             this.ssSubset.Location = new System.Drawing.Point(0, 0);
             this.ssSubset.Name = "ssSubset";
-            this.ssSubset.Size = new System.Drawing.Size(668, 25);
+            this.ssSubset.Size = new System.Drawing.Size(968, 25);
             this.ssSubset.SizingGrip = false;
             this.ssSubset.TabIndex = 0;
             // 
@@ -531,9 +531,9 @@ namespace PrintInvoice
             this.panel1.Controls.Add(this.cbPrinter);
             this.panel1.Controls.Add(this.btPrint);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(668, 0);
+            this.panel1.Location = new System.Drawing.Point(968, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 238);
+            this.panel1.Size = new System.Drawing.Size(200, 234);
             this.panel1.TabIndex = 4;
             // 
             // chkPrintSequenceNumber
@@ -596,7 +596,7 @@ namespace PrintInvoice
             this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel8.Location = new System.Drawing.Point(0, 0);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(668, 197);
+            this.panel8.Size = new System.Drawing.Size(968, 195);
             this.panel8.TabIndex = 6;
             // 
             // dgvQuery
@@ -612,7 +612,7 @@ namespace PrintInvoice
             this.dgvQuery.Name = "dgvQuery";
             this.dgvQuery.ReadOnly = true;
             this.dgvQuery.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvQuery.Size = new System.Drawing.Size(668, 127);
+            this.dgvQuery.Size = new System.Drawing.Size(968, 125);
             this.dgvQuery.TabIndex = 2;
             // 
             // cmsSet
@@ -656,7 +656,7 @@ namespace PrintInvoice
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(668, 42);
+            this.panel4.Size = new System.Drawing.Size(968, 42);
             this.panel4.TabIndex = 0;
             // 
             // label5
@@ -675,7 +675,7 @@ namespace PrintInvoice
             this.cbQueryShowLocked.AutoSize = true;
             this.cbQueryShowLocked.Checked = true;
             this.cbQueryShowLocked.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbQueryShowLocked.Location = new System.Drawing.Point(300, 21);
+            this.cbQueryShowLocked.Location = new System.Drawing.Point(320, 21);
             this.cbQueryShowLocked.Name = "cbQueryShowLocked";
             this.cbQueryShowLocked.Size = new System.Drawing.Size(94, 17);
             this.cbQueryShowLocked.TabIndex = 3;
@@ -688,7 +688,7 @@ namespace PrintInvoice
             this.cbQueryShowError.AutoSize = true;
             this.cbQueryShowError.Checked = true;
             this.cbQueryShowError.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbQueryShowError.Location = new System.Drawing.Point(210, 21);
+            this.cbQueryShowError.Location = new System.Drawing.Point(225, 21);
             this.cbQueryShowError.Name = "cbQueryShowError";
             this.cbQueryShowError.Size = new System.Drawing.Size(89, 17);
             this.cbQueryShowError.TabIndex = 2;
@@ -701,7 +701,7 @@ namespace PrintInvoice
             this.cbQueryShowPrinted.AutoSize = true;
             this.cbQueryShowPrinted.Checked = true;
             this.cbQueryShowPrinted.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbQueryShowPrinted.Location = new System.Drawing.Point(115, 21);
+            this.cbQueryShowPrinted.Location = new System.Drawing.Point(124, 21);
             this.cbQueryShowPrinted.Name = "cbQueryShowPrinted";
             this.cbQueryShowPrinted.Size = new System.Drawing.Size(95, 17);
             this.cbQueryShowPrinted.TabIndex = 1;
@@ -727,9 +727,9 @@ namespace PrintInvoice
             this.panel5.BackColor = System.Drawing.SystemColors.Control;
             this.panel5.Controls.Add(this.ssSet);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(0, 169);
+            this.panel5.Location = new System.Drawing.Point(0, 167);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(668, 28);
+            this.panel5.Size = new System.Drawing.Size(968, 28);
             this.panel5.TabIndex = 1;
             // 
             // ssSet
@@ -743,7 +743,7 @@ namespace PrintInvoice
             this.tsslSetLocked});
             this.ssSet.Location = new System.Drawing.Point(0, 0);
             this.ssSet.Name = "ssSet";
-            this.ssSet.Size = new System.Drawing.Size(668, 28);
+            this.ssSet.Size = new System.Drawing.Size(968, 28);
             this.ssSet.SizingGrip = false;
             this.ssSet.TabIndex = 0;
             this.ssSet.Text = "statusStrip1";
@@ -783,9 +783,9 @@ namespace PrintInvoice
             this.panel7.BackColor = System.Drawing.SystemColors.Control;
             this.panel7.Controls.Add(this.btReload);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel7.Location = new System.Drawing.Point(668, 0);
+            this.panel7.Location = new System.Drawing.Point(968, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(200, 197);
+            this.panel7.Size = new System.Drawing.Size(200, 195);
             this.panel7.TabIndex = 5;
             // 
             // btReload
@@ -806,7 +806,7 @@ namespace PrintInvoice
             this.panel21.Location = new System.Drawing.Point(3, 3);
             this.panel21.Name = "panel21";
             this.panel21.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.panel21.Size = new System.Drawing.Size(870, 62);
+            this.panel21.Size = new System.Drawing.Size(1170, 62);
             this.panel21.TabIndex = 2;
             // 
             // tbHelp
@@ -818,7 +818,7 @@ namespace PrintInvoice
             this.tbHelp.Name = "tbHelp";
             this.tbHelp.ReadOnly = true;
             this.tbHelp.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbHelp.Size = new System.Drawing.Size(870, 59);
+            this.tbHelp.Size = new System.Drawing.Size(1170, 59);
             this.tbHelp.TabIndex = 0;
             // 
             // sfdExportErrors
@@ -835,11 +835,14 @@ namespace PrintInvoice
             this.tcQueries.Controls.Add(this.tpReprint);
             this.tcQueries.Controls.Add(this.tpRepair);
             this.tcQueries.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcQueries.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.tcQueries.Location = new System.Drawing.Point(0, 24);
             this.tcQueries.Name = "tcQueries";
+            this.tcQueries.Padding = new System.Drawing.Point(24, 6);
             this.tcQueries.SelectedIndex = 0;
             this.tcQueries.Size = new System.Drawing.Size(1184, 537);
             this.tcQueries.TabIndex = 1;
+            this.tcQueries.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tcQueries_DrawItem);
             this.tcQueries.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Selecting);
             this.tcQueries.Deselecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tcQueries_Deselecting);
             this.tcQueries.Deselected += new System.Windows.Forms.TabControlEventHandler(this.tabControl1_Deselected);
@@ -862,10 +865,10 @@ namespace PrintInvoice
             this.tpUnship.Controls.Add(this.panel9);
             this.tpUnship.Controls.Add(this.panel10);
             this.tpUnship.Controls.Add(this.panel23);
-            this.tpUnship.Location = new System.Drawing.Point(4, 22);
+            this.tpUnship.Location = new System.Drawing.Point(4, 28);
             this.tpUnship.Name = "tpUnship";
             this.tpUnship.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUnship.Size = new System.Drawing.Size(876, 511);
+            this.tpUnship.Size = new System.Drawing.Size(1176, 505);
             this.tpUnship.TabIndex = 1;
             this.tpUnship.Text = "Unship";
             this.tpUnship.UseVisualStyleBackColor = true;
@@ -878,7 +881,7 @@ namespace PrintInvoice
             this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel9.Location = new System.Drawing.Point(3, 65);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(670, 443);
+            this.panel9.Size = new System.Drawing.Size(970, 437);
             this.panel9.TabIndex = 0;
             // 
             // dgvUnship
@@ -894,7 +897,7 @@ namespace PrintInvoice
             this.dgvUnship.Name = "dgvUnship";
             this.dgvUnship.ReadOnly = true;
             this.dgvUnship.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUnship.Size = new System.Drawing.Size(670, 387);
+            this.dgvUnship.Size = new System.Drawing.Size(970, 381);
             this.dgvUnship.TabIndex = 4;
             // 
             // cmsUnship
@@ -923,9 +926,9 @@ namespace PrintInvoice
             // 
             this.panel12.Controls.Add(this.ssUnship);
             this.panel12.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel12.Location = new System.Drawing.Point(0, 415);
+            this.panel12.Location = new System.Drawing.Point(0, 409);
             this.panel12.Name = "panel12";
-            this.panel12.Size = new System.Drawing.Size(670, 28);
+            this.panel12.Size = new System.Drawing.Size(970, 28);
             this.panel12.TabIndex = 3;
             // 
             // ssUnship
@@ -938,7 +941,7 @@ namespace PrintInvoice
             this.tsslUnshipFailed});
             this.ssUnship.Location = new System.Drawing.Point(0, 0);
             this.ssUnship.Name = "ssUnship";
-            this.ssUnship.Size = new System.Drawing.Size(670, 28);
+            this.ssUnship.Size = new System.Drawing.Size(970, 28);
             this.ssUnship.SizingGrip = false;
             this.ssUnship.TabIndex = 3;
             this.ssUnship.Text = "statusStrip1";
@@ -976,7 +979,7 @@ namespace PrintInvoice
             this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel11.Location = new System.Drawing.Point(0, 0);
             this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(670, 28);
+            this.panel11.Size = new System.Drawing.Size(970, 28);
             this.panel11.TabIndex = 1;
             // 
             // chkUnshipFilterShowFailed
@@ -984,7 +987,7 @@ namespace PrintInvoice
             this.chkUnshipFilterShowFailed.AutoSize = true;
             this.chkUnshipFilterShowFailed.Checked = true;
             this.chkUnshipFilterShowFailed.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUnshipFilterShowFailed.Location = new System.Drawing.Point(218, 6);
+            this.chkUnshipFilterShowFailed.Location = new System.Drawing.Point(232, 6);
             this.chkUnshipFilterShowFailed.Name = "chkUnshipFilterShowFailed";
             this.chkUnshipFilterShowFailed.Size = new System.Drawing.Size(89, 17);
             this.chkUnshipFilterShowFailed.TabIndex = 2;
@@ -997,7 +1000,7 @@ namespace PrintInvoice
             this.chkUnshipFilterShowUnshipped.AutoSize = true;
             this.chkUnshipFilterShowUnshipped.Checked = true;
             this.chkUnshipFilterShowUnshipped.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUnshipFilterShowUnshipped.Location = new System.Drawing.Point(105, 6);
+            this.chkUnshipFilterShowUnshipped.Location = new System.Drawing.Point(111, 6);
             this.chkUnshipFilterShowUnshipped.Name = "chkUnshipFilterShowUnshipped";
             this.chkUnshipFilterShowUnshipped.Size = new System.Drawing.Size(115, 17);
             this.chkUnshipFilterShowUnshipped.TabIndex = 1;
@@ -1027,9 +1030,9 @@ namespace PrintInvoice
             this.panel10.Controls.Add(this.btUnship);
             this.panel10.Controls.Add(this.btAddUnshipInvoice);
             this.panel10.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel10.Location = new System.Drawing.Point(673, 65);
+            this.panel10.Location = new System.Drawing.Point(973, 65);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(200, 443);
+            this.panel10.Size = new System.Drawing.Size(200, 437);
             this.panel10.TabIndex = 1;
             // 
             // btUnshipLastBatches
@@ -1094,7 +1097,7 @@ namespace PrintInvoice
             this.panel23.Location = new System.Drawing.Point(3, 3);
             this.panel23.Name = "panel23";
             this.panel23.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.panel23.Size = new System.Drawing.Size(870, 62);
+            this.panel23.Size = new System.Drawing.Size(1170, 62);
             this.panel23.TabIndex = 4;
             // 
             // tbHelpUnship
@@ -1106,7 +1109,7 @@ namespace PrintInvoice
             this.tbHelpUnship.Name = "tbHelpUnship";
             this.tbHelpUnship.ReadOnly = true;
             this.tbHelpUnship.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbHelpUnship.Size = new System.Drawing.Size(870, 59);
+            this.tbHelpUnship.Size = new System.Drawing.Size(1170, 59);
             this.tbHelpUnship.TabIndex = 0;
             // 
             // tpUnshipped
@@ -1114,10 +1117,10 @@ namespace PrintInvoice
             this.tpUnshipped.Controls.Add(this.panel13);
             this.tpUnshipped.Controls.Add(this.panel16);
             this.tpUnshipped.Controls.Add(this.panel22);
-            this.tpUnshipped.Location = new System.Drawing.Point(4, 22);
+            this.tpUnshipped.Location = new System.Drawing.Point(4, 28);
             this.tpUnshipped.Name = "tpUnshipped";
             this.tpUnshipped.Padding = new System.Windows.Forms.Padding(3);
-            this.tpUnshipped.Size = new System.Drawing.Size(876, 511);
+            this.tpUnshipped.Size = new System.Drawing.Size(1176, 505);
             this.tpUnshipped.TabIndex = 2;
             this.tpUnshipped.Text = "Pick New";
             this.tpUnshipped.UseVisualStyleBackColor = true;
@@ -1130,7 +1133,7 @@ namespace PrintInvoice
             this.panel13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel13.Location = new System.Drawing.Point(3, 65);
             this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(670, 443);
+            this.panel13.Size = new System.Drawing.Size(970, 437);
             this.panel13.TabIndex = 0;
             // 
             // dgvUnshipped
@@ -1146,7 +1149,7 @@ namespace PrintInvoice
             this.dgvUnshipped.Name = "dgvUnshipped";
             this.dgvUnshipped.ReadOnly = true;
             this.dgvUnshipped.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvUnshipped.Size = new System.Drawing.Size(670, 387);
+            this.dgvUnshipped.Size = new System.Drawing.Size(970, 381);
             this.dgvUnshipped.TabIndex = 4;
             // 
             // cmsUnshipped
@@ -1173,7 +1176,7 @@ namespace PrintInvoice
             this.panel15.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel15.Location = new System.Drawing.Point(0, 0);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(670, 28);
+            this.panel15.Size = new System.Drawing.Size(970, 28);
             this.panel15.TabIndex = 1;
             // 
             // chkUnshippedShowNonupdated
@@ -1194,7 +1197,7 @@ namespace PrintInvoice
             this.chkUnshippedShowFailed.AutoSize = true;
             this.chkUnshippedShowFailed.Checked = true;
             this.chkUnshippedShowFailed.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUnshippedShowFailed.Location = new System.Drawing.Point(229, 6);
+            this.chkUnshippedShowFailed.Location = new System.Drawing.Point(244, 6);
             this.chkUnshippedShowFailed.Name = "chkUnshippedShowFailed";
             this.chkUnshippedShowFailed.Size = new System.Drawing.Size(89, 17);
             this.chkUnshippedShowFailed.TabIndex = 3;
@@ -1207,7 +1210,7 @@ namespace PrintInvoice
             this.chkUnshippedShowUpdated.AutoSize = true;
             this.chkUnshippedShowUpdated.Checked = true;
             this.chkUnshippedShowUpdated.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUnshippedShowUpdated.Location = new System.Drawing.Point(126, 6);
+            this.chkUnshippedShowUpdated.Location = new System.Drawing.Point(135, 6);
             this.chkUnshippedShowUpdated.Name = "chkUnshippedShowUpdated";
             this.chkUnshippedShowUpdated.Size = new System.Drawing.Size(103, 17);
             this.chkUnshippedShowUpdated.TabIndex = 2;
@@ -1234,7 +1237,7 @@ namespace PrintInvoice
             this.chkUnshippedShowNew.AutoSize = true;
             this.chkUnshippedShowNew.Checked = true;
             this.chkUnshippedShowNew.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUnshippedShowNew.Location = new System.Drawing.Point(549, 6);
+            this.chkUnshippedShowNew.Location = new System.Drawing.Point(557, 6);
             this.chkUnshippedShowNew.Name = "chkUnshippedShowNew";
             this.chkUnshippedShowNew.Size = new System.Drawing.Size(81, 17);
             this.chkUnshippedShowNew.TabIndex = 0;
@@ -1247,9 +1250,9 @@ namespace PrintInvoice
             // 
             this.panel14.Controls.Add(this.ssUnshipped);
             this.panel14.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel14.Location = new System.Drawing.Point(0, 415);
+            this.panel14.Location = new System.Drawing.Point(0, 409);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(670, 28);
+            this.panel14.Size = new System.Drawing.Size(970, 28);
             this.panel14.TabIndex = 3;
             // 
             // ssUnshipped
@@ -1262,7 +1265,7 @@ namespace PrintInvoice
             this.tsslUnshippedFailed});
             this.ssUnshipped.Location = new System.Drawing.Point(0, 0);
             this.ssUnshipped.Name = "ssUnshipped";
-            this.ssUnshipped.Size = new System.Drawing.Size(670, 28);
+            this.ssUnshipped.Size = new System.Drawing.Size(970, 28);
             this.ssUnshipped.SizingGrip = false;
             this.ssUnshipped.TabIndex = 3;
             this.ssUnshipped.Text = "statusStrip2";
@@ -1303,9 +1306,9 @@ namespace PrintInvoice
             this.panel16.Controls.Add(this.btUnshippedSetPickable);
             this.panel16.Controls.Add(this.btReloarUnshipped);
             this.panel16.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel16.Location = new System.Drawing.Point(673, 65);
+            this.panel16.Location = new System.Drawing.Point(973, 65);
             this.panel16.Name = "panel16";
-            this.panel16.Size = new System.Drawing.Size(200, 443);
+            this.panel16.Size = new System.Drawing.Size(200, 437);
             this.panel16.TabIndex = 1;
             // 
             // btOnHold
@@ -1401,7 +1404,7 @@ namespace PrintInvoice
             this.panel22.Location = new System.Drawing.Point(3, 3);
             this.panel22.Name = "panel22";
             this.panel22.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.panel22.Size = new System.Drawing.Size(870, 62);
+            this.panel22.Size = new System.Drawing.Size(1170, 62);
             this.panel22.TabIndex = 3;
             // 
             // tbHelpUnshipped
@@ -1413,7 +1416,7 @@ namespace PrintInvoice
             this.tbHelpUnshipped.Name = "tbHelpUnshipped";
             this.tbHelpUnshipped.ReadOnly = true;
             this.tbHelpUnshipped.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbHelpUnshipped.Size = new System.Drawing.Size(870, 59);
+            this.tbHelpUnshipped.Size = new System.Drawing.Size(1170, 59);
             this.tbHelpUnshipped.TabIndex = 0;
             // 
             // tpReprint
@@ -1421,10 +1424,10 @@ namespace PrintInvoice
             this.tpReprint.Controls.Add(this.panel17);
             this.tpReprint.Controls.Add(this.panel20);
             this.tpReprint.Controls.Add(this.panel24);
-            this.tpReprint.Location = new System.Drawing.Point(4, 22);
+            this.tpReprint.Location = new System.Drawing.Point(4, 28);
             this.tpReprint.Name = "tpReprint";
             this.tpReprint.Padding = new System.Windows.Forms.Padding(3);
-            this.tpReprint.Size = new System.Drawing.Size(876, 511);
+            this.tpReprint.Size = new System.Drawing.Size(1176, 505);
             this.tpReprint.TabIndex = 3;
             this.tpReprint.Text = "Reprint";
             this.tpReprint.UseVisualStyleBackColor = true;
@@ -1437,7 +1440,7 @@ namespace PrintInvoice
             this.panel17.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel17.Location = new System.Drawing.Point(3, 65);
             this.panel17.Name = "panel17";
-            this.panel17.Size = new System.Drawing.Size(670, 443);
+            this.panel17.Size = new System.Drawing.Size(970, 437);
             this.panel17.TabIndex = 0;
             // 
             // dgvReprint
@@ -1453,7 +1456,7 @@ namespace PrintInvoice
             this.dgvReprint.Name = "dgvReprint";
             this.dgvReprint.ReadOnly = true;
             this.dgvReprint.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvReprint.Size = new System.Drawing.Size(670, 387);
+            this.dgvReprint.Size = new System.Drawing.Size(970, 381);
             this.dgvReprint.TabIndex = 4;
             // 
             // cmsReprint
@@ -1490,9 +1493,9 @@ namespace PrintInvoice
             // 
             this.panel18.Controls.Add(this.ssReprint);
             this.panel18.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel18.Location = new System.Drawing.Point(0, 415);
+            this.panel18.Location = new System.Drawing.Point(0, 409);
             this.panel18.Name = "panel18";
-            this.panel18.Size = new System.Drawing.Size(670, 28);
+            this.panel18.Size = new System.Drawing.Size(970, 28);
             this.panel18.TabIndex = 3;
             // 
             // ssReprint
@@ -1506,7 +1509,7 @@ namespace PrintInvoice
             this.tsslReprintLocked});
             this.ssReprint.Location = new System.Drawing.Point(0, 0);
             this.ssReprint.Name = "ssReprint";
-            this.ssReprint.Size = new System.Drawing.Size(670, 28);
+            this.ssReprint.Size = new System.Drawing.Size(970, 28);
             this.ssReprint.SizingGrip = false;
             this.ssReprint.TabIndex = 3;
             this.ssReprint.Text = "statusStrip3";
@@ -1551,7 +1554,7 @@ namespace PrintInvoice
             this.panel19.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel19.Location = new System.Drawing.Point(0, 0);
             this.panel19.Name = "panel19";
-            this.panel19.Size = new System.Drawing.Size(670, 28);
+            this.panel19.Size = new System.Drawing.Size(970, 28);
             this.panel19.TabIndex = 1;
             // 
             // chkReprintShowLocked
@@ -1559,7 +1562,7 @@ namespace PrintInvoice
             this.chkReprintShowLocked.AutoSize = true;
             this.chkReprintShowLocked.Checked = true;
             this.chkReprintShowLocked.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkReprintShowLocked.Location = new System.Drawing.Point(298, 6);
+            this.chkReprintShowLocked.Location = new System.Drawing.Point(318, 6);
             this.chkReprintShowLocked.Name = "chkReprintShowLocked";
             this.chkReprintShowLocked.Size = new System.Drawing.Size(94, 17);
             this.chkReprintShowLocked.TabIndex = 7;
@@ -1572,7 +1575,7 @@ namespace PrintInvoice
             this.chkReprintShowFailed.AutoSize = true;
             this.chkReprintShowFailed.Checked = true;
             this.chkReprintShowFailed.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkReprintShowFailed.Location = new System.Drawing.Point(208, 6);
+            this.chkReprintShowFailed.Location = new System.Drawing.Point(223, 6);
             this.chkReprintShowFailed.Name = "chkReprintShowFailed";
             this.chkReprintShowFailed.Size = new System.Drawing.Size(89, 17);
             this.chkReprintShowFailed.TabIndex = 6;
@@ -1585,7 +1588,7 @@ namespace PrintInvoice
             this.chkReprintShowPrinted.AutoSize = true;
             this.chkReprintShowPrinted.Checked = true;
             this.chkReprintShowPrinted.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkReprintShowPrinted.Location = new System.Drawing.Point(113, 6);
+            this.chkReprintShowPrinted.Location = new System.Drawing.Point(122, 6);
             this.chkReprintShowPrinted.Name = "chkReprintShowPrinted";
             this.chkReprintShowPrinted.Size = new System.Drawing.Size(95, 17);
             this.chkReprintShowPrinted.TabIndex = 5;
@@ -1618,9 +1621,9 @@ namespace PrintInvoice
             this.panel20.Controls.Add(this.btReprintClear);
             this.panel20.Controls.Add(this.btAddReprintPackage);
             this.panel20.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel20.Location = new System.Drawing.Point(673, 65);
+            this.panel20.Location = new System.Drawing.Point(973, 65);
             this.panel20.Name = "panel20";
-            this.panel20.Size = new System.Drawing.Size(200, 443);
+            this.panel20.Size = new System.Drawing.Size(200, 437);
             this.panel20.TabIndex = 1;
             // 
             // chkReprintSequenceNumber
@@ -1715,7 +1718,7 @@ namespace PrintInvoice
             this.panel24.Location = new System.Drawing.Point(3, 3);
             this.panel24.Name = "panel24";
             this.panel24.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.panel24.Size = new System.Drawing.Size(870, 62);
+            this.panel24.Size = new System.Drawing.Size(1170, 62);
             this.panel24.TabIndex = 5;
             // 
             // tbHelpReprint
@@ -1727,7 +1730,7 @@ namespace PrintInvoice
             this.tbHelpReprint.Name = "tbHelpReprint";
             this.tbHelpReprint.ReadOnly = true;
             this.tbHelpReprint.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbHelpReprint.Size = new System.Drawing.Size(870, 59);
+            this.tbHelpReprint.Size = new System.Drawing.Size(1170, 59);
             this.tbHelpReprint.TabIndex = 0;
             // 
             // tpRepair
@@ -1735,10 +1738,10 @@ namespace PrintInvoice
             this.tpRepair.Controls.Add(this.panel25);
             this.tpRepair.Controls.Add(this.panel28);
             this.tpRepair.Controls.Add(this.panel29);
-            this.tpRepair.Location = new System.Drawing.Point(4, 22);
+            this.tpRepair.Location = new System.Drawing.Point(4, 28);
             this.tpRepair.Name = "tpRepair";
             this.tpRepair.Padding = new System.Windows.Forms.Padding(3);
-            this.tpRepair.Size = new System.Drawing.Size(1176, 511);
+            this.tpRepair.Size = new System.Drawing.Size(1176, 505);
             this.tpRepair.TabIndex = 5;
             this.tpRepair.Text = "Repair";
             this.tpRepair.UseVisualStyleBackColor = true;
@@ -1751,7 +1754,7 @@ namespace PrintInvoice
             this.panel25.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel25.Location = new System.Drawing.Point(3, 65);
             this.panel25.Name = "panel25";
-            this.panel25.Size = new System.Drawing.Size(970, 443);
+            this.panel25.Size = new System.Drawing.Size(970, 437);
             this.panel25.TabIndex = 0;
             // 
             // dgvRepair
@@ -1766,14 +1769,14 @@ namespace PrintInvoice
             this.dgvRepair.Name = "dgvRepair";
             this.dgvRepair.ReadOnly = true;
             this.dgvRepair.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRepair.Size = new System.Drawing.Size(970, 387);
+            this.dgvRepair.Size = new System.Drawing.Size(970, 381);
             this.dgvRepair.TabIndex = 4;
             // 
             // panel26
             // 
             this.panel26.Controls.Add(this.ssRepair);
             this.panel26.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel26.Location = new System.Drawing.Point(0, 415);
+            this.panel26.Location = new System.Drawing.Point(0, 409);
             this.panel26.Name = "panel26";
             this.panel26.Size = new System.Drawing.Size(970, 28);
             this.panel26.TabIndex = 3;
@@ -1826,7 +1829,7 @@ namespace PrintInvoice
             this.chkRepairShowRepaired.AutoSize = true;
             this.chkRepairShowRepaired.Checked = true;
             this.chkRepairShowRepaired.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkRepairShowRepaired.Location = new System.Drawing.Point(125, 6);
+            this.chkRepairShowRepaired.Location = new System.Drawing.Point(134, 6);
             this.chkRepairShowRepaired.Name = "chkRepairShowRepaired";
             this.chkRepairShowRepaired.Size = new System.Drawing.Size(104, 17);
             this.chkRepairShowRepaired.TabIndex = 7;
@@ -1858,7 +1861,7 @@ namespace PrintInvoice
             this.panel28.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel28.Location = new System.Drawing.Point(973, 65);
             this.panel28.Name = "panel28";
-            this.panel28.Size = new System.Drawing.Size(200, 443);
+            this.panel28.Size = new System.Drawing.Size(200, 437);
             this.panel28.TabIndex = 1;
             // 
             // btRepairExportPackagesErrors
