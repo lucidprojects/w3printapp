@@ -7,9 +7,9 @@ namespace PrintInvoice
     {
         public enum PackageStateType
         {
-            SHIPPED,
-            UNSHIPPED,
-            ERROR
+            Shipped,
+            Unshipped,
+            Error
         }
 
         public UnshipPackageWrapper(int aPackageId) : base(aPackageId)
@@ -61,12 +61,12 @@ namespace PrintInvoice
                     {
                         case 0:
                             package.PackageId = int.Parse(item.fieldValueList[PackageIdColumnIndex]);
-                            package.State = UnshipPackageWrapper.PackageStateType.SHIPPED;
+                            package.State = UnshipPackageWrapper.PackageStateType.Shipped;
                             package.FieldValueList = item.fieldValueList;
                             break;
 
                         case 1:
-                            package.State = UnshipPackageWrapper.PackageStateType.ERROR;
+                            package.State = UnshipPackageWrapper.PackageStateType.Error;
                             package.ErrorText = "Package record not found";
                             package.FieldValueList = item.fieldValueList;
                             break;
@@ -109,12 +109,12 @@ namespace PrintInvoice
                     {
                         case 0:
                             package.PackageId = int.Parse(item.fieldValueList[PackageIdColumnIndex]);
-                            package.State = UnshipPackageWrapper.PackageStateType.SHIPPED;
+                            package.State = UnshipPackageWrapper.PackageStateType.Shipped;
                             package.FieldValueList = item.fieldValueList;
                             break;
 
                         case 1:
-                            package.State = UnshipPackageWrapper.PackageStateType.ERROR;
+                            package.State = UnshipPackageWrapper.PackageStateType.Error;
                             package.ErrorText = "Package record not found";
                             package.FieldValueList = item.fieldValueList;
                             break;
@@ -139,7 +139,7 @@ namespace PrintInvoice
 
             foreach (var package in _packageList)
             {
-                if (package.State != UnshipPackageWrapper.PackageStateType.ERROR && package.State != UnshipPackageWrapper.PackageStateType.UNSHIPPED)
+                if (package.State != UnshipPackageWrapper.PackageStateType.Error && package.State != UnshipPackageWrapper.PackageStateType.Unshipped)
                 {
                     var item = new UnshipRequestItemType
                     {
@@ -188,25 +188,25 @@ namespace PrintInvoice
             {
                 if (resultItem.isApproved)
                 {
-                    _packageIdIndex[resultItem.packageId].State = UnshipPackageWrapper.PackageStateType.UNSHIPPED;
+                    _packageIdIndex[resultItem.packageId].State = UnshipPackageWrapper.PackageStateType.Unshipped;
                     aSuccess++;
                 }
                 else
                 {
-                    _packageIdIndex[resultItem.packageId].State = UnshipPackageWrapper.PackageStateType.ERROR;
+                    _packageIdIndex[resultItem.packageId].State = UnshipPackageWrapper.PackageStateType.Error;
                     _packageIdIndex[resultItem.packageId].ErrorText = resultItem.errorMessage;
                     aFail++;
                 }
             }
         }
 
-        public new void remove(List<UnshipPackageWrapper> aList)
+        public new void Remove(List<UnshipPackageWrapper> aList)
         {
             base.Remove(aList);
             OnUpdateList(EventArgs.Empty);
         }
 
-        public new void clear()
+        public new void Clear()
         {
             base.Clear();
             OnUpdateList(EventArgs.Empty);

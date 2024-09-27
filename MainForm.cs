@@ -1056,7 +1056,7 @@ namespace PrintInvoice
             }
             catch (Exception e)
             {
-                MessageBox.Show(this, @"Error loading invoice: " + e.Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, $@"Error loading invoice: {e.Message}", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

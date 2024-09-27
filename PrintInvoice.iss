@@ -2,9 +2,9 @@
 #define ExeFolder "bin\Release\"
 
 [Setup]
-AppId={{9CF4F1A4-E080-4435-8DFB-9C13DB6FBA60}
+AppId={{F4A17E0D-3D35-4FC1-ADAF-D3D5EB604F6D}
 
-#define ExeNameExt ExeName+".exe"
+#define ExeNameExt ExeName + ".exe"
 #define ExePath ExeFolder + ExeNameExt
 #define ExeVersion GetVersionNumbersString(ExePath)
 #define ExeProduct GetStringFileInfo(ExePath, "ProductName")
@@ -16,17 +16,16 @@ AppName={#ExeProduct}
 AppVersion={#ExeVersion}
 AppVerName={#ExeProduct} v{#ExeVersion}
 AppPublisher={#ExeCompany}
-AppPublisherURL={#MyURL}
 DefaultDirName={userappdata}\{#ExeProduct}
 DefaultGroupName={#ExeCompany}\{#ExeProduct}
 OutputBaseFilename={#ExeName}_v{#ExeVersion}_Setup
-Compression=none
+Compression=lzma
 SolidCompression=no
 UninstallDisplayIcon={userappdata}\{#ExeProduct}\{#ExeNameExt}
 PrivilegesRequired=lowest
 
 [Files]
-Source: "{#ExeFolder}*.*"; DestDir: "{userappdata}\{#ExeProduct}"; Flags: ignoreversion
+Source: "{#ExeFolder}*.*"; DestDir: "{userappdata}\{#ExeProduct}"; Flags: ignoreversion recursesubdirs
 
 [Icons]
 Name: "{group}\{#ExeProduct}"; Filename: "{userappdata}\{#ExeProduct}\{#ExeNameExt}";

@@ -21,8 +21,7 @@ MD %output%
   @EXIT
 )
 
-@DEL Notificator\bin\Release\*.xml
-@DEL Notificator\bin\Release\*.pdb
+@DEL bin\Release\*.pdb
 
 @ECHO ----------------------------------------------------
 @ECHO Building installer...

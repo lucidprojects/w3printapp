@@ -50,15 +50,15 @@ namespace PrintInvoice
                 {
                     switch (_unship.PackageList[i].State)
                     {
-                        case UnshipPackageWrapper.PackageStateType.ERROR:
+                        case UnshipPackageWrapper.PackageStateType.Error:
                             cell.Style = cell.ColumnIndex == 0 ? _unshipErrorFirstCellStyle : _unshipErrorCellStyle;
                             break;
 
-                        case UnshipPackageWrapper.PackageStateType.SHIPPED:
+                        case UnshipPackageWrapper.PackageStateType.Shipped:
                             cell.Style = cell.ColumnIndex == 0 ? _defaultFirstCellStyle : dgvUnship.DefaultCellStyle;
                             break;
 
-                        case UnshipPackageWrapper.PackageStateType.UNSHIPPED:
+                        case UnshipPackageWrapper.PackageStateType.Unshipped:
                             cell.Style = cell.ColumnIndex == 0
                                 ? _unshipUnshippedFirstCellStyle
                                 : _unshipUnshippedCellStyle;
@@ -66,7 +66,7 @@ namespace PrintInvoice
                     }
                 }
 
-                dgvUnship.Rows[i].ErrorText = _unship.PackageList[i].State == UnshipPackageWrapper.PackageStateType.ERROR ? _unship.PackageList[i].ErrorText : "";
+                dgvUnship.Rows[i].ErrorText = _unship.PackageList[i].State == UnshipPackageWrapper.PackageStateType.Error ? _unship.PackageList[i].ErrorText : "";
             }
 
             UpdateUnshipFilter();
@@ -81,12 +81,12 @@ namespace PrintInvoice
                 var package = (UnshipPackageWrapper)row.Tag;
                 
                 if (chkUnshipFilterShowShipped.Checked &&
-                    package.State == UnshipPackageWrapper.PackageStateType.SHIPPED) visible = true;
+                    package.State == UnshipPackageWrapper.PackageStateType.Shipped) visible = true;
                 
                 if (chkUnshipFilterShowUnshipped.Checked &&
-                    package.State == UnshipPackageWrapper.PackageStateType.UNSHIPPED) visible = true;
+                    package.State == UnshipPackageWrapper.PackageStateType.Unshipped) visible = true;
                 
-                if (chkUnshipFilterShowFailed.Checked && package.State == UnshipPackageWrapper.PackageStateType.ERROR)
+                if (chkUnshipFilterShowFailed.Checked && package.State == UnshipPackageWrapper.PackageStateType.Error)
                     visible = true;
                 
                 row.Visible = visible;
@@ -105,15 +105,15 @@ namespace PrintInvoice
                 
                 switch (package.State)
                 {
-                    case UnshipPackageWrapper.PackageStateType.SHIPPED:
+                    case UnshipPackageWrapper.PackageStateType.Shipped:
                         shipped++;
                         break;
 
-                    case UnshipPackageWrapper.PackageStateType.UNSHIPPED:
+                    case UnshipPackageWrapper.PackageStateType.Unshipped:
                         unshipped++;
                         break;
 
-                    case UnshipPackageWrapper.PackageStateType.ERROR:
+                    case UnshipPackageWrapper.PackageStateType.Error:
                         failed++;
                         break;
                 }
@@ -154,7 +154,7 @@ namespace PrintInvoice
         private void miUnshipRemoveSelected_Click(object sender, EventArgs e)
         {
             var packageList = dgvUnship.SelectedRows.Cast<DataGridViewRow>().Select(row => row.Tag as UnshipPackageWrapper).ToList();
-            _unship.remove(packageList);
+            _unship.Remove(packageList);
             dgvUnship.ClearSelection();
         }
 
@@ -166,7 +166,7 @@ namespace PrintInvoice
         private void btUnshipClear_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(this, @"Do you want to clear unship list?", @"Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                _unship.clear();
+                _unship.Clear();
         }
 
         private void btExportUnshipErrors_Click(object sender, EventArgs e)
@@ -177,7 +177,7 @@ namespace PrintInvoice
             {
                 var package = (UnshipPackageWrapper)row.Tag;
                 
-                if (package.State == UnshipPackageWrapper.PackageStateType.ERROR)
+                if (package.State == UnshipPackageWrapper.PackageStateType.Error)
                     errorList.Add($"Package ID: {package.TrackingNumber}. Error: {package.ErrorText}");
             }
 

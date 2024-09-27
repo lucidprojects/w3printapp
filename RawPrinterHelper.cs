@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace PrintInvoice
@@ -188,8 +189,8 @@ namespace PrintInvoice
 
             var status = jobInfo1.Status;
 
-            if (jobInfo1._pStatus != null)
-                l.Add(jobInfo1._pStatus);
+            if (jobInfo1.StatusMessage != null)
+                l.Add(jobInfo1.StatusMessage);
 
             if ((status & JobStatusBlockedDevq) > 0)
                 l.Add("The driver cannot print the job");
@@ -374,15 +375,16 @@ namespace PrintInvoice
             }
         }
 
+#pragma warning disable CS0649
         public struct JobInfo1
         {
             public uint JobId;
-            public string _pPrinterName;
-            public string _pMachineName;
-            public string _pUserName;
-            public string _pDocument;
-            public string _pDatatype;
-            public string _pStatus;
+            public string PrinterName;
+            public string MachineName;
+            public string UserName;
+            public string Document;
+            public string Datatype;
+            public string StatusMessage;
             public uint Status;
             public uint Priority;
             public uint Position;
@@ -390,5 +392,6 @@ namespace PrintInvoice
             public uint PagesPrinted;
             public SystemTime Submitted;
         }
+#pragma warning restore CS0649
     }
 }
