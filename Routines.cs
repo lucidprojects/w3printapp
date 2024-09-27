@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using iTextSharp.text;
@@ -12,20 +11,16 @@ namespace PrintInvoice
     {
         public static string GetVersion()
         {
-            var v = new Version(Application.ProductVersion);
+            var v = new System.Version(Application.ProductVersion);
             return v.ToString(2);
         }
 
-        public static string GenerateSequenceNumber(int aPrintBatchId, int aPrintBatchCount, int aElementBatch,
-            int aElementBatchCount)
-        {
-            return
-                $"{aPrintBatchId:00000000}-{aPrintBatchCount:000000}-{aElementBatch:000000}-{aElementBatchCount:000000}";
-        }
+        public static string GenerateSequenceNumber(int aPrintBatchId, int aPrintBatchCount, int aElementBatch, int aElementBatchCount) =>
+            $"{aPrintBatchId:00000000}-{aPrintBatchCount:000000}-{aElementBatch:000000}-{aElementBatchCount:000000}";
 
         public static void AddSequenceNumberToPdf(string aSequenceNumber, ref byte[] aPdf, bool aIsPackJacket)
         {
-            Stream inputPdfStream = new MemoryStream(aPdf);
+            var inputPdfStream = new MemoryStream(aPdf);
             var pdfReader = new PdfReader(inputPdfStream);
             var outputPdfStream = new MemoryStream();
 
