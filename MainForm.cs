@@ -286,6 +286,7 @@ namespace PrintInvoice
             tbHelpRepair.Text = Settings.Default.RepairHelpText;
             tbHelpReprint.Text = Settings.Default.ReprintHelpText;
 
+            tcQueries.DrawMode = TabDrawMode.OwnerDrawFixed;
             Log.GetLogger().Info("Start application");
         }
 
@@ -1074,8 +1075,7 @@ namespace PrintInvoice
             if (_fmFindInvoice == null)
                 _fmFindInvoice = new FindInvoiceForm(this, _config);
 
-            if (!_fmFindInvoice.Visible)
-                _fmFindInvoice.Show(this);
+            _fmFindInvoice.ShowDialog(this);
         }
 
         public bool SetCurrentSubsetInvoice(string findValue, int colIndex, bool next)
@@ -1184,10 +1184,10 @@ namespace PrintInvoice
             {
                 var invoiceWrapper = (PrintPackageWrapper)row.Tag;
 
-                if (invoiceWrapper.IsUnprinted) stat._unprinted++;
-                if (invoiceWrapper.IsPrinted) stat._printed++;
-                if (invoiceWrapper.IsError) stat._failed++;
-                if (invoiceWrapper.IsLocked) stat._locked++;
+                if (invoiceWrapper.IsUnprinted) stat.Unprinted++;
+                if (invoiceWrapper.IsPrinted) stat.Printed++;
+                if (invoiceWrapper.IsError) stat.Failed++;
+                if (invoiceWrapper.IsLocked) stat.Locked++;
             }
 
             return stat;
@@ -1197,20 +1197,20 @@ namespace PrintInvoice
         {
             var stat = GetStat(dgvQuery);
 
-            tsslSetUnprinted.Text = $@"Unprinted: {stat._unprinted}";
-            tsslSetPrinted.Text = $@"Printed: {stat._printed}";
-            tsslSetFailed.Text = $@"Failed: {stat._failed}";
-            tsslSetLocked.Text = $@"Locked: {stat._locked}";
+            tsslSetUnprinted.Text = $@"Unprinted: {stat.Unprinted}";
+            tsslSetPrinted.Text = $@"Printed: {stat.Printed}";
+            tsslSetFailed.Text = $@"Failed: {stat.Failed}";
+            tsslSetLocked.Text = $@"Locked: {stat.Locked}";
         }
 
         private void UpdateSubsetStat()
         {
             var stat = GetStat(dgvSubset);
 
-            tsslSubsetUnprinted.Text = $@"Unprinted: {stat._unprinted}";
-            tsslSubsetPrinted.Text = $@"Printed: {stat._printed}";
-            tsslSubsetFailed.Text = $@"Failed: {stat._failed}";
-            tsslSubsetLocked.Text = $@"Locked: {stat._locked}";
+            tsslSubsetUnprinted.Text = $@"Unprinted: {stat.Unprinted}";
+            tsslSubsetPrinted.Text = $@"Printed: {stat.Printed}";
+            tsslSubsetFailed.Text = $@"Failed: {stat.Failed}";
+            tsslSubsetLocked.Text = $@"Locked: {stat.Locked}";
         }
 
         private void miFileExit_Click(object sender, EventArgs e)
@@ -1536,10 +1536,13 @@ namespace PrintInvoice
 
         private class Stat
         {
-            public int _failed;
-            public int _locked;
-            public int _printed;
-            public int _unprinted;
+            public int Failed { get; set; }
+
+            public int Locked { get; set; }
+            
+            public int Printed { get; set; }
+            
+            public int Unprinted { get; set; }
         }
 
 

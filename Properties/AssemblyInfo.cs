@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("w3track")]
 [assembly: AssemblyProduct("W3Pack")]
-[assembly: AssemblyCopyright("Copyright © w3track.com 2015")]
+[assembly: AssemblyCopyright("Copyright © w3track.com 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -28,5 +28,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.0.0.4")]
+[assembly: AssemblyVersion("2.1.0.4")]
 [assembly: AssemblyFileVersion("2.1.0.0")]

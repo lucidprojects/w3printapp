@@ -459,11 +459,11 @@ namespace PrintInvoice
             // cbSubset
             // 
             this.cbSubset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbSubset.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbSubset.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             this.cbSubset.FormattingEnabled = true;
             this.cbSubset.Location = new System.Drawing.Point(7, 21);
             this.cbSubset.Name = "cbSubset";
-            this.cbSubset.Size = new System.Drawing.Size(220, 23);
+            this.cbSubset.Size = new System.Drawing.Size(220, 21);
             this.cbSubset.TabIndex = 0;
             this.cbSubset.SelectedIndexChanged += new System.EventHandler(this.cbSubqueries_SelectedIndexChanged);
             // 
@@ -835,7 +835,6 @@ namespace PrintInvoice
             this.tcQueries.Controls.Add(this.tpReprint);
             this.tcQueries.Controls.Add(this.tpRepair);
             this.tcQueries.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcQueries.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.tcQueries.Location = new System.Drawing.Point(0, 24);
             this.tcQueries.Name = "tcQueries";
             this.tcQueries.Padding = new System.Drawing.Point(24, 6);

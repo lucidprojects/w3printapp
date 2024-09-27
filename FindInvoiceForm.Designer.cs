@@ -31,6 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.edFindValue = new System.Windows.Forms.TextBox();
             this.btFind = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -47,13 +48,13 @@
             this.edFindValue.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.edFindValue.Location = new System.Drawing.Point(23, 40);
             this.edFindValue.Name = "edFindValue";
-            this.edFindValue.Size = new System.Drawing.Size(217, 23);
+            this.edFindValue.Size = new System.Drawing.Size(206, 23);
             this.edFindValue.TabIndex = 1;
             // 
             // btFind
             // 
             this.btFind.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btFind.Location = new System.Drawing.Point(140, 74);
+            this.btFind.Location = new System.Drawing.Point(23, 74);
             this.btFind.Name = "btFind";
             this.btFind.Size = new System.Drawing.Size(100, 35);
             this.btFind.TabIndex = 2;
@@ -61,12 +62,25 @@
             this.btFind.UseVisualStyleBackColor = true;
             this.btFind.Click += new System.EventHandler(this.btFind_Click);
             // 
+            // btnClose
+            // 
+            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnClose.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClose.Location = new System.Drawing.Point(129, 74);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(100, 35);
+            this.btnClose.TabIndex = 3;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            // 
             // FindInvoiceForm
             // 
             this.AcceptButton = this.btFind;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(264, 126);
+            this.CancelButton = this.btnClose;
+            this.ClientSize = new System.Drawing.Size(254, 126);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btFind);
             this.Controls.Add(this.edFindValue);
             this.Controls.Add(this.label1);
@@ -78,7 +92,6 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Find Invoice";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FindInvoiceForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -89,5 +102,6 @@
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.TextBox edFindValue;
     private System.Windows.Forms.Button btFind;
-  }
+        private System.Windows.Forms.Button btnClose;
+    }
 }

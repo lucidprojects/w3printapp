@@ -24,8 +24,7 @@ namespace PrintInvoice
             }
             else
             {
-                if (_fmMain.SetCurrentSubsetInvoice(edFindValue.Text, PrintPackageStorage.TrackingNumberColumnIndex,
-                        true))
+                if (_fmMain.SetCurrentSubsetInvoice(edFindValue.Text, PrintPackageStorage.TrackingNumberColumnIndex, true))
                     Close();
                 else
                     MessageBox.Show(@"Invoice not found.", @"Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
