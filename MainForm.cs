@@ -1045,7 +1045,7 @@ namespace PrintInvoice
                     //invoiceStorage.setPackageError(aInvoiceId, "Error loading invoice: " + response.message);
                     throw new Exception(response.message);
 
-                var path = $"{Application.StartupPath}\\preview.pdf";
+                var path = $"{Path.GetTempFileName()}_preview.pdf";
                 var pdf = Convert.FromBase64String(response.base64data);
 
                 if (aSequenceNumber != null)
