@@ -100,11 +100,11 @@ namespace PrintInvoice
 
         private void bwSave_DoWork(object sender, DoWorkEventArgs e)
         {
-            Log.GetLogger().Info("StatusSaver thread started");
+            Log.Info("StatusSaver thread started");
 
             var bw = sender as BackgroundWorker;
 
-            for (;;)
+            while (true)
             {
                 lock (_queue)
                 {
@@ -128,7 +128,7 @@ namespace PrintInvoice
                             // Save
                             var eventArgs = new InvoiceStatusSaverSaveEventArgs(invoiceId);
                             OnSave(eventArgs);
-                            Log.GetLogger().Debug($"StatusSaver: {invoiceId.ToString()} status saved");
+                            Log.Debug($"StatusSaver: {invoiceId.ToString()} status saved");
                         }
                         catch (Exception ex)
                         {
@@ -165,7 +165,7 @@ namespace PrintInvoice
 
             _resetEvent.Set();
 
-            Log.GetLogger().Info("StatusSaver thread stopped");
+            Log.Info("StatusSaver thread stopped");
         }
 
         private void printer_Print(object sender, PrinterPrintEventArgs e)

@@ -18,9 +18,9 @@ namespace PrintInvoice
         public static string GenerateSequenceNumber(int aPrintBatchId, int aPrintBatchCount, int aElementBatch, int aElementBatchCount) =>
             $"{aPrintBatchId:00000000}-{aPrintBatchCount:000000}-{aElementBatch:000000}-{aElementBatchCount:000000}";
 
-        public static void AddSequenceNumberToPdf(string aSequenceNumber, ref byte[] aPdf, bool aIsPackJacket)
+        public static byte[] AddSequenceNumberToPdf(string sequenceNumber, byte[] pdf, bool isPackJacket)
         {
-            var inputPdfStream = new MemoryStream(aPdf);
+            var inputPdfStream = new MemoryStream(pdf);
             var pdfReader = new PdfReader(inputPdfStream);
             var outputPdfStream = new MemoryStream();
 
@@ -32,14 +32,16 @@ namespace PrintInvoice
             pdfPageContents.SetFontAndSize(baseFont, Settings.Default.InvoiceSequenceNumberFontSize);
             pdfPageContents.SetRGBColorFill(0, 0, 0);
 
-            pdfPageContents.ShowTextAligned(PdfContentByte.ALIGN_LEFT, aSequenceNumber, aIsPackJacket ? Settings.Default.InvoiceSequenceNumberXPackJacket : Settings.Default.InvoiceSequenceNumberX,
-                aIsPackJacket ? Settings.Default.InvoiceSequenceNumberYPackJacket : Settings.Default.InvoiceSequenceNumberY, 0);
+            pdfPageContents.ShowTextAligned(PdfContentByte.ALIGN_LEFT, sequenceNumber, isPackJacket ? Settings.Default.InvoiceSequenceNumberXPackJacket : Settings.Default.InvoiceSequenceNumberX,
+                isPackJacket ? Settings.Default.InvoiceSequenceNumberYPackJacket : Settings.Default.InvoiceSequenceNumberY, 0);
             
             pdfPageContents.EndText(); // Done working with text
             pdfStamper.FormFlattening = true; // enable this if you want the PDF flattened. 
             pdfStamper.Close();
 
-            aPdf = outputPdfStream.ToArray();
+            outputPdfStream.Flush();
+            var bytes = outputPdfStream.ToArray();
+            return bytes;
         }
 
         public static byte[] GetMasterPickListPdf(PrintPackageWrapper aPackage, LabelService aLabelService)
@@ -109,8 +111,11 @@ namespace PrintInvoice
             doc.Add(paragraph);
 
             doc.Close();
-
-            return outputPdfStream.ToArray();
+            outputPdfStream.Flush();
+            var bytes = outputPdfStream.ToArray();
+            
+            File.WriteAllBytes("123.pdf", bytes);
+            return bytes;
         }
     }
 }

@@ -41,7 +41,7 @@
             this.laMessage.Size = new System.Drawing.Size(260, 55);
             this.laMessage.TabIndex = 0;
             this.laMessage.Text = "label1";
-            this.laMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.laMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btPrint
             // 

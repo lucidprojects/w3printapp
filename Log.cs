@@ -3,11 +3,11 @@ using log4net.Config;
 
 namespace PrintInvoice
 {
-    internal class Log
+    internal static class Log
     {
         private static ILog _log;
 
-        public static ILog GetLogger()
+        private static ILog GetLogger()
         {
             if (_log == null)
             {
@@ -17,5 +17,9 @@ namespace PrintInvoice
 
             return _log;
         }
+
+        public static void Info(string message) => GetLogger().Info(message);
+
+        public static void Debug(string message) => GetLogger().Debug(message);
     }
 }

@@ -49,53 +49,53 @@ namespace PrintInvoice
         public const int JobStatusUserIntervention = 0x00000400;
 
         [DllImport("winspool.drv", EntryPoint = "OpenPrinterA", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool OpenPrinter([MarshalAs(UnmanagedType.LPStr)] string szPrinter, out IntPtr hPrinter, IntPtr pd);
+        private static extern bool OpenPrinter([MarshalAs(UnmanagedType.LPStr)] string szPrinter, out IntPtr hPrinter, IntPtr pd);
 
         [DllImport("winspool.drv", EntryPoint = "ClosePrinter", SetLastError = true, ExactSpelling = true,
             CallingConvention = CallingConvention.StdCall)]
-        public static extern bool ClosePrinter(IntPtr hPrinter);
+        private static extern bool ClosePrinter(IntPtr hPrinter);
 
         [DllImport("winspool.drv", EntryPoint = "StartDocPrinterA", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-        public static extern uint StartDocPrinter(IntPtr hPrinter, int level, [In] [MarshalAs(UnmanagedType.LPStruct)] DocInfoA di);
+        private static extern uint StartDocPrinter(IntPtr hPrinter, int level, [In] [MarshalAs(UnmanagedType.LPStruct)] DocInfoA di);
 
         [DllImport("winspool.drv", EntryPoint = "EndDocPrinter", SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool EndDocPrinter(IntPtr hPrinter);
+        private static extern bool EndDocPrinter(IntPtr hPrinter);
 
         [DllImport("winspool.drv", EntryPoint = "StartPagePrinter", SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool StartPagePrinter(IntPtr hPrinter);
+        private static extern bool StartPagePrinter(IntPtr hPrinter);
 
         [DllImport("winspool.drv", EntryPoint = "EndPagePrinter", SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool EndPagePrinter(IntPtr hPrinter);
+        private static extern bool EndPagePrinter(IntPtr hPrinter);
 
         [DllImport("winspool.drv", EntryPoint = "WritePrinter", SetLastError = true, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool WritePrinter(IntPtr hPrinter, IntPtr pBytes, int dwCount, out int dwWritten);
+        private static extern bool WritePrinter(IntPtr hPrinter, IntPtr pBytes, int dwCount, out int dwWritten);
 
         [DllImport("winspool.drv", EntryPoint = "GetPrinterA", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool GetPrinter(IntPtr hPrinter, uint dwLevel, IntPtr pPrinter, uint dwBuf, ref uint dwNeeded);
+        private static extern bool GetPrinter(IntPtr hPrinter, uint dwLevel, IntPtr pPrinter, uint dwBuf, ref uint dwNeeded);
 
         [DllImport("Winspool.drv", SetLastError = true, EntryPoint = "EnumJobsA", CharSet = CharSet.Ansi, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-        public static extern bool EnumJobs(IntPtr hPrinter, uint firstJob, uint noJobs, uint level, IntPtr pJob, uint cbBuf, out uint pcbNeeded, out uint pcReturned);
+        private static extern bool EnumJobs(IntPtr hPrinter, uint firstJob, uint noJobs, uint level, IntPtr pJob, uint cbBuf, out uint pcbNeeded, out uint pcReturned);
 
         // open()
-        public static IntPtr Open(string aPrinterName)
+        public static IntPtr Open(string printerHandle)
         {
-            return !OpenPrinter(aPrinterName, out var h, IntPtr.Zero) ? throw new Win32Exception() : h;
+            return !OpenPrinter(printerHandle, out var h, IntPtr.Zero) ? throw new Win32Exception() : h;
         }
 
         // startDoc()
-        public static uint StartDoc(IntPtr aPrinterHandle, DocInfoA aDocInfo)
+        public static uint StartDoc(IntPtr printerHandle, DocInfoA docInfo)
         {
-            var jobId = StartDocPrinter(aPrinterHandle, 1, aDocInfo);
+            var jobId = StartDocPrinter(printerHandle, 1, docInfo);
             return jobId == 0 ? throw new Win32Exception() : jobId;
         }
 
-        public static void StartPage(IntPtr aPrinterHandle)
+        public static void StartPage(IntPtr printerHandle)
         {
-            if (!StartPagePrinter(aPrinterHandle))
+            if (!StartPagePrinter(printerHandle))
                 throw new Win32Exception();
         }
 
-        public static void Write(IntPtr aPrinterHandle, byte[] data)
+        public static void Write(IntPtr printerHandle, byte[] data)
         {
             var length = data.Length;
 
@@ -106,7 +106,7 @@ namespace PrintInvoice
             Marshal.Copy(data, 0, unmanagedBytes, length);
 
             // Send the unmanaged bytes to the printer.
-            var success = WritePrinter(aPrinterHandle, unmanagedBytes, length, out _);
+            var success = WritePrinter(printerHandle, unmanagedBytes, length, out var bytesWritten);
 
             // Free the unmanaged memory that you allocated earlier.
             Marshal.FreeCoTaskMem(unmanagedBytes);
@@ -115,38 +115,38 @@ namespace PrintInvoice
                 throw new Win32Exception();
         }
 
-        public static void EndPage(IntPtr aPrinterHandle)
+        public static void EndPage(IntPtr printerHandle)
         {
-            if (!EndPagePrinter(aPrinterHandle))
+            if (!EndPagePrinter(printerHandle))
                 throw new Win32Exception();
         }
 
         // endDoc()
-        public static void EndDoc(IntPtr aPrinterHandle)
+        public static void EndDoc(IntPtr printerHandle)
         {
-            if (!EndDocPrinter(aPrinterHandle))
+            if (!EndDocPrinter(printerHandle))
                 throw new Win32Exception();
         }
 
         // close()
-        public static void Close(IntPtr aPrinterHandle)
+        public static void Close(IntPtr printerHandle)
         {
-            if (!ClosePrinter(aPrinterHandle))
+            if (!ClosePrinter(printerHandle))
                 throw new Win32Exception();
         }
 
         // getPrinterInfo2
-        public static Info2 GetPrinterInfo2(IntPtr aPrinterHandle)
+        public static Info2 GetPrinterInfo2(IntPtr printerHandle)
         {
             // code snippet from http://www.pinvoke.net/default.aspx/winspool/GetPrinter.html
             uint cbNeeded = 0;
             var info2 = new Info2();
-            var bRet = GetPrinter(aPrinterHandle, 2, IntPtr.Zero, 0, ref cbNeeded);
+            var bRet = GetPrinter(printerHandle, 2, IntPtr.Zero, 0, ref cbNeeded);
 
             if (cbNeeded > 0)
             {
                 var pAddr = Marshal.AllocHGlobal((int)cbNeeded);
-                bRet = GetPrinter(aPrinterHandle, 2, pAddr, cbNeeded, ref cbNeeded);
+                bRet = GetPrinter(printerHandle, 2, pAddr, cbNeeded, ref cbNeeded);
                 
                 if (bRet) info2 = (Info2)Marshal.PtrToStructure(pAddr, typeof(Info2));
             
@@ -157,16 +157,16 @@ namespace PrintInvoice
             return !bRet ? throw new Win32Exception() : info2;
         }
 
-        public static List<JobInfo1> EnumJobs(IntPtr aPrinterHandle)
+        public static List<JobInfo1> EnumJobs(IntPtr printerHandle)
         {
-            var printerInfo2 = GetPrinterInfo2(aPrinterHandle);
+            var printerInfo2 = GetPrinterInfo2(printerHandle);
             var jobInfoList = new List<JobInfo1>();
-            var bRet = EnumJobs(aPrinterHandle, 0, printerInfo2.cJobs, 1, IntPtr.Zero, 0, out var needed, out var returned);
+            var bRet = EnumJobs(printerHandle, 0, printerInfo2.cJobs, 1, IntPtr.Zero, 0, out var needed, out var returned);
 
             if (needed > 0)
             {
                 var buf = Marshal.AllocHGlobal((int)needed);
-                bRet = EnumJobs(aPrinterHandle, 0, printerInfo2.cJobs, 1, buf, needed, out needed, out returned);
+                bRet = EnumJobs(printerHandle, 0, printerInfo2.cJobs, 1, buf, needed, out needed, out returned);
 
                 if (bRet)
                 {

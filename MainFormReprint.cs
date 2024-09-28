@@ -85,7 +85,7 @@ namespace PrintInvoice
 
         private void cmsReprint_Opening(object sender, CancelEventArgs e)
         {
-            tsmiReprintRemoveSelected.Enabled = dgvReprint.SelectedRows.Count != 0 && _printController.State != PrintControllerState.RUNNING;
+            tsmiReprintRemoveSelected.Enabled = dgvReprint.SelectedRows.Count != 0 && _printController.State != PrintControllerState.Running;
         }
 
         private void tsmiReprintRemoveSelected_Click(object sender, EventArgs e)
@@ -144,7 +144,7 @@ namespace PrintInvoice
 
         private void btReprintPrint_Click(object sender, EventArgs e)
         {
-            if (_printController.State == PrintControllerState.RUNNING)
+            if (_printController.State == PrintControllerState.Running)
             {
                 btReprintPrint.Enabled = false;
                 _bwStopReprint.RunWorkerAsync();

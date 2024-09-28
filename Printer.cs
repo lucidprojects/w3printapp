@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using PrintInvoice.Properties;
@@ -72,6 +73,9 @@ namespace PrintInvoice
 
         private bool _printPickList;
 
+        public event PrinterPrintEventHandler Print;
+        public event PrinterJobErrorEventHandler JobError;
+
         // constructor
         public Printer(InvoiceProvider aInvoiceProvider, LabelService aClient)
         {
@@ -137,15 +141,16 @@ namespace PrintInvoice
 
         private void bwPrinter_DoWork(object sender, DoWorkEventArgs e)
         {
-            Log.GetLogger().Info("Printer thread started");
+            Log.Info("Printer thread started");
 
             var bw = sender as BackgroundWorker;
 
-            for (;;)
+            while (true)
             {
                 if (_jobList.Count < Settings.Default.PrintJobQueueMaxSize)
                 {
-                    var package = _invoiceProvider.getInvoice();
+                    var package = _invoiceProvider.GetInvoice();
+
                     if (package != null && !_printerError)
                     {
                         // Mater Pick List
@@ -162,8 +167,7 @@ namespace PrintInvoice
 
                         PrintPackage(_printerHandle, package);
 
-                        Log.GetLogger()
-                            .Debug($"Printer: {package.PackageId.ToString()} sent to printer");
+                        Log.Debug($"Printer: {package.PackageId.ToString()} sent to printer");
                     }
                 }
 
@@ -182,11 +186,11 @@ namespace PrintInvoice
 
 
                 Thread.Sleep(100);
-            } // infinite loop
+            }
 
             _printerResetEvent.Set();
 
-            Log.GetLogger().Info("Printer thread stopped");
+            Log.Info("Printer thread stopped");
         }
 
         /*
@@ -197,7 +201,7 @@ namespace PrintInvoice
         {
             var bw = sender as BackgroundWorker;
 
-            for (;;)
+            while(true)
             {
                 var jobInfoList = RawPrinterHelper.EnumJobs(_printerHandle);
 
@@ -216,17 +220,18 @@ namespace PrintInvoice
                         }
                     }
 
-                    if ((jobInfo.Status & RawPrinterHelper.JobStatusPrinting) > 0 && (jobInfo.Status & (RawPrinterHelper.JobStatusError | RawPrinterHelper.JobStatusOffline | RawPrinterHelper.JobStatusPaperOut | RawPrinterHelper.JobStatusBlockedDevq)) > 0) 
+                    if ((jobInfo.Status & RawPrinterHelper.JobStatusPrinting) > 0 
+                        && (jobInfo.Status & (RawPrinterHelper.JobStatusError | RawPrinterHelper.JobStatusOffline | RawPrinterHelper.JobStatusPaperOut | RawPrinterHelper.JobStatusBlockedDevq)) > 0)
                     {
                         lock (_jobList)
                         {
-                            if (_jobList.TryGetValue(jobInfo.JobId, out var value)) 
+                            if (_jobList.TryGetValue(jobInfo.JobId, out var value))
                                 OnJobError(new PrinterJobErrorEventArgs(value._invoiceId, $"Printer job error(s): [{RawPrinterHelper.GetJobStatusString(jobInfo)}]"));
-
+                    
                             //jobList.Remove(jobInfo.JobId);
                             /* Don't remove from checking queue. Check again. If error - report error.
-                                 * If job removed from print queue - result will be success adn job will be removed from checking queue.
-                                 */
+                             * If job removed from print queue - result will be success adn job will be removed from checking queue.
+                             */
                         }
                     }
                 }
@@ -235,7 +240,7 @@ namespace PrintInvoice
                 lock (_jobList)
                 {
                     var completeJobs = new List<uint>(); // to avoid modifying collection inside foreach
-                    
+
                     foreach (var jobId in _jobList.Keys)
                     {
                         var inQueue = jobInfoList.Any(jobInfo => jobId == jobInfo.JobId);
@@ -271,82 +276,64 @@ namespace PrintInvoice
             _monitorResetEvent.Set();
         }
 
-        public void SetName(string printerName)
-        {
-            this._printerName = printerName;
-        }
+        public void SetName(string printerName) => _printerName = printerName;
 
-        public event PrinterPrintEventHandler Print;
+        private void OnPrint(PrinterPrintEventArgs e) => Print?.Invoke(this, e);
 
-
-        private void OnPrint(PrinterPrintEventArgs e)
-        {
-            Print?.Invoke(this, e);
-        }
-
-        public event PrinterJobErrorEventHandler JobError;
-
-        private void OnJobError(PrinterJobErrorEventArgs e)
-        {
-            JobError?.Invoke(this, e);
-        }
+        private void OnJobError(PrinterJobErrorEventArgs e) => JobError?.Invoke(this, e);
 
         public event PrinterPrinterErrorEventHandler PrinterError;
 
-        private void OnPrinterError(PrinterPrinterErrorEventArgs e)
-        {
-            PrinterError?.Invoke(this, e);
-        }
+        private void OnPrinterError(PrinterPrinterErrorEventArgs e) => PrinterError?.Invoke(this, e);
 
-        private uint PrintPdf(IntPtr aPrinterHandle, RawPrinterHelper.DocInfoA aDocInfo, byte[] aPdf)
+        private uint PrintPdf(IntPtr printerHandle, RawPrinterHelper.DocInfoA docInfo, byte[] pdf)
         {
-            var jobId = RawPrinterHelper.StartDoc(aPrinterHandle, aDocInfo);
-            RawPrinterHelper.StartPage(aPrinterHandle);
-            RawPrinterHelper.Write(aPrinterHandle, aPdf);
-            RawPrinterHelper.EndPage(aPrinterHandle);
-            RawPrinterHelper.EndDoc(aPrinterHandle);
+            var jobId = RawPrinterHelper.StartDoc(printerHandle, docInfo);
+
+            RawPrinterHelper.StartPage(printerHandle);
+            RawPrinterHelper.Write(printerHandle, pdf);
+            RawPrinterHelper.EndPage(printerHandle);
+            RawPrinterHelper.EndDoc(printerHandle);
 
             return jobId;
         }
 
-        private void PrintPackage(IntPtr aPrinterHandle, PrintPackageWrapper aPrintInvoiceWrapper)
+        private void PrintPackage(IntPtr printerHandle, PrintPackageWrapper printInvoiceWrapper)
         {
             try
             {
                 var printerInfo2 = RawPrinterHelper.GetPrinterInfo2(_printerHandle);
-                if ((printerInfo2.Status &
-                     RawPrinterHelper.StatusError) != 0)
-                {
-                    throw new Exception(RawPrinterHelper.GetPrinterStatusString(printerInfo2));
-                }
 
-                var pdf = aPrintInvoiceWrapper.Pdf;
+                if ((printerInfo2.Status & RawPrinterHelper.StatusError) != 0)
+                    throw new Exception(RawPrinterHelper.GetPrinterStatusString(printerInfo2));
+
+                var pdf = printInvoiceWrapper.Pdf;
 
                 if (_isSequenceNumberEnabled)
                 {
-                    Routines.AddSequenceNumberToPdf(
-                        Routines.GenerateSequenceNumber(aPrintInvoiceWrapper._printBatchId,
-                            aPrintInvoiceWrapper._printBatchCount, aPrintInvoiceWrapper._elementBatch,
-                            aPrintInvoiceWrapper._elementBatchCount), ref pdf, aPrintInvoiceWrapper._isPackJacket);
+                    var sequenceNumber = Routines.GenerateSequenceNumber(printInvoiceWrapper._printBatchId,
+                        printInvoiceWrapper._printBatchCount, printInvoiceWrapper._elementBatch,
+                        printInvoiceWrapper._elementBatchCount);
+
+                    pdf = Routines.AddSequenceNumberToPdf(sequenceNumber, pdf, printInvoiceWrapper._isPackJacket);
                 }
 
                 var docInfo = new RawPrinterHelper.DocInfoA
                 {
-                    pDocName = $"Invoice {aPrintInvoiceWrapper.PackageId}",
+                    pDocName = $"Invoice {printInvoiceWrapper.PackageId}",
                     pDataType = "RAW"
                 };
-                var jobId = PrintPdf(aPrinterHandle, docInfo, pdf);
+
+                var jobId = PrintPdf(printerHandle, docInfo, pdf);
 
                 var jobData = new JobData
                 {
                     _jobId = jobId,
-                    _invoiceId = aPrintInvoiceWrapper.PackageId
+                    _invoiceId = printInvoiceWrapper.PackageId
                 };
 
-                lock (_jobList)
-                {
+                lock (_jobList) 
                     _jobList[jobId] = jobData;
-                }
             }
             catch (Exception e)
             {
@@ -358,10 +345,8 @@ namespace PrintInvoice
 
         public void CleanUp()
         {
-            lock (_jobList)
-            {
+            lock (_jobList) 
                 _jobList.Clear();
-            }
         }
 
         public struct JobData

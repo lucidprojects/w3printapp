@@ -68,7 +68,7 @@ namespace PrintInvoice
 
         private void bwLoad_DoWork(object sender, DoWorkEventArgs e)
         {
-            Log.GetLogger().Info("InvoiceProvider thread started");
+            Log.Info("InvoiceProvider thread started");
 
             var bw = sender as BackgroundWorker;
 
@@ -91,11 +91,6 @@ namespace PrintInvoice
 
                     try
                     {
-#if DEBUG
-                        package.State = PrintPackageWrapper.Loaded;
-                        package.Pdf = File.ReadAllBytes("test.pdf");
-
-#else
                         var response = _client.getLabel(request);
 
                         if (response.status != 0) throw new Exception(response.message);
@@ -104,19 +99,18 @@ namespace PrintInvoice
 
                         if (response.base64data != null) package.Pdf = Convert.FromBase64String(response.base64data);
 
-#endif
                         // Load event
-                        onLoad(new InvoiceProviderLoadEventArgs(package));
+                        OnLoad(new InvoiceProviderLoadEventArgs(package));
 
                         // enqueue to cache
                         if (package.IsLoaded) _loadCache.Enqueue(package);
 
-                        Log.GetLogger().Debug($"InvoiceProvider: {package.PackageId.ToString()} enqueued to cache");
+                        Log.Debug($"InvoiceProvider: {package.PackageId.ToString()} enqueued to cache");
                     }
                     catch (Exception ex)
                     {
                         // Error event
-                        onError(new InvoiceProviderErrorEventArgs(package.PackageId, ex.Message));
+                        OnError(new InvoiceProviderErrorEventArgs(package.PackageId, ex.Message));
                     }
 
                     _list.RemoveAt(0);
@@ -135,16 +129,16 @@ namespace PrintInvoice
 
             _resetEvent.Set();
 
-            Log.GetLogger().Info("InvoiceProvider thread stopped");
+            Log.Info("InvoiceProvider thread stopped");
         }
 
-        public void run()
+        public void Run()
         {
             _resetEvent.Reset();
             _bwLoad.RunWorkerAsync();
         }
 
-        public void stop()
+        public void Stop()
         {
             _bwLoad.CancelAsync();
             _resetEvent.WaitOne();
@@ -152,35 +146,36 @@ namespace PrintInvoice
 
         public event InvoiceProviderLoadEventHandler Load;
 
-        private void onLoad(InvoiceProviderLoadEventArgs e)
+        private void OnLoad(InvoiceProviderLoadEventArgs e)
         {
             Load?.Invoke(this, e);
         }
 
         public event InvoiceProviderErrorEventHandler Error;
 
-        private void onError(InvoiceProviderErrorEventArgs e)
+        private void OnError(InvoiceProviderErrorEventArgs e)
         {
             Error?.Invoke(this, e);
         }
 
-        public void setList(List<PrintPackageWrapper> aList)
+        public void SetList(List<PrintPackageWrapper> aList)
         {
             _list.Clear();
 
-            foreach (var package in aList) _list.Add(package);
+            foreach (var package in aList) 
+                _list.Add(package);
 
             _completed = false;
         }
 
-        public PrintPackageWrapper getInvoice()
+        public PrintPackageWrapper GetInvoice()
         {
             lock (_loadCache)
             {
                 if (_loadCache.Count > 0)
                 {
                     var package = _loadCache.Dequeue();
-                    Log.GetLogger().Debug($"InvoiceProvider.getInvoice(): {package.PackageId.ToString()} returned");
+                    Log.Debug($"InvoiceProvider.getInvoice(): {package.PackageId.ToString()} returned");
                     return package;
                 }
 
@@ -188,12 +183,10 @@ namespace PrintInvoice
             }
         }
 
-        public void cleanUp()
+        public void CleanUp()
         {
-            lock (_loadCache)
-            {
+            lock (_loadCache) 
                 _loadCache.Clear();
-            }
         }
     }
 }

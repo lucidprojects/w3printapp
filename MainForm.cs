@@ -107,6 +107,49 @@ namespace PrintInvoice
 
         public MainForm()
         {
+            #if DEBUG
+            var pdf = File.ReadAllBytes("___printPdf2.pdf");
+
+            var printerHandle = RawPrinterHelper.Open("Microsoft Print to PDF");
+
+            var docInfo = new RawPrinterHelper.DocInfoA
+            {
+                pDocName = "Invoice 123",
+                pDataType = "RAW"
+            };
+
+            var jobId = RawPrinterHelper.StartDoc(printerHandle, docInfo);
+
+            RawPrinterHelper.StartPage(printerHandle);
+            RawPrinterHelper.Write(printerHandle, pdf);
+            RawPrinterHelper.EndPage(printerHandle);
+            RawPrinterHelper.EndDoc(printerHandle);
+            RawPrinterHelper.Close(printerHandle);
+
+
+            MessageBox.Show($"DONE: {jobId}");
+            return;
+            #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             InitializeComponent();
             Icon = Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly()?.Location ?? "");
 
@@ -287,7 +330,7 @@ namespace PrintInvoice
             tbHelpReprint.Text = Settings.Default.ReprintHelpText;
 
             tcQueries.DrawMode = TabDrawMode.OwnerDrawFixed;
-            Log.GetLogger().Info("Start application");
+            Log.Info("Start application");
         }
 
         protected override CreateParams CreateParams
@@ -302,7 +345,7 @@ namespace PrintInvoice
 
         private void bwStopReprint_DoWork(object sender, DoWorkEventArgs e)
         {
-            _printController.stop();
+            _printController.Stop();
 
             _bwPrinterErrorMonitor.CancelAsync();
             _printerErrorMonitorResetEvent.WaitOne();
@@ -335,7 +378,7 @@ namespace PrintInvoice
 
         private void bwStopPrint_DoWork(object sender, DoWorkEventArgs e)
         {
-            _printController.stop();
+            _printController.Stop();
 
             _bwPrinterErrorMonitor.CancelAsync();
             _printerErrorMonitorResetEvent.WaitOne();
@@ -801,6 +844,7 @@ namespace PrintInvoice
             {
                 cbPrinter.Items.Add(printerName);
                 cbReprintPrinter.Items.Add(printerName);
+              
                 if (printerName == defaultPrinterName)
                 {
                     cbPrinter.SelectedIndex = cbPrinter.Items.IndexOf(printerName);
@@ -817,7 +861,7 @@ namespace PrintInvoice
 
         private void btPrint_Click(object sender, EventArgs e)
         {
-            if (_printController.State == PrintControllerState.RUNNING)
+            if (_printController.State == PrintControllerState.Running)
             {
                 btPrint.Enabled = false;
                 _bwStopPrint.RunWorkerAsync();
@@ -899,8 +943,10 @@ namespace PrintInvoice
                                 if (askRepeatedPrint)
                                 {
                                     var fmRepeatedPrint = new RepeatedPrintForm();
+                                    
                                     fmRepeatedPrint.laMessage.Text =
                                         $@"You are going to print invoice No. {dgvSubset.Rows[i].Cells[PrintPackageStorage.InvoiceNumberColumnIndex]} which is already marked as printed. Do you want to print it again?";
+
                                     askRepeatedPrintResult = fmRepeatedPrint.ShowDialog() == DialogResult.Yes;
                                     askRepeatedPrint = !fmRepeatedPrint.ckDontAsk.Checked;
                                 }
@@ -952,7 +998,7 @@ namespace PrintInvoice
                     style = _printedCellStyle;
                     firstCellStyle = _printedFirstCellStyle;
 
-                    if (_printController.State == PrintControllerState.RUNNING)
+                    if (_printController.State == PrintControllerState.Running)
                         //row.DataGridView.FirstDisplayedScrollingRowIndex = row.Index;
                         row.DataGridView.CurrentCell = row.Cells[0];
                 }
@@ -1002,7 +1048,7 @@ namespace PrintInvoice
 
         private void cmsSubset_Opening(object sender, CancelEventArgs e)
         {
-            miRemoveFromSubset.Enabled = cbSubset.SelectedIndex == 1 && dgvSubset.SelectedRows.Count != 0 && _printController.State != PrintControllerState.RUNNING;
+            miRemoveFromSubset.Enabled = cbSubset.SelectedIndex == 1 && dgvSubset.SelectedRows.Count != 0 && _printController.State != PrintControllerState.Running;
 
             if (dgvSubset.SelectedRows.Count == 0)
             {
@@ -1025,7 +1071,7 @@ namespace PrintInvoice
         private void cmsSet_Opening(object sender, CancelEventArgs e)
         {
             miPreviewSetInvoice.Enabled = dgvQuery.SelectedRows.Count != 0;
-            addToCustomSubsetToolStripMenuItem.Enabled = dgvQuery.SelectedRows.Count != 0 && _printController.State != PrintControllerState.RUNNING;
+            addToCustomSubsetToolStripMenuItem.Enabled = dgvQuery.SelectedRows.Count != 0 && _printController.State != PrintControllerState.Running;
         }
 
         private void PreviewInvoice(int aInvoiceId, string aSequenceNumber, bool aIsPackJacket)
@@ -1049,7 +1095,7 @@ namespace PrintInvoice
                 var pdf = Convert.FromBase64String(response.base64data);
 
                 if (aSequenceNumber != null)
-                    Routines.AddSequenceNumberToPdf(aSequenceNumber, ref pdf, aIsPackJacket);
+                    pdf = Routines.AddSequenceNumberToPdf(aSequenceNumber, pdf, aIsPackJacket);
 
                 File.WriteAllBytes(path, pdf);
                 Process.Start(path);
@@ -1302,9 +1348,9 @@ namespace PrintInvoice
             _printer.SetName(aPrinterName);
             _printer.IsSequenceNumberEnabled = aIsSequenceNumberEnabled;
             _printer.PrintPickList = aPrintPickList;
-            _printController.setJob(aInvoiceList, true, aIsSequenceNumberEnabled, aIsPackJacket);
+            _printController.SetJob(aInvoiceList, true, aIsSequenceNumberEnabled, aIsPackJacket);
 
-            _printController.run();
+            _printController.Run();
         }
 
         private void SetPrintControlsEnabled(bool aEnabled)
@@ -1320,7 +1366,7 @@ namespace PrintInvoice
             if (e.TabPageIndex != _unshipTabIndex
                 && e.TabPageIndex != _unshippedTabIndex
                 && e.TabPageIndex != _repairTabIndex
-                && _printController.State == PrintControllerState.RUNNING)
+                && _printController.State == PrintControllerState.Running)
             {
                 MessageBox.Show(this, @"You cannot leave this tab while printing. First stop printing process.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
@@ -1481,7 +1527,7 @@ namespace PrintInvoice
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_printController.State == PrintControllerState.RUNNING)
+            if (_printController.State == PrintControllerState.Running)
             {
                 MessageBox.Show(this, @"You shouldn't exit application while printing. First stop printing process.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;
