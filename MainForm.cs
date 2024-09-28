@@ -107,49 +107,6 @@ namespace PrintInvoice
 
         public MainForm()
         {
-            #if DEBUG
-            var pdf = File.ReadAllBytes("___printPdf2.pdf");
-
-            var printerHandle = RawPrinterHelper.Open("Microsoft Print to PDF");
-
-            var docInfo = new RawPrinterHelper.DocInfoA
-            {
-                pDocName = "Invoice 123",
-                pDataType = "RAW"
-            };
-
-            var jobId = RawPrinterHelper.StartDoc(printerHandle, docInfo);
-
-            RawPrinterHelper.StartPage(printerHandle);
-            RawPrinterHelper.Write(printerHandle, pdf);
-            RawPrinterHelper.EndPage(printerHandle);
-            RawPrinterHelper.EndDoc(printerHandle);
-            RawPrinterHelper.Close(printerHandle);
-
-
-            MessageBox.Show($"DONE: {jobId}");
-            return;
-            #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             InitializeComponent();
             Icon = Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly()?.Location ?? "");
 

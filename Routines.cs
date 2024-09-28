@@ -114,7 +114,6 @@ namespace PrintInvoice
             outputPdfStream.Flush();
             var bytes = outputPdfStream.ToArray();
             
-            File.WriteAllBytes("123.pdf", bytes);
             return bytes;
         }
     }

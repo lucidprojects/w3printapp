@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using PrintInvoice.Properties;
@@ -156,16 +155,10 @@ namespace PrintInvoice
                         // Mater Pick List
                         if (_printPickList && package._isFirstBatchPackage)
                         {
-                            var docInfo = new RawPrinterHelper.DocInfoA
-                            {
-                                pDocName = "Master pick list",
-                                pDataType = "RAW"
-                            };
-
-                            PrintPdf(_printerHandle, docInfo, Routines.GetMasterPickListPdf(package, _labelService));
+                            PrintPdf("Master pick list", Routines.GetMasterPickListPdf(package, _labelService));
                         }
 
-                        PrintPackage(_printerHandle, package);
+                        PrintPackage(package);
 
                         Log.Debug($"Printer: {package.PackageId.ToString()} sent to printer");
                     }
@@ -286,8 +279,16 @@ namespace PrintInvoice
 
         private void OnPrinterError(PrinterPrinterErrorEventArgs e) => PrinterError?.Invoke(this, e);
 
-        private uint PrintPdf(IntPtr printerHandle, RawPrinterHelper.DocInfoA docInfo, byte[] pdf)
+        private uint PrintPdf(string docName, byte[] pdf)
         {
+            var printerHandle = _printerHandle;
+            
+            var docInfo = new RawPrinterHelper.DocInfoA
+            {
+                pDocName = docName,
+                pDataType = Environment.OSVersion.Version.Major * 100 + Environment.OSVersion.Version.Minor == 601 ? "RAW" : "XPS_PASS"
+            };
+
             var jobId = RawPrinterHelper.StartDoc(printerHandle, docInfo);
 
             RawPrinterHelper.StartPage(printerHandle);
@@ -298,7 +299,7 @@ namespace PrintInvoice
             return jobId;
         }
 
-        private void PrintPackage(IntPtr printerHandle, PrintPackageWrapper printInvoiceWrapper)
+        private void PrintPackage(PrintPackageWrapper printInvoiceWrapper)
         {
             try
             {
@@ -318,13 +319,7 @@ namespace PrintInvoice
                     pdf = Routines.AddSequenceNumberToPdf(sequenceNumber, pdf, printInvoiceWrapper._isPackJacket);
                 }
 
-                var docInfo = new RawPrinterHelper.DocInfoA
-                {
-                    pDocName = $"Invoice {printInvoiceWrapper.PackageId}",
-                    pDataType = "RAW"
-                };
-
-                var jobId = PrintPdf(printerHandle, docInfo, pdf);
+                var jobId = PrintPdf($"Invoice {printInvoiceWrapper.PackageId}", pdf);
 
                 var jobData = new JobData
                 {
