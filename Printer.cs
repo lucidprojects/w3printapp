@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Printing;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using PrintInvoice.Properties;
@@ -50,12 +52,13 @@ namespace PrintInvoice
 
     public class Printer
     {
-        private readonly BackgroundWorker _bwMonitor;
+        private static int _printIndex = 1;
 
+        private readonly BackgroundWorker _bwMonitor;
         private readonly BackgroundWorker _bwPrinter;
 
         private readonly InvoiceProvider _invoiceProvider;
-        private readonly Dictionary<uint, JobData> _jobList = new Dictionary<uint, JobData>();
+        private readonly Dictionary<string, JobData> _jobList = new Dictionary<string, JobData>();
         private readonly LabelService _labelService;
         private readonly AutoResetEvent _monitorResetEvent = new AutoResetEvent(false);
 
@@ -205,10 +208,10 @@ namespace PrintInvoice
                     {
                         lock (_jobList)
                         {
-                            if (_jobList.ContainsKey(jobInfo.JobId))
+                            if (_jobList.ContainsKey(jobInfo.Document))
                             {
-                                OnPrint(new PrinterPrintEventArgs(_jobList[jobInfo.JobId]._invoiceId));
-                                _jobList.Remove(jobInfo.JobId);
+                                OnPrint(new PrinterPrintEventArgs(_jobList[jobInfo.Document]._invoiceId));
+                                _jobList.Remove(jobInfo.Document);
                             }
                         }
                     }
@@ -218,7 +221,7 @@ namespace PrintInvoice
                     {
                         lock (_jobList)
                         {
-                            if (_jobList.TryGetValue(jobInfo.JobId, out var value))
+                            if (_jobList.TryGetValue(jobInfo.Document, out var value))
                                 OnJobError(new PrinterJobErrorEventArgs(value._invoiceId, $"Printer job error(s): [{RawPrinterHelper.GetJobStatusString(jobInfo)}]"));
                     
                             //jobList.Remove(jobInfo.JobId);
@@ -232,11 +235,11 @@ namespace PrintInvoice
                 // printed (no more in print queue)
                 lock (_jobList)
                 {
-                    var completeJobs = new List<uint>(); // to avoid modifying collection inside foreach
+                    var completeJobs = new List<string>(); // to avoid modifying collection inside foreach
 
                     foreach (var jobId in _jobList.Keys)
                     {
-                        var inQueue = jobInfoList.Any(jobInfo => jobId == jobInfo.JobId);
+                        var inQueue = jobInfoList.Any(jobInfo => jobId == jobInfo.Document);
                         if (!inQueue) completeJobs.Add(jobId);
                     }
 
@@ -279,24 +282,38 @@ namespace PrintInvoice
 
         private void OnPrinterError(PrinterPrinterErrorEventArgs e) => PrinterError?.Invoke(this, e);
 
-        private uint PrintPdf(string docName, byte[] pdf)
+        private string PrintPdf(string docName, byte[] pdf)
         {
-            var printerHandle = _printerHandle;
-            
-            var docInfo = new RawPrinterHelper.DocInfoA
+            using (var document = PdfiumViewer.PdfDocument.Load(new MemoryStream(pdf)))
+            using (var printDocument = document.CreatePrintDocument())
             {
-                pDocName = docName,
-                pDataType = Environment.OSVersion.Version.Major * 100 + Environment.OSVersion.Version.Minor == 601 ? "RAW" : "XPS_PASS"
-            };
+                printDocument.DocumentName = $"{docName} ({_printIndex})";
+                printDocument.PrinterSettings = new PrinterSettings { PrinterName = _printerName };
 
-            var jobId = RawPrinterHelper.StartDoc(printerHandle, docInfo);
+                if (!printDocument.PrinterSettings.IsValid)
+                    throw new Exception($"Printer '{_printerName}' is not available.");
 
-            RawPrinterHelper.StartPage(printerHandle);
-            RawPrinterHelper.Write(printerHandle, pdf);
-            RawPrinterHelper.EndPage(printerHandle);
-            RawPrinterHelper.EndDoc(printerHandle);
+                printDocument.PrintController = new StandardPrintController();
 
-            return jobId;
+                printDocument.Print();
+
+                return printDocument.DocumentName;
+            }
+
+            //var docInfo = new RawPrinterHelper.DocInfoA
+            //{
+            //    pDocName = $"{docName}({Guid.NewGuid().ToString()})",
+            //    pDataType = Environment.OSVersion.Version.Major * 100 + Environment.OSVersion.Version.Minor == 601 ? "RAW" : "XPS_PASS"
+            //};
+
+            //var jobId = RawPrinterHelper.StartDoc(printerHandle, docInfo);
+
+            //RawPrinterHelper.StartPage(printerHandle);
+            //RawPrinterHelper.Write(printerHandle, pdf);
+            //RawPrinterHelper.EndPage(printerHandle);
+            //RawPrinterHelper.EndDoc(printerHandle);
+
+            //return docInfo.pDocName;
         }
 
         private void PrintPackage(PrintPackageWrapper printInvoiceWrapper)
@@ -346,7 +363,7 @@ namespace PrintInvoice
 
         public struct JobData
         {
-            public uint _jobId;
+            public string _jobId;
             public PackageIdType _invoiceId;
         }
     }

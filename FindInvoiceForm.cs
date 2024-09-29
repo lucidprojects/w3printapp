@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace PrintInvoice
@@ -11,6 +12,7 @@ namespace PrintInvoice
         public FindInvoiceForm(MainForm aMainForm, Config aConfig)
         {
             InitializeComponent();
+            Icon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly()?.Location ?? "");
 
             _fmMain = aMainForm;
             _config = aConfig;

@@ -10,7 +10,6 @@ MD %output%
 @ECHO Deleting older installers ...
 @IF EXIST .\%output%\*.exe DEL .\%output%\*.exe
 
-
 @ECHO ----------------------------------------------------
 @ECHO Building User version...
 
@@ -22,6 +21,7 @@ MD %output%
 )
 
 @DEL bin\Release\*.pdb
+@RMDIR /s /y bin\Release\nl
 
 @ECHO ----------------------------------------------------
 @ECHO Building installer...
