@@ -10,7 +10,7 @@ namespace PrintInvoice
         {
             InitializeComponent();
             Icon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetEntryAssembly()?.Location ?? "");
-            
+
             DialogResult = DialogResult.No;
         }
 

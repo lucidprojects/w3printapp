@@ -22,7 +22,7 @@ namespace PrintInvoice
         {
             if (edFindValue.Text.Length == 0)
             {
-                MessageBox.Show(@"Please specify value.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.ShowError(@"Please specify value.");
             }
             else
             {

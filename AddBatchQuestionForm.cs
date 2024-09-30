@@ -8,9 +8,9 @@ namespace PrintInvoice
     {
         public enum Result
         {
-            CANCEL,
-            SINGLE,
-            BATCH
+            Cancel,
+            Single,
+            Batch
         }
 
         public Result _result;
@@ -23,19 +23,19 @@ namespace PrintInvoice
 
         private void btSingle_Click(object sender, EventArgs e)
         {
-            _result = Result.SINGLE;
+            _result = Result.Single;
             Close();
         }
 
         private void btBatch_Click(object sender, EventArgs e)
         {
-            _result = Result.BATCH;
+            _result = Result.Batch;
             Close();
         }
 
         private void btCancel_Click(object sender, EventArgs e)
         {
-            _result = Result.CANCEL;
+            _result = Result.Cancel;
             Close();
         }
     }

@@ -64,17 +64,17 @@ namespace PrintInvoice
             if (_fmAddUnshipInvoice == null) _fmAddUnshipInvoice = new AddPackageForm();
 
             _fmAddUnshipInvoice.tbInvoiceIdList.Clear();
-            _fmAddUnshipInvoice.Result = AddPackageForm.ResultType.CANCEL;
+            _fmAddUnshipInvoice.Result = AddPackageForm.ResultType.Cancel;
             _fmAddUnshipInvoice.ActiveControl = _fmAddUnshipInvoice.tbInvoiceIdList;
             _fmAddUnshipInvoice.ShowDialog();
             
             switch (_fmAddUnshipInvoice.Result)
             {
-                case AddPackageForm.ResultType.ADD_SINGLE:
+                case AddPackageForm.ResultType.AddSingle:
                     _reprint.AddSingle(_fmAddUnshipInvoice.tbInvoiceIdList.Lines);
                     break;
 
-                case AddPackageForm.ResultType.ADD_BATCH:
+                case AddPackageForm.ResultType.AddBatch:
                     _reprint.AddBatch(_fmAddUnshipInvoice.tbInvoiceIdList.Lines);
                     break;
             }

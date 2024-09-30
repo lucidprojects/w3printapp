@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -10,9 +9,9 @@ namespace PrintInvoice
     {
         public enum ResultType
         {
-            ADD_SINGLE,
-            ADD_BATCH,
-            CANCEL
+            AddSingle,
+            AddBatch,
+            Cancel
         }
 
         private AddBatchQuestionForm _fmUnshipBatchQuestion;
@@ -32,24 +31,24 @@ namespace PrintInvoice
 
             if (tbInvoiceIdList.Text.Length == 0)
             {
-                MessageBox.Show(@"Please specify Tracking ID(s).", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.ShowError(@"Please specify Tracking ID(s).");
             }
             else
             {
                 // create form if not exists
                 if (_fmUnshipBatchQuestion == null) _fmUnshipBatchQuestion = new AddBatchQuestionForm();
 
-                _fmUnshipBatchQuestion._result = AddBatchQuestionForm.Result.CANCEL;
+                _fmUnshipBatchQuestion._result = AddBatchQuestionForm.Result.Cancel;
                 _fmUnshipBatchQuestion.ShowDialog();
 
                 switch (_fmUnshipBatchQuestion._result)
                 {
-                    case AddBatchQuestionForm.Result.SINGLE:
-                        Result = ResultType.ADD_SINGLE;
+                    case AddBatchQuestionForm.Result.Single:
+                        Result = ResultType.AddSingle;
                         break;
 
-                    case AddBatchQuestionForm.Result.BATCH:
-                        Result = ResultType.ADD_BATCH;
+                    case AddBatchQuestionForm.Result.Batch:
+                        Result = ResultType.AddBatch;
                         break;
                 }
 
@@ -59,7 +58,7 @@ namespace PrintInvoice
 
         private void btClose_Click(object sender, EventArgs e)
         {
-            Result = ResultType.CANCEL;
+            Result = ResultType.Cancel;
             Close();
         }
     }

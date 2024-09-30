@@ -28,7 +28,7 @@ namespace PrintInvoice
             if (lbBatches.SelectedIndex >= 0)
                 DialogResult = DialogResult.OK;
             else
-                MessageBox.Show(this, @"No one batch selected.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.ShowError(@"No one batch selected.");
         }
 
         private void btCancel_Click(object sender, EventArgs e)

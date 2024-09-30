@@ -126,7 +126,8 @@ namespace PrintInvoice
                 }
 
                 // master picklist last batch
-                aInvoiceList[firstBatchPackageIndex]._mplElementBatchCount = elementBatchCount - 1;
+                if (firstBatchPackageIndex >= 0 && firstBatchPackageIndex < aInvoiceList.Count)
+                    aInvoiceList[firstBatchPackageIndex]._mplElementBatchCount = elementBatchCount - 1;
             }
 
             _invoiceProvider.SetList(aInvoiceList);

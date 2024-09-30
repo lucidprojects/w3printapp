@@ -35,19 +35,24 @@
             // 
             // lbBatches
             // 
+            this.lbBatches.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbBatches.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbBatches.FormattingEnabled = true;
+            this.lbBatches.IntegralHeight = false;
             this.lbBatches.ItemHeight = 15;
             this.lbBatches.Location = new System.Drawing.Point(20, 20);
             this.lbBatches.Name = "lbBatches";
-            this.lbBatches.Size = new System.Drawing.Size(268, 304);
+            this.lbBatches.Size = new System.Drawing.Size(464, 280);
             this.lbBatches.TabIndex = 0;
             this.lbBatches.DoubleClick += new System.EventHandler(this.lbBatches_DoubleClick);
             // 
             // btSelect
             // 
+            this.btSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btSelect.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btSelect.Location = new System.Drawing.Point(53, 334);
+            this.btSelect.Location = new System.Drawing.Point(278, 310);
             this.btSelect.Name = "btSelect";
             this.btSelect.Size = new System.Drawing.Size(100, 35);
             this.btSelect.TabIndex = 1;
@@ -57,9 +62,10 @@
             // 
             // btCancel
             // 
+            this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btCancel.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btCancel.Location = new System.Drawing.Point(159, 334);
+            this.btCancel.Location = new System.Drawing.Point(384, 310);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(100, 35);
             this.btCancel.TabIndex = 2;
@@ -73,14 +79,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btCancel;
-            this.ClientSize = new System.Drawing.Size(316, 385);
+            this.ClientSize = new System.Drawing.Size(504, 361);
             this.Controls.Add(this.btCancel);
             this.Controls.Add(this.btSelect);
             this.Controls.Add(this.lbBatches);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(300, 200);
             this.Name = "LastBatchesForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

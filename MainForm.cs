@@ -323,6 +323,7 @@ namespace PrintInvoice
             SetControlEnabled(btReprintPrint, true);
 
             if (_printerError)
+
                 ShowMessageBox(
                     this,
                     "Printer return error status (" + _printerErrorMessage + ").\nProcess is stopped.",
@@ -413,13 +414,7 @@ namespace PrintInvoice
             _printerErrorMonitorResetEvent.WaitOne();
             SetControlText(btPrint, "Print");
             SetPrintControlsEnabled(true);
-            ShowMessageBox(
-                this,
-                "Print job complete.",
-                "Message",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            );
+            ShowMessageBox(this, "Print job complete.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public void SetControlText(Control control, string text)
@@ -448,8 +443,7 @@ namespace PrintInvoice
             }
         }
 
-        public void ShowMessageBox(IWin32Window owner, string text, string caption, MessageBoxButtons buttons,
-            MessageBoxIcon icon)
+        public void ShowMessageBox(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
             if (InvokeRequired)
             {
@@ -458,13 +452,7 @@ namespace PrintInvoice
             }
             else
             {
-                MessageBox.Show(
-                    this,
-                    text,
-                    caption,
-                    buttons,
-                    icon
-                );
+                MessageBox.Show(this, text, caption, buttons, icon);
             }
         }
 
@@ -1357,7 +1345,7 @@ namespace PrintInvoice
 
             Cursor.Current = Cursors.Default;
 
-            MessageBox.Show(this, @"Invoce list reloaded.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(this, @"Invoice list reloaded.", @"Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void miSubsetAddToUnship_Click(object sender, EventArgs e)
