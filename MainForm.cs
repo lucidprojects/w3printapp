@@ -380,7 +380,7 @@ namespace PrintInvoice
 
         private void bwPrinterErrorMonitor_DoWork(object sender, DoWorkEventArgs e)
         {
-            var bw = sender as BackgroundWorker;
+            var bw = (BackgroundWorker)sender;
 
             for (;;)
             {
@@ -1062,12 +1062,14 @@ namespace PrintInvoice
 
         private void miPreviewSetInvoice_Click(object sender, EventArgs e)
         {
-            PreviewInvoice((dgvQuery.CurrentRow.Tag as PrintPackageWrapper).PackageId, null, false);
+            if (dgvQuery.CurrentRow?.Tag is PrintPackageWrapper package)
+                PreviewInvoice(package.PackageId, null, false);
         }
 
         private void miPreviewSubsetInvoice_Click(object sender, EventArgs e)
         {
-            PreviewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId, null, false);
+            if (dgvSubset.CurrentRow?.Tag is PrintPackageWrapper package)
+                PreviewInvoice(package.PackageId, null, false);
         }
 
         private void miFindInvoice_Click(object sender, EventArgs e)
@@ -1096,6 +1098,7 @@ namespace PrintInvoice
             {
                 result = false;
 
+                // ReSharper disable once PossibleNullReferenceException
                 for (var i = dgvSubset.CurrentRow.Index + 1; i < dgvSubset.Rows.Count; i++)
                 {
                     if (dgvSubset.Rows[i].Visible)
@@ -1352,7 +1355,7 @@ namespace PrintInvoice
         {
             Cursor.Current = Cursors.WaitCursor;
 
-            _unship.AddSingle((from DataGridViewRow row in dgvSubset.SelectedRows select (row.Tag as PrintPackageWrapper).TrackingNumber).ToArray());
+            _unship.AddSingle((from DataGridViewRow row in dgvSubset.SelectedRows select ((PrintPackageWrapper)row.Tag).TrackingNumber).ToArray());
 
             Cursor.Current = Cursors.Default;
 
@@ -1420,9 +1423,9 @@ namespace PrintInvoice
             foreach (DataGridViewRow row in dgvReprint.Rows)
             {
                 var package = (PrintPackageWrapper)row.Tag;
+
                 row.Visible = (chkReprintShowUnprinted.Checked && package.IsUnprinted) || (chkReprintShowPrinted.Checked && package.IsPrinted) || (chkReprintShowFailed.Checked && package.IsError) ||
                               (chkReprintShowLocked.Checked && package.IsLocked);
-                ;
             }
         }
 
@@ -1457,7 +1460,8 @@ namespace PrintInvoice
         {
             foreach (DataGridViewRow row in dgvRepair.Rows)
             {
-                var package = row.Tag as RepairPackageWrapper;
+                var package = (RepairPackageWrapper)row.Tag;
+
                 row.Visible = (chkRepairShowNonrepaired.Checked && package.State == RepairPackageWrapper.StateType.ORIGINAL) ||
                               (chkRepairShowRepaired.Checked && package.State == RepairPackageWrapper.StateType.REPAIRED);
             }
@@ -1499,17 +1503,20 @@ namespace PrintInvoice
 
         private void miPreviewSubsetInvoiceWithSequenceNumber_Click(object sender, EventArgs e)
         {
-            PreviewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId,Routines.GenerateSequenceNumber(0, 0, 0, 0), false);
+            if (dgvSubset.CurrentRow?.Tag is PrintPackageWrapper package)
+                PreviewInvoice(package.PackageId,Routines.GenerateSequenceNumber(0, 0, 0, 0), false);
         }
 
         private void previewPackJacketInvoiceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PreviewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId, null, true);
+            if (dgvSubset.CurrentRow?.Tag is PrintPackageWrapper package)
+                PreviewInvoice(package.PackageId, null, true);
         }
 
         private void previewPackJacketInvoiceWithSequenceNumberToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PreviewInvoice((dgvSubset.CurrentRow.Tag as PrintPackageWrapper).PackageId, Routines.GenerateSequenceNumber(0, 0, 0, 0), true);
+            if (dgvSubset.CurrentRow?.Tag is PrintPackageWrapper package)
+                PreviewInvoice(package.PackageId, Routines.GenerateSequenceNumber(0, 0, 0, 0), true);
         }
 
         private void chkPrintSequenceNumber_Click(object sender, EventArgs e)
