@@ -194,6 +194,7 @@ namespace PrintInvoice
             this.btRepairReload = new System.Windows.Forms.Button();
             this.panel29 = new System.Windows.Forms.Panel();
             this.tbHelpRepair = new System.Windows.Forms.TextBox();
+            this.miSubsetPrintSelected = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tpTemplate.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -377,13 +378,14 @@ namespace PrintInvoice
             this.cmsSubset.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miRemoveFromSubset,
             this.miSubsetAddToUnship,
+            this.miSubsetPrintSelected,
             this.miPreviewSubsetInvoice,
             this.miPreviewSubsetInvoiceWithSequenceNumber,
             this.previewPackJacketInvoiceToolStripMenuItem,
             this.previewPackJacketInvoiceWithSequenceNumberToolStripMenuItem,
             this.miSubsetCopyToClipboard});
             this.cmsSubset.Name = "cmsSubset";
-            this.cmsSubset.Size = new System.Drawing.Size(344, 158);
+            this.cmsSubset.Size = new System.Drawing.Size(344, 202);
             this.cmsSubset.Opening += new System.ComponentModel.CancelEventHandler(this.cmsSubset_Opening);
             // 
             // miRemoveFromSubset
@@ -1951,6 +1953,13 @@ namespace PrintInvoice
             this.tbHelpRepair.Size = new System.Drawing.Size(1170, 59);
             this.tbHelpRepair.TabIndex = 0;
             // 
+            // miSubsetPrintSelected
+            // 
+            this.miSubsetPrintSelected.Name = "miSubsetPrintSelected";
+            this.miSubsetPrintSelected.Size = new System.Drawing.Size(343, 22);
+            this.miSubsetPrintSelected.Text = "Print Selected Invoices";
+            this.miSubsetPrintSelected.Click += new System.EventHandler(this.miSubsetPrintSelected_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2224,7 +2233,7 @@ namespace PrintInvoice
     private System.Windows.Forms.ToolStripMenuItem previewPackJacketInvoiceToolStripMenuItem;
     private System.Windows.Forms.ToolStripMenuItem previewPackJacketInvoiceWithSequenceNumberToolStripMenuItem;
     private System.Windows.Forms.CheckBox chkReprintSequenceNumber;
-
-  }
+        private System.Windows.Forms.ToolStripMenuItem miSubsetPrintSelected;
+    }
 }
 

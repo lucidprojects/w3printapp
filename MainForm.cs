@@ -7,6 +7,7 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Threading;
 using System.Windows.Forms;
 using PrintInvoice.Properties;
@@ -815,113 +816,80 @@ namespace PrintInvoice
                 }
                 else
                 {
-                    // Pick List and sequence number check
-                    /* neither var exists anymore
-                      if(chkPrintPickList.Checked && !chkPrintSequenceNumber.Checked) {
-                      MessageBox.Show(
-                        "To print Pick List sequence number printing must be enabled!",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                      );
-                      return;
-                    }
-                    */
-                    // warning about sequence number
-                    if (!chkPrintSequenceNumber.Checked && MessageBox.Show(
-                            @"Invoice sequence number printing is " +
-                            (chkPrintSequenceNumber.Checked ? "enabled" : "disabled") + @".\nContinue printing?",
-                            @"Warning",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Question
-                        ) == DialogResult.No)
-                        return;
-
-                    // sequence number printing enabled with custom sorting
-                    /*
-                      if (chkPrintSequenceNumber.Checked && dgvSubset.SortedColumn != null)
-                      {
-                        if (MessageBox.Show(
-                          "Invoice sequence number printing is enabled with custom sorting.\nContinue printing?",
-                          "Warning",
-                          MessageBoxButtons.YesNo,
-                          MessageBoxIcon.Question
-                        ) == DialogResult.No)
-                        {
-                          return;
-                        }
-                      }
-                      */
-                    // warning about pick list
-                    /*
-                      if (chkPrintPickList.Checked) {
-                     MessageBox.Show(
-                      "Pick List printing is CHECKED. Printing of this type is currently disabled so nothing will be printed.",
-                      "Warning",
-                      MessageBoxButtons.YesNo,
-                      MessageBoxIcon.Question
-                     );
-                     return;
-                    }
-                     */
-
-                    var q = "You are going to print full invoices (with postage label).\nContinue?";
-
-                    if (MessageBox.Show(q, @"Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
-                        return;
-
-                    if (dgvSubset.CurrentRow?.Index == 0 || (dgvSubset.CurrentRow?.Index > 0 && MessageBox.Show(
-                            @"You are going to print out of sequence (not from the beginning of this list). Continue?",
-                            @"Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
-                    {
-                        btPrint.Enabled = false;
-                        var invoiceList = new List<PrintPackageWrapper>();
-                        var askRepeatedPrint = true;
-                        var askRepeatedPrintResult = true;
-
-                        for (var i = dgvSubset.CurrentRow.Index; i < dgvSubset.Rows.Count; i++)
-                        {
-                            if (dgvSubset.Rows[i].Visible)
-                            {
-                                var add = true;
-                                var package = (PrintPackageWrapper)dgvSubset.Rows[i].Tag;
-
-                                if (package.IsPrinted)
-                                {
-                                    if (askRepeatedPrint)
-                                    {
-                                        var fmRepeatedPrint = new RepeatedPrintForm();
-
-                                        fmRepeatedPrint.laMessage.Text =
-                                            $@"You are going to print invoice No. {dgvSubset.Rows[i].Cells[PrintPackageStorage.InvoiceNumberColumnIndex].Value} which is already marked as printed. Do you want to print it again?";
-
-                                        askRepeatedPrintResult = fmRepeatedPrint.ShowDialog() == DialogResult.Yes;
-                                        askRepeatedPrint = !fmRepeatedPrint.ckDontAsk.Checked;
-                                    }
-
-                                    add = askRepeatedPrintResult;
-                                }
-
-                                if (add)
-                                {
-                                    package._isPackJacket = false; // chkPackJacket.Checked;
-                                    invoiceList.Add(package);
-                                }
-                            }
-                        }
-
-                        StartPrintJob(invoiceList, cbPrinter.SelectedItem.ToString(), false, chkPrintSequenceNumber.Checked, false, false);
-                        SetPrintControlsEnabled(false);
-
-                        btPrint.Text = @"Stop";
-                        btPrint.Enabled = true;
-                    }
+                    PrintInvoices(false);
                 }
             }
             catch (Exception exception)
             {
                 MessageBox.Show(this, exception.Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void PrintInvoices(bool all)
+        {
+            var rows = (all ? dgvSubset.Rows.OfType<DataGridViewRow>() : dgvSubset.SelectedRows.OfType<DataGridViewRow>())
+                .Where(r => r.Visible)
+                .ToArray();
+
+            if (!rows.Any()) return;
+
+            // warning about sequence number
+            if (!chkPrintSequenceNumber.Checked && MessageBox.Show(
+                    $@"Invoice sequence number printing is {(chkPrintSequenceNumber.Checked ? "enabled" : "disabled")}{Environment.NewLine}Continue printing?",
+                    @"Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return;
+
+            if (MessageBox.Show(@"You are going to print full invoices (with postage label).
+Continue?", @"Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return;
+
+            if (dgvSubset.CurrentRow?.Index == 0 || (dgvSubset.CurrentRow?.Index > 0 && MessageBox.Show(
+                    @"You are going to print out of sequence (not from the beginning of this list).
+Continue?", @"Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
+            {
+                btPrint.Enabled = false;
+                var invoiceList = new List<PrintPackageWrapper>();
+                var askRepeatedPrint = true;
+                var askRepeatedPrintResult = true;
+
+                foreach (var row in rows)
+                {
+                    if (row.Visible)
+                    {
+                        var add = true;
+                        var package = (PrintPackageWrapper)row.Tag;
+
+                        if (package.IsPrinted)
+                        {
+                            if (askRepeatedPrint)
+                            {
+                                var fmRepeatedPrint = new RepeatedPrintForm();
+
+                                fmRepeatedPrint.laMessage.Text = $@"You are going to print invoice No. {row.Cells[PrintPackageStorage.InvoiceNumberColumnIndex].Value} which is already marked as printed. Do you want to print it again?";
+
+                                askRepeatedPrintResult = fmRepeatedPrint.ShowDialog() == DialogResult.Yes;
+                                askRepeatedPrint = !fmRepeatedPrint.ckDontAsk.Checked;
+                            }
+
+                            add = askRepeatedPrintResult;
+                        }
+
+                        if (add)
+                        {
+                            package._isPackJacket = false; // chkPackJacket.Checked;
+                            invoiceList.Add(package);
+                        }
+                    }
+
+                }
+
+                StartPrintJob(invoiceList, cbPrinter.SelectedItem.ToString(), false, chkPrintSequenceNumber.Checked, false, false);
+                SetPrintControlsEnabled(false);
+
+                btPrint.Text = @"Stop";
+                btPrint.Enabled = true;
+            }
+
         }
 
         private void SetRowStyle(DataGridViewRow row, PrintPackageWrapper invoice)
@@ -1576,6 +1544,18 @@ namespace PrintInvoice
             var title = tcQueries.TabPages[e.Index].Text;
             var size = e.Graphics.MeasureString(title, font);
             e.Graphics.DrawString(title, font, titleBrush, new PointF(e.Bounds.X + (e.Bounds.Width - size.Width) / 2, e.Bounds.Y + (e.Bounds.Height - size.Height) / 2 + 2));
+        }
+
+        private void miSubsetPrintSelected_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PrintInvoices(false);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(this, exception.Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
