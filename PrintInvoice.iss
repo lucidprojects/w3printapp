@@ -29,6 +29,7 @@ Source: "{#ExeFolder}*.*"; DestDir: "{userappdata}\{#ExeProduct}"; Flags: ignore
 
 [Icons]
 Name: "{group}\{#ExeProduct}"; Filename: "{userappdata}\{#ExeProduct}\{#ExeNameExt}";
+Name: "{userdesktop}\{#ExeProduct}"; Filename: "{userappdata}\{#ExeProduct}\{#ExeNameExt}";
 
 [Run]
 Filename: "{userappdata}\{#ExeProduct}\{#ExeNameExt}"; Description: "{cm:LaunchProgram,{#StringChange(ExeProduct, '&', '&&')}}"; Flags: nowait postinstall runascurrentuser

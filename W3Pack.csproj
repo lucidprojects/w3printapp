@@ -54,7 +54,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>w3pack_32.ico</ApplicationIcon>
+    <ApplicationIcon>w3pack.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>PrintInvoice.Program</StartupObject>
@@ -226,7 +226,7 @@
     <Content Include="queries.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="w3pack_32.ico" />
+    <Content Include="w3pack.ico" />
     <None Include="last_batches.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
