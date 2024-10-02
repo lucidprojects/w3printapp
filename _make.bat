@@ -4,7 +4,8 @@
 
 @ECHO.
 
-MD %output%
+@RMDIR /s /y %output%
+@MD %output%
 
 @ECHO ----------------------------------------------------
 @ECHO Deleting older installers ...
@@ -23,11 +24,24 @@ MD %output%
 @DEL bin\Release\*.pdb
 @RMDIR /s /y bin\Release\nl
 
+@XCOPY /Y Configs\dev.config bin\Release\W3Pack.exe.config
+
 @ECHO ----------------------------------------------------
-@ECHO Building installer...
-@%innosetup% /O"%output%" "PrintInvoice.iss"
+@ECHO Building DEV installer...
+@%innosetup% /DSuffix=DEV /O"%output%" "PrintInvoice.iss"
 @IF ERRORLEVEL 1 (
   @ECHO ----------------------------------------------------
-  @ECHO ERROR: Failed to build installer, check the errors above
+  @ECHO ERROR: Failed to build DEV installer, check the errors above
+  @EXIT
+)
+
+@XCOPY /Y Configs\prod.config bin\Release\W3Pack.exe.config
+
+@ECHO ----------------------------------------------------
+@ECHO Building PROD installer...
+@%innosetup% /DSuffix=PROD /O"%output%" "PrintInvoice.iss"
+@IF ERRORLEVEL 1 (
+  @ECHO ----------------------------------------------------
+  @ECHO ERROR: Failed to build PROD installer, check the errors above
   @EXIT
 )
