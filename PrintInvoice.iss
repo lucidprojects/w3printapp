@@ -1,6 +1,8 @@
 #define ExeName = "W3Pack"
 #define ExeFolder "bin\Release\"
 
+#include "CodeDependencies.iss"
+
 [Setup]
 AppId={{F4A17E0D-3D35-4FC1-ADAF-D3D5EB604F6D}
 
@@ -33,3 +35,11 @@ Name: "{userdesktop}\{#ExeProduct}"; Filename: "{userappdata}\{#ExeProduct}\{#Ex
 
 [Run]
 Filename: "{userappdata}\{#ExeProduct}\{#ExeNameExt}"; Description: "{cm:LaunchProgram,{#StringChange(ExeProduct, '&', '&&')}}"; Flags: nowait postinstall runascurrentuser
+
+[Code]
+function InitializeSetup: Boolean;
+begin
+  // comment out functions to disable installing them
+  Dependency_AddDotNet48;
+  Result := True;
+end;

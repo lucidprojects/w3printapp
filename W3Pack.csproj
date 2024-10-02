@@ -162,7 +162,6 @@
     </Compile>
     <None Include="app.config" />
     <None Include="generate_soap_client_class.bat" />
-    <None Include="PrintInvoice_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

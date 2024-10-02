@@ -26,9 +26,5 @@ namespace PrintInvoice
         {
             MessageBox.Show(window, message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
-        public static void ShowError(this IWin32Window window, Exception exception) => ShowError(window, exception.Message);
-
-        public static void ShowError(this IWin32Window window, string message, Exception exception) => ShowError(window, $"{message}{Environment.NewLine}{exception.Message}");
     }
 }
