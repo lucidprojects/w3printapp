@@ -67,36 +67,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutForm.cs">
+    <Compile Include="UI\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AboutForm.Designer.cs">
+    <Compile Include="UI\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Config.cs" />
-    <Compile Include="FindInvoiceForm.cs">
+    <Compile Include="UI\FindInvoiceForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FindInvoiceForm.Designer.cs">
+    <Compile Include="UI\FindInvoiceForm.Designer.cs">
       <DependentUpon>FindInvoiceForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="LastBatchesForm.cs">
+    <Compile Include="UI\LastBatchesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LastBatchesForm.Designer.cs">
+    <Compile Include="UI\LastBatchesForm.Designer.cs">
       <DependentUpon>LastBatchesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Log.cs" />
-    <Compile Include="MainFormRepair.cs">
+    <Compile Include="UI\MainFormRepair.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainFormReprint.cs">
+    <Compile Include="UI\MainFormReprint.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainFormUnship.cs">
+    <Compile Include="UI\MainFormUnship.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainFormUnshipped.cs">
+    <Compile Include="UI\MainFormUnshipped.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PackageStorage.cs" />
@@ -106,27 +106,27 @@
     <Compile Include="InvoiceProvider.cs" />
     <Compile Include="LabelService.cs" />
     <Compile Include="InvoiceStatusSaver.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="UI\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="UI\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Printer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AboutForm.resx">
+    <EmbeddedResource Include="UI\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FindInvoiceForm.resx">
+    <EmbeddedResource Include="UI\FindInvoiceForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>FindInvoiceForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LastBatchesForm.resx">
+    <EmbeddedResource Include="UI\LastBatchesForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>LastBatchesForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="UI\MainForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -135,23 +135,23 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="FindStartIndexForm.resx">
+    <EmbeddedResource Include="UI\FindStartIndexForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>FindStartIndexForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RepeatedPrintForm.resx">
+    <EmbeddedResource Include="UI\RepeatedPrintForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>RepeatedPrintForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddPackageForm.resx">
+    <EmbeddedResource Include="UI\AddPackageForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AddPackageForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SetMaxDailyPackagesForm.resx">
+    <EmbeddedResource Include="UI\SetMaxDailyPackagesForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SetMaxDailyPackagesForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddBatchQuestionForm.resx">
+    <EmbeddedResource Include="UI\AddBatchQuestionForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AddBatchQuestionForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -191,40 +191,40 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="RawPrinterHelper.cs" />
-    <Compile Include="FindStartIndexForm.cs">
+    <Compile Include="UI\FindStartIndexForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FindStartIndexForm.Designer.cs">
+    <Compile Include="UI\FindStartIndexForm.Designer.cs">
       <DependentUpon>FindStartIndexForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Repair.cs">
     </Compile>
-    <Compile Include="RepeatedPrintForm.cs">
+    <Compile Include="UI\RepeatedPrintForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RepeatedPrintForm.Designer.cs">
+    <Compile Include="UI\RepeatedPrintForm.Designer.cs">
       <DependentUpon>RepeatedPrintForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddPackageForm.cs">
+    <Compile Include="UI\AddPackageForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddPackageForm.Designer.cs">
+    <Compile Include="UI\AddPackageForm.Designer.cs">
       <DependentUpon>AddPackageForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Reprint.cs" />
     <Compile Include="Routines.cs" />
-    <Compile Include="SetMaxDailyPackagesForm.cs">
+    <Compile Include="UI\SetMaxDailyPackagesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SetMaxDailyPackagesForm.Designer.cs">
+    <Compile Include="UI\SetMaxDailyPackagesForm.Designer.cs">
       <DependentUpon>SetMaxDailyPackagesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Unship.cs" />
-    <Compile Include="AddBatchQuestionForm.cs">
+    <Compile Include="UI\AddBatchQuestionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddBatchQuestionForm.Designer.cs">
+    <Compile Include="UI\AddBatchQuestionForm.Designer.cs">
       <DependentUpon>AddBatchQuestionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Unshipped.cs" />
@@ -273,6 +273,7 @@
       <Version>2018.4.8.256</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

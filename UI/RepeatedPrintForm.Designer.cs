@@ -1,4 +1,4 @@
-﻿namespace PrintInvoice
+﻿namespace PrintInvoice.UI
 {
   partial class RepeatedPrintForm
   {

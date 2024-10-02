@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using PrintInvoice.Properties;
 
-namespace PrintInvoice
+namespace PrintInvoice.UI
 {
     public partial class AboutForm : Form
     {

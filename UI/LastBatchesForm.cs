@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Security;
 using System.Windows.Forms;
 
-namespace PrintInvoice
+namespace PrintInvoice.UI
 {
     public partial class LastBatchesForm : Form
     {

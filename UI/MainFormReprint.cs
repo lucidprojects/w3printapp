@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace PrintInvoice
+namespace PrintInvoice.UI
 {
     public partial class MainForm
     {

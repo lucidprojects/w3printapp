@@ -7,12 +7,11 @@ using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
 using System.Threading;
 using System.Windows.Forms;
 using PrintInvoice.Properties;
 
-namespace PrintInvoice
+namespace PrintInvoice.UI
 {
     public partial class MainForm : Form
     {
