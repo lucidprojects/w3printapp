@@ -1557,5 +1557,10 @@ Continue?", @"Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) =
                 MessageBox.Show(this, exception.Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void miAbout_Click(object sender, EventArgs e)
+        {
+            new AboutForm().ShowDialog();
+        }
     }
 }

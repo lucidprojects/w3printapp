@@ -59,5 +59,15 @@ namespace PrintInvoice.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon w3pack {
+            get {
+                object obj = ResourceManager.GetObject("w3pack", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

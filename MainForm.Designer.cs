@@ -44,6 +44,7 @@ namespace PrintInvoice
             this.cmsSubset = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miRemoveFromSubset = new System.Windows.Forms.ToolStripMenuItem();
             this.miSubsetAddToUnship = new System.Windows.Forms.ToolStripMenuItem();
+            this.miSubsetPrintSelected = new System.Windows.Forms.ToolStripMenuItem();
             this.miPreviewSubsetInvoice = new System.Windows.Forms.ToolStripMenuItem();
             this.miPreviewSubsetInvoiceWithSequenceNumber = new System.Windows.Forms.ToolStripMenuItem();
             this.previewPackJacketInvoiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -194,7 +195,7 @@ namespace PrintInvoice
             this.btRepairReload = new System.Windows.Forms.Button();
             this.panel29 = new System.Windows.Forms.Panel();
             this.tbHelpRepair = new System.Windows.Forms.TextBox();
-            this.miSubsetPrintSelected = new System.Windows.Forms.ToolStripMenuItem();
+            this.miAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tpTemplate.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -260,7 +261,8 @@ namespace PrintInvoice
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.invoiceToolStripMenuItem,
-            this.printToolStripMenuItem});
+            this.printToolStripMenuItem,
+            this.miAbout});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1184, 24);
@@ -278,7 +280,7 @@ namespace PrintInvoice
             // miFileExit
             // 
             this.miFileExit.Name = "miFileExit";
-            this.miFileExit.Size = new System.Drawing.Size(93, 22);
+            this.miFileExit.Size = new System.Drawing.Size(180, 22);
             this.miFileExit.Text = "Exit";
             this.miFileExit.Click += new System.EventHandler(this.miFileExit_Click);
             // 
@@ -308,7 +310,7 @@ namespace PrintInvoice
             // miFindStartIndex
             // 
             this.miFindStartIndex.Name = "miFindStartIndex";
-            this.miFindStartIndex.Size = new System.Drawing.Size(167, 22);
+            this.miFindStartIndex.Size = new System.Drawing.Size(180, 22);
             this.miFindStartIndex.Text = "Find start index ...";
             this.miFindStartIndex.Click += new System.EventHandler(this.miFindStartIndex_Click);
             // 
@@ -385,7 +387,7 @@ namespace PrintInvoice
             this.previewPackJacketInvoiceWithSequenceNumberToolStripMenuItem,
             this.miSubsetCopyToClipboard});
             this.cmsSubset.Name = "cmsSubset";
-            this.cmsSubset.Size = new System.Drawing.Size(344, 202);
+            this.cmsSubset.Size = new System.Drawing.Size(344, 180);
             this.cmsSubset.Opening += new System.ComponentModel.CancelEventHandler(this.cmsSubset_Opening);
             // 
             // miRemoveFromSubset
@@ -401,6 +403,13 @@ namespace PrintInvoice
             this.miSubsetAddToUnship.Size = new System.Drawing.Size(343, 22);
             this.miSubsetAddToUnship.Text = "Add Selected to Unship List";
             this.miSubsetAddToUnship.Click += new System.EventHandler(this.miSubsetAddToUnship_Click);
+            // 
+            // miSubsetPrintSelected
+            // 
+            this.miSubsetPrintSelected.Name = "miSubsetPrintSelected";
+            this.miSubsetPrintSelected.Size = new System.Drawing.Size(343, 22);
+            this.miSubsetPrintSelected.Text = "Print Selected Invoices";
+            this.miSubsetPrintSelected.Click += new System.EventHandler(this.miSubsetPrintSelected_Click);
             // 
             // miPreviewSubsetInvoice
             // 
@@ -1953,12 +1962,12 @@ namespace PrintInvoice
             this.tbHelpRepair.Size = new System.Drawing.Size(1170, 59);
             this.tbHelpRepair.TabIndex = 0;
             // 
-            // miSubsetPrintSelected
+            // miAbout
             // 
-            this.miSubsetPrintSelected.Name = "miSubsetPrintSelected";
-            this.miSubsetPrintSelected.Size = new System.Drawing.Size(343, 22);
-            this.miSubsetPrintSelected.Text = "Print Selected Invoices";
-            this.miSubsetPrintSelected.Click += new System.EventHandler(this.miSubsetPrintSelected_Click);
+            this.miAbout.Name = "miAbout";
+            this.miAbout.Size = new System.Drawing.Size(52, 20);
+            this.miAbout.Text = "About";
+            this.miAbout.Click += new System.EventHandler(this.miAbout_Click);
             // 
             // MainForm
             // 
@@ -2234,6 +2243,7 @@ namespace PrintInvoice
     private System.Windows.Forms.ToolStripMenuItem previewPackJacketInvoiceWithSequenceNumberToolStripMenuItem;
     private System.Windows.Forms.CheckBox chkReprintSequenceNumber;
         private System.Windows.Forms.ToolStripMenuItem miSubsetPrintSelected;
+        private System.Windows.Forms.ToolStripMenuItem miAbout;
     }
 }
 
