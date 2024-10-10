@@ -815,7 +815,7 @@ namespace PrintInvoice.UI
                 }
                 else
                 {
-                    PrintInvoices(false);
+                    PrintInvoices(true);
                 }
             }
             catch (Exception exception)
